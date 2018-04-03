@@ -9,7 +9,6 @@ build/
 .gradle/
 */build/
 */release/
-*/debug/
 
 # IDEA
 *.iml
@@ -25,8 +24,6 @@ build/
 .idea/workspace.xml
 .idea/libraries
 
-*/output.json
-
 
 # Built application files
 *.apk
@@ -35,8 +32,6 @@ build/
 
 # Files for the Dalvik VM
 *.dex
-*.rar
-*.zip
 
 
 # Java class files
@@ -55,8 +50,6 @@ local.properties
 # Log Files
 *.log
 
-# pro
-*.pro
 
 .settings
 
@@ -96,7 +89,6 @@ out
 build.xml
 
 proguard-project.txt
-/gradlew.bat
-/gradlew
-/gradle/wrapper/gradle-wrapper.jar
+
+gradle.properties
 
