@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    compileOnly "com.android.support:appcompat-v7:$supportVersion"
-    compileOnly "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
 }
