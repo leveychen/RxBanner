@@ -5,7 +5,7 @@ import android.app.Application;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
 
-import cn.levey.bannerlib.utils.RxBannerManager;
+import cn.levey.bannerlib.base.RxBannerConfig;
 
 /**
  * Created by Levey on 2018/4/2 17:38.
@@ -31,7 +31,7 @@ public class App extends Application{
     }
 
     private void initRxBanner(){
-        RxBannerManager.getInstance()
+        RxBannerConfig.getInstance()
                 .setDebug(true);
 //                .setLoader(new RxBannerImageViewLoader()); // global loader
     }

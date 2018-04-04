@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import cn.levey.bannerlib.R;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
-import cn.levey.bannerlib.utils.RxBannerManager;
+import cn.levey.bannerlib.base.RxBannerConfig;
 
 /**
  * Created by Levey on 2018/4/2 15:28.
@@ -93,7 +93,7 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
 
     private RxBannerLoaderInterface getLoader() {
         if(mLoader == null){
-            mLoader = RxBannerManager.getInstance().getLoader();
+            mLoader = RxBannerConfig.getInstance().getLoader();
         }
         return mLoader;
     }

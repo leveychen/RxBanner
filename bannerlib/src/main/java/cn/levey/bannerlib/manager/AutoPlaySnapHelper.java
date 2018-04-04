@@ -1,31 +1,28 @@
 package cn.levey.bannerlib.manager;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
+import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.base.WeakHandler;
 
 
 public class AutoPlaySnapHelper extends CenterSnapHelper {
 
-    public final static int LEFT = 1;
-    public final static int RIGHT = 2;
 
-    private Handler handler;
+    private WeakHandler handler;
     private int timeInterval;
     private Runnable autoPlayRunnable;
     private boolean runnableAdded;
-    private int direction;
+    private RxBannerConfig.DirectionType direction;
 
-    public AutoPlaySnapHelper(int timeInterval, int direction) {
+    public AutoPlaySnapHelper(int timeInterval, RxBannerConfig.DirectionType direction) {
         checkTimeInterval(timeInterval);
         checkDirection(direction);
-        handler = new Handler(Looper.getMainLooper());
-        this.timeInterval = timeInterval;
-        this.direction = direction;
+        handler = new WeakHandler();
     }
 
     @Override
@@ -55,7 +52,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 public void run() {
                     final int currentPosition =
                             ((ViewPagerLayoutManager) layoutManager).getCurrentPosition();
-                    mRecyclerView.smoothScrollToPosition(direction == RIGHT ? currentPosition + 1 : currentPosition - 1);
+                    mRecyclerView.smoothScrollToPosition(direction == RxBannerConfig.DirectionType.ASC ? currentPosition + 1 : currentPosition - 1);
                     handler.postDelayed(autoPlayRunnable, timeInterval);
                 }
             };
@@ -89,21 +86,35 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     void setTimeInterval(int timeInterval) {
         checkTimeInterval(timeInterval);
-        this.timeInterval = timeInterval;
+
     }
 
-    void setDirection(int direction) {
+    void setDirection(RxBannerConfig.DirectionType direction) {
         checkDirection(direction);
-        this.direction = direction;
     }
 
-    private void checkDirection(int direction) {
-        if (direction != LEFT && direction != RIGHT)
-            throw new IllegalArgumentException("direction should be one of left or right");
+    private void checkDirection(RxBannerConfig.DirectionType direction) {
+        if (direction != RxBannerConfig.DirectionType.DESC && direction != RxBannerConfig.DirectionType.ASC) {
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " direction should be one of asc or desc");
+        }else {
+            this.direction = direction;
+            //reset
+            if(handler != null){
+                pause();
+                start();
+            }
+        }
     }
 
     private void checkTimeInterval(int timeInterval) {
-        if (timeInterval <= 0)
-            throw new IllegalArgumentException("time interval should greater than 0");
+        if (timeInterval <= 0) {
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " time interval should greater than 0");
+        }else {
+            this.timeInterval = timeInterval;
+            if(handler != null){
+                pause();
+                start();
+            }
+        }
     }
 }

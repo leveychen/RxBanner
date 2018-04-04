@@ -6,13 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import cn.levey.bannerlib.utils.RxBannerManager;
+import cn.levey.bannerlib.base.RxBannerConfig;
 
 /**
  * An implement of {@link RecyclerView} which support auto play.
  */
 
 public class AutoPlayRecyclerView extends RecyclerView {
+
+    private boolean autoPlay = true;
     private AutoPlaySnapHelper autoPlaySnapHelper;
 
     public AutoPlayRecyclerView(Context context) {
@@ -25,37 +27,68 @@ public class AutoPlayRecyclerView extends RecyclerView {
 
     public AutoPlayRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        autoPlaySnapHelper = new AutoPlaySnapHelper(RxBannerManager.getInstance().getTimeInterval(), RxBannerManager.getInstance().getDirection());
+        autoPlaySnapHelper = new AutoPlaySnapHelper(RxBannerConfig.getInstance().getTimeInterval(), RxBannerConfig.getInstance().getDirection());
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean result = super.dispatchTouchEvent(ev);
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (autoPlaySnapHelper != null) {
-                    autoPlaySnapHelper.pause();
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (autoPlaySnapHelper != null) {
-                    autoPlaySnapHelper.start();
-                }
+        if(isAutoPlay()) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (autoPlaySnapHelper != null) {
+                        autoPlaySnapHelper.pause();
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (autoPlaySnapHelper != null) {
+                        autoPlaySnapHelper.start();
+                    }
+            }
         }
         return result;
     }
 
     public void start() {
-        autoPlaySnapHelper.start();
+        if(isAutoPlay()) {
+            autoPlaySnapHelper.start();
+        }else {
+            autoPlaySnapHelper.pause();
+        }
     }
 
     public void pause() {
         autoPlaySnapHelper.pause();
     }
 
+    public void setDirection(RxBannerConfig.DirectionType direction){
+        autoPlaySnapHelper.setDirection(direction);
+    }
+
+    public void setTimeInterval(int timeInterval){
+        autoPlaySnapHelper.setTimeInterval(timeInterval);
+    }
+
     @Override
     public void setLayoutManager(LayoutManager layout) {
         super.setLayoutManager(layout);
         autoPlaySnapHelper.attachToRecyclerView(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        autoPlaySnapHelper.destroyCallbacks();
+    }
+
+    public boolean isAutoPlay() {
+        return autoPlay;
+    }
+
+    public void setAutoPlay(boolean autoPlay) {
+        if(!autoPlay){
+            autoPlaySnapHelper.pause();
+        }
+        this.autoPlay = autoPlay;
     }
 }

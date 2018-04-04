@@ -1,4 +1,4 @@
-package cn.levey.bannerlib.utils;
+package cn.levey.bannerlib.base;
 
 import android.os.Handler;
 import android.os.Looper;

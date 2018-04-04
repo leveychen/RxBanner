@@ -1,46 +1,51 @@
-package cn.levey.bannerlib.utils;
+package cn.levey.bannerlib.base;
 
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
-import cn.levey.bannerlib.manager.AutoPlaySnapHelper;
 
 /**
  * Created by Levey on 2018/4/3 10:59.
  * e-mail: m@levey.cn
  */
 
-public class RxBannerManager {
+public class RxBannerConfig {
+
+    public enum DirectionType{
+        DESC,
+        ASC
+    }
+
 
     private boolean debug = false;
 
 
-    private static final RxBannerManager ourInstance = new RxBannerManager();
+    private static final RxBannerConfig ourInstance = new RxBannerConfig();
 
-    private RxBannerManager() {
+    private RxBannerConfig() {
 
     }
-    public static RxBannerManager getInstance() {
+    public static RxBannerConfig getInstance() {
         return ourInstance;
     }
 
     private RxBannerLoaderInterface mLoader;
 
-    private int timeInterval = 2000;
-    private int direction = AutoPlaySnapHelper.RIGHT;
+    private int timeInterval = 5000;
+    private DirectionType direction = DirectionType.ASC;
 
     public int getTimeInterval() {
         return timeInterval;
     }
 
-    public RxBannerManager setTimeInterval(int timeInterval) {
+    public RxBannerConfig setTimeInterval(int timeInterval) {
         this.timeInterval = timeInterval;
         return this;
     }
 
-    public int getDirection() {
+    public DirectionType getDirection() {
         return direction;
     }
 
-    public RxBannerManager setDirection(int direction) {
+    public RxBannerConfig setDirection(DirectionType direction) {
         this.direction = direction;
         return this;
     }
@@ -49,7 +54,7 @@ public class RxBannerManager {
         return debug;
     }
 
-    public RxBannerManager setDebug(boolean debug) {
+    public RxBannerConfig setDebug(boolean debug) {
         this.debug = debug;
         return this;
     }
@@ -58,15 +63,13 @@ public class RxBannerManager {
         if(mLoader == null){
             throw new NullPointerException(
                     "\n\t\t\tPlease set a image loader implements RxBannerLoaderInterface<T>"
-                            + "\n\t\t\tGlobal: RxBannerManager.getInstance().setLoader()"
-                            + "\n\t\t\tLocal: banner.setLoader()"
                             + "\n\t\t\tDefault ImageView loader: new RxBannerImageViewLoader()"
             );
         }
         return mLoader;
     }
 
-    public RxBannerManager setLoader(RxBannerLoaderInterface mLoader) {
+    public RxBannerConfig setLoader(RxBannerLoaderInterface mLoader) {
         this.mLoader = mLoader;
         return this;
     }

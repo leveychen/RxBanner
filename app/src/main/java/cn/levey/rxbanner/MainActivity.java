@@ -2,6 +2,7 @@ package cn.levey.rxbanner;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnPreview;
     @BindView(R.id.btn_next)
     Button btnNext;
+    @BindView(R.id.btn_auto)
+    Button btnAuto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +38,44 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ArrayList<String> list = new ArrayList<>();
         list.addAll(Arrays.asList(FakeData.FAKE_IMAGES));
-        banner.setLoader(new FrescoLoader()); //custom loader
-        banner.setDatas(list);  // set data
+        banner.setLoader(new FrescoLoader())
+                .setDatas(list)
+                .setTimeInterval(3000)
+                .start();
 
 
+        if (banner.isAutoPlay()) {
+            btnAuto.setText("Pause");
+        } else {
+            btnAuto.setText("Start");
+        }
 
+        btnAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnAuto.getText().toString().equals("Pause")) {
+                    btnAuto.setText("Start");
+                    banner.pause();
+                } else {
+                    btnAuto.setText("Pause");
+                    banner.start();
+                }
+            }
+        });
+
+        btnPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                banner.setCurrentPosition(banner.getCurrentPosition() - 1);
+            }
+        });
+
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                banner.setCurrentPosition(banner.getCurrentPosition() + 1);
+            }
+        });
     }
 }
