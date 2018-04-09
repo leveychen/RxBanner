@@ -3,6 +3,8 @@ package cn.levey.bannerlib.manager;
 import android.content.Context;
 import android.view.View;
 
+import cn.levey.bannerlib.base.RxBannerLogger;
+
 /**
  * An implementation of {@link ViewPagerLayoutManager}
  * which zooms the center item
@@ -106,6 +108,8 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
 
     @Override
     protected float setInterval() {
+        RxBannerLogger.i(" setInterval itemSpace = " + itemSpace);
+        RxBannerLogger.i(" setInterval mDecoratedMeasurement = " + mDecoratedMeasurement);
         return itemSpace + mDecoratedMeasurement;
     }
 
@@ -142,7 +146,7 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
     }
 
     public static class Builder {
-        private static final float SCALE_RATE = 0.8f;
+        private static final float SCALE_RATE = 1f;
         private static final float DEFAULT_SPEED = 1f;
         private static float MIN_ALPHA = 1f;
         private static float MAX_ALPHA = 1f;

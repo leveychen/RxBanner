@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
-import cn.levey.rxbanner.fake.FakeData;
+import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.rxbanner.loader.FrescoLoader;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 
 /**
@@ -37,10 +38,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ArrayList<String> list = new ArrayList<>();
-        list.addAll(Arrays.asList(FakeData.FAKE_IMAGES));
+//        list.addAll(Arrays.asList(FakeData.FAKE_IMAGES));
+
+        for (int i = 1; i < 60; i++) {
+            list.add("http://hcd.levey.cn/img/" + i + ".jpg");
+        }
+//        banner.setLoader(new GlideLoader())
         banner.setLoader(new FrescoLoader())
                 .setDatas(list)
-                .setTimeInterval(3000)
+                .setOnBannerClickListener(new RxBannerClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(getApplicationContext(),"Click : " + position,Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                        Toast.makeText(getApplicationContext(),"LONG : " + position,Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setItemAnimator(new LandingAnimator())
                 .start();
 
 
@@ -77,5 +95,17 @@ public class MainActivity extends AppCompatActivity {
                 banner.setCurrentPosition(banner.getCurrentPosition() + 1);
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        banner.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        banner.pause();
     }
 }

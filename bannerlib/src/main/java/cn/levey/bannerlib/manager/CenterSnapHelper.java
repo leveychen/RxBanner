@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
+import cn.levey.bannerlib.base.RxBannerConfig;
+
 /**
  * Class intended to support snapping for a {@link RecyclerView}
  * which use {@link ViewPagerLayoutManager} as its {@link LayoutManager}.
@@ -17,6 +19,7 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     RecyclerView mRecyclerView;
     Scroller mGravityScroller;
+
 
     /**
      * when the dataSet is extremely large
@@ -35,6 +38,9 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
 
+
+
+
                     final ViewPagerLayoutManager layoutManager =
                             (ViewPagerLayoutManager) recyclerView.getLayoutManager();
                     final ViewPagerLayoutManager.OnPageChangeListener onPageChangeListener =
@@ -51,6 +57,10 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
                         } else {
                             snapToCenter = false;
                         }
+                    }
+
+                    if(RxBannerConfig.getInstance().getScrollStateChangedListener() != null){
+                        RxBannerConfig.getInstance().getScrollStateChangedListener().onScrollStateChanged(recyclerView,newState);
                     }
                 }
 

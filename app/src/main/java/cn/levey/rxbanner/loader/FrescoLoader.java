@@ -2,9 +2,14 @@ package cn.levey.rxbanner.loader;
 
 import android.content.Context;
 
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
+import cn.levey.rxbanner.R;
 
 /**
  * Created by Levey on 2018/4/2 17:42.
@@ -27,8 +32,22 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
     @Override
     public SimpleDraweeView create(Context context) {
 //        set hierarchy
-//        SimpleDraweeView sdv = new SimpleDraweeView(context);
-//        sdv.setHierarchy(hierarchy);
-        return new SimpleDraweeView(context);
+        SimpleDraweeView sdv = new SimpleDraweeView(context);
+        sdv.setHierarchy(getRoundHierarchy(context));
+//        return new SimpleDraweeView(context);
+        return sdv;
+    }
+
+
+    private GenericDraweeHierarchy getRoundHierarchy(Context context) {
+        GenericDraweeHierarchyBuilder builder =
+                new GenericDraweeHierarchyBuilder(context.getResources());
+        RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
+       // roundingParams.setRoundAsCircle(true);
+        builder.setRoundingParams(roundingParams);
+        return builder
+                .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
+                .setPlaceholderImage(R.mipmap.ic_launcher)
+                .build();
     }
 }

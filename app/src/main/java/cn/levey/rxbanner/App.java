@@ -33,6 +33,16 @@ public class App extends Application{
     private void initRxBanner(){
         RxBannerConfig.getInstance()
                 .setDebug(true);
+//                .setScrollStateChangedListener(new RxBannerScrollStateChangedListener() {
+//                    @Override
+//                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                            Fresco.getImagePipeline().resume();
+//                        }else {
+//                            Fresco.getImagePipeline().pause();
+//                        }
+//                    }
+//                });
 //                .setLoader(new RxBannerImageViewLoader()); // global loader
     }
 }

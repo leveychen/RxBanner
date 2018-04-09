@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RxBanner">
+        <attr name="android:layout_width"/>
+        <attr name="android:layout_height"/>
         <attr name="timeInterval" format="integer" />
-        <attr name="direction" format="enum">
-            <enum name="left" value="1" />
-            <enum name="right" value="2" />
+        <attr name="itemPercent" format="integer" />
+        <attr name="itemSpace" format="integer" />
+        <attr name="orderType" format="enum">
+            <enum name="asc" value="1" />
+            <enum name="desc" value="2" />
+        </attr>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
         </attr>
     </declare-styleable>
 </resources>

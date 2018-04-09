@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.impl.RxBannerScrollStateChangedListener;
 
 /**
  * An implement of {@link RecyclerView} which support auto play.
@@ -16,6 +17,9 @@ public class AutoPlayRecyclerView extends RecyclerView {
 
     private boolean autoPlay = true;
     private AutoPlaySnapHelper autoPlaySnapHelper;
+
+    private RxBannerScrollStateChangedListener scrollStateChangedListener;
+
 
     public AutoPlayRecyclerView(Context context) {
         this(context, null);
@@ -27,7 +31,7 @@ public class AutoPlayRecyclerView extends RecyclerView {
 
     public AutoPlayRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        autoPlaySnapHelper = new AutoPlaySnapHelper(RxBannerConfig.getInstance().getTimeInterval(), RxBannerConfig.getInstance().getDirection());
+        autoPlaySnapHelper = new AutoPlaySnapHelper(RxBannerConfig.getInstance().getTimeInterval(), RxBannerConfig.getInstance().getOrderType());
     }
 
     @Override
@@ -61,7 +65,7 @@ public class AutoPlayRecyclerView extends RecyclerView {
         autoPlaySnapHelper.pause();
     }
 
-    public void setDirection(RxBannerConfig.DirectionType direction){
+    public void setDirection(RxBannerConfig.OrderType direction){
         autoPlaySnapHelper.setDirection(direction);
     }
 

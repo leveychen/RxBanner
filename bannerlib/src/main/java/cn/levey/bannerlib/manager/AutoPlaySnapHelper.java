@@ -17,9 +17,11 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
     private int timeInterval;
     private Runnable autoPlayRunnable;
     private boolean runnableAdded;
-    private RxBannerConfig.DirectionType direction;
+    private RxBannerConfig.OrderType direction;
+    private boolean onePaperOnFling = false;
 
-    public AutoPlaySnapHelper(int timeInterval, RxBannerConfig.DirectionType direction) {
+
+    public AutoPlaySnapHelper(int timeInterval, RxBannerConfig.OrderType direction) {
         checkTimeInterval(timeInterval);
         checkDirection(direction);
         handler = new WeakHandler();
@@ -52,7 +54,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 public void run() {
                     final int currentPosition =
                             ((ViewPagerLayoutManager) layoutManager).getCurrentPosition();
-                    mRecyclerView.smoothScrollToPosition(direction == RxBannerConfig.DirectionType.ASC ? currentPosition + 1 : currentPosition - 1);
+                    mRecyclerView.smoothScrollToPosition(direction == RxBannerConfig.OrderType.ASC ? currentPosition + 1 : currentPosition - 1);
                     handler.postDelayed(autoPlayRunnable, timeInterval);
                 }
             };
@@ -89,17 +91,17 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     }
 
-    void setDirection(RxBannerConfig.DirectionType direction) {
+    void setDirection(RxBannerConfig.OrderType direction) {
         checkDirection(direction);
     }
 
-    private void checkDirection(RxBannerConfig.DirectionType direction) {
-        if (direction != RxBannerConfig.DirectionType.DESC && direction != RxBannerConfig.DirectionType.ASC) {
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " direction should be one of asc or desc");
+    private void checkDirection(RxBannerConfig.OrderType direction) {
+        if (direction != RxBannerConfig.OrderType.DESC && direction != RxBannerConfig.OrderType.ASC) {
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " direction should be one of ASC or DESC");
         }else {
             this.direction = direction;
             //reset
-            if(handler != null){
+            if(handler != null && autoPlayRunnable != null){
                 pause();
                 start();
             }
@@ -111,10 +113,89 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " time interval should greater than 0");
         }else {
             this.timeInterval = timeInterval;
-            if(handler != null){
+            if(handler != null &&  autoPlayRunnable != null){
                 pause();
                 start();
             }
         }
+    }
+
+    @Override
+    public boolean onFling(int velocityX, int velocityY) {
+        if(!onePaperOnFling){
+            ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
+            if (layoutManager == null) {
+                return false;
+            }
+            RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+            if (adapter == null) {
+                return false;
+            }
+
+            if (!layoutManager.getInfinite() &&
+                    (layoutManager.mOffset == layoutManager.getMaxOffset()
+                            || layoutManager.mOffset == layoutManager.getMinOffset())) {
+                return false;
+            }
+
+            final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
+            mGravityScroller.fling(0, 0, velocityX, velocityY,
+                    Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+            if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
+                    && Math.abs(velocityY) > minFlingVelocity) {
+                final int currentPosition = layoutManager.getCurrentPosition();
+                final int offsetPosition = (int) (mGravityScroller.getFinalY() /
+                        layoutManager.mInterval / layoutManager.getDistanceRatio());
+                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
+                        currentPosition - offsetPosition : currentPosition + offsetPosition);
+                return true;
+            } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
+                    && Math.abs(velocityX) > minFlingVelocity) {
+                final int currentPosition = layoutManager.getCurrentPosition();
+                final int offsetPosition = (int) (mGravityScroller.getFinalX() /
+                        layoutManager.mInterval / layoutManager.getDistanceRatio());
+                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
+                        currentPosition - offsetPosition : currentPosition + offsetPosition);
+                return true;
+            }
+        }else {
+            ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
+            if (layoutManager == null) {
+                return false;
+            }
+            RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+            if (adapter == null) {
+                return false;
+            }
+
+            if (!layoutManager.getInfinite() &&
+                    (layoutManager.mOffset == layoutManager.getMaxOffset()
+                            || layoutManager.mOffset == layoutManager.getMinOffset())) {
+                return false;
+            }
+
+            final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
+            mGravityScroller.fling(0, 0, velocityX, velocityY,
+                    Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+            if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
+                    && Math.abs(velocityY) > minFlingVelocity) {
+                final int currentPosition = layoutManager.getCurrentPosition();
+                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
+                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
+                        currentPosition - offsetPosition : currentPosition + offsetPosition);
+                return true;
+            } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
+                    && Math.abs(velocityX) > minFlingVelocity) {
+                final int currentPosition = layoutManager.getCurrentPosition();
+                final int offsetPosition = mGravityScroller.getFinalX() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
+                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
+                        currentPosition - offsetPosition : currentPosition + offsetPosition);
+                return true;
+            }
+        }
+
+        return true;
     }
 }
