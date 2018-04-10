@@ -9,7 +9,7 @@ import android.view.View;
  */
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class CircleScaleLayoutManager extends ViewPagerLayoutManager {
+class CircleScaleLayoutManager extends ViewPagerLayoutManager {
     public static final int LEFT = 10;
     public static final int RIGHT = 11;
     public static final int TOP = 12;

@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class RxBannerLogger {
 
-    public static final String LOGGER_TAG = "RxBanner ";
+    public static final String LOGGER_TAG = "RxBanner";
 
     public static void i(String s){
         if(RxBannerConfig.getInstance().isDebug()) {

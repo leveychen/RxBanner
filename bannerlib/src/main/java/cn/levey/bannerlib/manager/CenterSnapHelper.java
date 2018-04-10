@@ -7,6 +7,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.impl.RxBannerChangeListener;
 
 /**
  * Class intended to support snapping for a {@link RecyclerView}
@@ -15,7 +16,7 @@ import cn.levey.bannerlib.base.RxBannerConfig;
  * The implementation will snap the center of the target child view to the center of
  * the attached {@link RecyclerView}.
  */
-public class CenterSnapHelper extends RecyclerView.OnFlingListener {
+class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     RecyclerView mRecyclerView;
     Scroller mGravityScroller;
@@ -23,7 +24,7 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     /**
      * when the dataSet is extremely large
-     * {@link #snapToCenterView(ViewPagerLayoutManager, ViewPagerLayoutManager.OnPageChangeListener)}
+     * {@link #snapToCenterView(ViewPagerLayoutManager, RxBannerChangeListener, ViewPagerLayoutManager.OnInnerBannerChangeListener)}
      * may keep calling itself because the accuracy of float
      */
     private boolean snapToCenter = false;
@@ -39,21 +40,25 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
                     super.onScrollStateChanged(recyclerView, newState);
 
 
-
-
                     final ViewPagerLayoutManager layoutManager =
                             (ViewPagerLayoutManager) recyclerView.getLayoutManager();
-                    final ViewPagerLayoutManager.OnPageChangeListener onPageChangeListener =
-                            layoutManager.onPageChangeListener;
+                    final RxBannerChangeListener onPageChangeListener =
+                            layoutManager.onBannerChangeListener;
                     if (onPageChangeListener != null) {
-                        onPageChangeListener.onPageScrollStateChanged(newState);
+                        onPageChangeListener.onBannerScrollStateChanged(newState);
+                    }
+
+                    final ViewPagerLayoutManager.OnInnerBannerChangeListener onInnerBannerChangeListener =
+                            layoutManager.onInnerBannerChangeListener;
+                    if (onInnerBannerChangeListener != null) {
+                        onInnerBannerChangeListener.onInnerBannerScrollStateChanged(newState);
                     }
 
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && mScrolled) {
                         mScrolled = false;
                         if (!snapToCenter) {
                             snapToCenter = true;
-                            snapToCenterView(layoutManager, onPageChangeListener);
+                            snapToCenterView(layoutManager, onPageChangeListener, onInnerBannerChangeListener);
                         } else {
                             snapToCenter = false;
                         }
@@ -144,12 +149,16 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
                     new DecelerateInterpolator());
 
             snapToCenterView((ViewPagerLayoutManager) layoutManager,
-                    ((ViewPagerLayoutManager) layoutManager).onPageChangeListener);
+                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener);
         }
     }
 
     void snapToCenterView(ViewPagerLayoutManager layoutManager,
-                          ViewPagerLayoutManager.OnPageChangeListener listener) {
+                          RxBannerChangeListener listener, ViewPagerLayoutManager.OnInnerBannerChangeListener onInnerBannerChangeListener) {
+        if (listener != null) {
+            listener.onBannerSelected(layoutManager.getCurrentPosition());
+            onInnerBannerChangeListener.onInnerBannerSelected(layoutManager.getCurrentPosition());
+        }
         final int delta = layoutManager.getOffsetToCenter();
         if (delta != 0) {
             if (layoutManager.getOrientation()
@@ -161,9 +170,6 @@ public class CenterSnapHelper extends RecyclerView.OnFlingListener {
             // set it false to make smoothScrollToPosition keep trigger the listener
             snapToCenter = false;
         }
-
-        if (listener != null)
-            listener.onPageSelected(layoutManager.getCurrentPosition());
     }
 
     /**

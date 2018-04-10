@@ -9,7 +9,7 @@ import android.view.View;
  */
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class RotateLayoutManager extends ViewPagerLayoutManager {
+class RotateLayoutManager extends ViewPagerLayoutManager {
 
     private int itemSpace;
     private float angle;

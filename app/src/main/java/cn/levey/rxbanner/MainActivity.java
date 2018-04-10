@@ -1,19 +1,17 @@
 package cn.levey.rxbanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.util.ArrayList;
+import android.widget.Spinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.levey.bannerlib.RxBanner;
-import cn.levey.bannerlib.impl.RxBannerClickListener;
-import cn.levey.rxbanner.loader.FrescoLoader;
-import jp.wasabeef.recyclerview.animators.LandingAnimator;
+import cn.levey.rxbanner.activity.DemoActivity;
+import cn.levey.rxbanner.activity.FragmentActivity;
 
 
 /**
@@ -23,89 +21,35 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.banner_view_fresco)
-    RxBanner banner;
-    @BindView(R.id.btn_preview)
-    Button btnPreview;
-    @BindView(R.id.btn_next)
-    Button btnNext;
-    @BindView(R.id.btn_auto)
-    Button btnAuto;
+    @BindView(R.id.spinner)
+    Spinner spinner;
+    @BindView(R.id.btn_create)
+    Button btnCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ArrayList<String> list = new ArrayList<>();
-//        list.addAll(Arrays.asList(FakeData.FAKE_IMAGES));
-
-        for (int i = 1; i < 60; i++) {
-            list.add("http://hcd.levey.cn/img/" + i + ".jpg");
-        }
-//        banner.setLoader(new GlideLoader())
-        banner.setLoader(new FrescoLoader())
-                .setDatas(list)
-                .setOnBannerClickListener(new RxBannerClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Toast.makeText(getApplicationContext(),"Click : " + position,Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onItemLongClick(View view, int position) {
-
-                        Toast.makeText(getApplicationContext(),"LONG : " + position,Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setItemAnimator(new LandingAnimator())
-                .start();
-
-
-        if (banner.isAutoPlay()) {
-            btnAuto.setText("Pause");
-        } else {
-            btnAuto.setText("Start");
-        }
-
-        btnAuto.setOnClickListener(new View.OnClickListener() {
+        String[] mItems = getResources().getStringArray(R.array.banner_parent_view);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btnAuto.getText().toString().equals("Pause")) {
-                    btnAuto.setText("Start");
-                    banner.pause();
-                } else {
-                    btnAuto.setText("Pause");
-                    banner.start();
+                String type = spinner.getSelectedItem().toString();
+                switch (type){
+                    case "Activity":
+                        Intent acty = new Intent(getApplicationContext(), DemoActivity.class);
+                        startActivity(acty);
+                        break;
+                    case "Fragment":
+                        Intent frag = new Intent(getApplicationContext(), FragmentActivity.class);
+                        startActivity(frag);
+                        break;
                 }
             }
         });
-
-        btnPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                banner.setCurrentPosition(banner.getCurrentPosition() - 1);
-            }
-        });
-
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                banner.setCurrentPosition(banner.getCurrentPosition() + 1);
-            }
-        });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        banner.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        banner.pause();
     }
 }

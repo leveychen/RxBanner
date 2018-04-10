@@ -9,7 +9,7 @@ import android.view.View;
  */
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class CarouselLayoutManager extends ViewPagerLayoutManager {
+class CarouselLayoutManager extends ViewPagerLayoutManager {
 
     private int itemSpace;
     private float minScale;

@@ -32,7 +32,7 @@ import android.widget.LinearLayout;
  * @see #createVerticalHelper(RecyclerView.LayoutManager)
  */
 @SuppressWarnings({"WeakerAccess","unused"})
-public abstract class OrientationHelper {
+abstract class OrientationHelper {
 
     private static final int INVALID_SIZE = Integer.MIN_VALUE;
 

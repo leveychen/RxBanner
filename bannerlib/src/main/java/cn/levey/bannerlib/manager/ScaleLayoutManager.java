@@ -3,8 +3,6 @@ package cn.levey.bannerlib.manager;
 import android.content.Context;
 import android.view.View;
 
-import cn.levey.bannerlib.base.RxBannerLogger;
-
 /**
  * An implementation of {@link ViewPagerLayoutManager}
  * which zooms the center item
@@ -14,7 +12,7 @@ import cn.levey.bannerlib.base.RxBannerLogger;
 public class ScaleLayoutManager extends ViewPagerLayoutManager {
 
     private int itemSpace;
-    private float minScale;
+    private float itemScale;
     private float moveSpeed;
     private float maxAlpha;
     private float minAlpha;
@@ -37,14 +35,14 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
                 builder.reverseLayout);
     }
 
-    private ScaleLayoutManager(Context context, int itemSpace, float minScale, float maxAlpha, float minAlpha,
+    private ScaleLayoutManager(Context context, int itemSpace, float itemScale, float maxAlpha, float minAlpha,
                                int orientation, float moveSpeed, int maxVisibleItemCount, int distanceToBottom,
                                boolean reverseLayout) {
         super(context, orientation, reverseLayout);
         setDistanceToBottom(distanceToBottom);
         setMaxVisibleItemCount(maxVisibleItemCount);
         this.itemSpace = itemSpace;
-        this.minScale = minScale;
+        this.itemScale = itemScale;
         this.moveSpeed = moveSpeed;
         this.maxAlpha = maxAlpha;
         this.minAlpha = minAlpha;
@@ -54,8 +52,8 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
         return itemSpace;
     }
 
-    public float getMinScale() {
-        return minScale;
+    public float getItemScale() {
+        return itemScale;
     }
 
     public float getMoveSpeed() {
@@ -77,10 +75,10 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
         removeAllViews();
     }
 
-    public void setMinScale(float minScale) {
+    public void setItemScale(float itemScale) {
         assertNotInLayoutOrScroll(null);
-        if (this.minScale == minScale) return;
-        this.minScale = minScale;
+        if (this.itemScale == itemScale) return;
+        this.itemScale = itemScale;
         removeAllViews();
     }
 
@@ -108,8 +106,6 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
 
     @Override
     protected float setInterval() {
-        RxBannerLogger.i(" setInterval itemSpace = " + itemSpace);
-        RxBannerLogger.i(" setInterval mDecoratedMeasurement = " + mDecoratedMeasurement);
         return itemSpace + mDecoratedMeasurement;
     }
 
@@ -142,7 +138,7 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
     private float calculateScale(float x) {
         float deltaX = Math.abs(x - mSpaceMain);
         if (deltaX - mDecoratedMeasurement > 0) deltaX = mDecoratedMeasurement;
-        return 1f - deltaX / mDecoratedMeasurement * (1f - minScale);
+        return 1f - deltaX / mDecoratedMeasurement * (1f - itemScale);
     }
 
     public static class Builder {

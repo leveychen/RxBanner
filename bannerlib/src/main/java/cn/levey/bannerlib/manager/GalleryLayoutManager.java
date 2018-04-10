@@ -9,7 +9,7 @@ import android.view.View;
  */
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class GalleryLayoutManager extends ViewPagerLayoutManager {
+class GalleryLayoutManager extends ViewPagerLayoutManager {
     private final float MAX_ELEVATION = 5F;
 
     private int itemSpace;

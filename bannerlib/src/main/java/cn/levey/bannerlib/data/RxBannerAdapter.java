@@ -11,10 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.levey.bannerlib.R;
 import cn.levey.bannerlib.base.RxBannerConfig;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 
@@ -26,7 +26,7 @@ import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBannerHolder> {
 
     private Context mContext;
-    private ArrayList<Object> mList = new ArrayList<>();
+    private List<Object> mList = new ArrayList<>();
     private RxBannerLoaderInterface mLoader;
     private int mSize;
     private int orientation;
@@ -41,8 +41,6 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
         this.mContext = context;
         this.mSize = size;
         this.orientation = orientation;
-        RxBannerLogger.i(" ADAPTER O = " + orientation);
-        RxBannerLogger.i(" ADAPTER O = " + size);
     }
 
     @NonNull
@@ -59,26 +57,24 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
         return new RxBannerHolder(view);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(@NonNull final RxBannerHolder holder, @SuppressLint("RecyclerView") final int position) {
         getLoader().show(mContext,mList.get(position),holder.image);
         if(rxBannerClickListener != null){
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    rxBannerClickListener.onItemClick(holder.itemView,position);
+                    rxBannerClickListener.onItemClick(position,mList.get(position));
                 }
             });
-
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    rxBannerClickListener.onItemLongClick(holder.itemView,position);
+                    rxBannerClickListener.onItemLongClick(position,mList.get(position));
                     return false;
                 }
             });
-
         }
     }
 
@@ -94,19 +90,17 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
     }
 
     @Override
-    public int getItemCount() {
-        return mList.size();
-    }
+    public int getItemCount() {return mList.size();}
 
     public Object getItemData(int position) {
         return mList.get(position);
     }
 
-    public ArrayList<Object> getDatas() {
+    public List<Object> getDatas() {
         return mList;
     }
 
-    public void addList(ArrayList<Object> list){
+    public void addDatas(List<Object> list){
         if(list != null && !list.isEmpty()){
             mList.addAll(list);
             notifyDataSetChanged();
@@ -123,7 +117,7 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
         notifyItemRemoved(position);
     }
 
-    public void setDatas(ArrayList<?> list){
+    public void setDatas(List<Object> list){
         if(list != null && !list.isEmpty()){
             mList.clear();
             mList.addAll(list);

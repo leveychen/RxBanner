@@ -1,12 +1,18 @@
 package cn.levey.rxbanner.loader;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.RotationOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.rxbanner.R;
@@ -24,9 +30,10 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
             item.setImageResource((int)path);
             return;
         }
-        item.setImageURI((String) path);
-//        use controller
-//        item.setController(controller);
+//        item.setImageURI((String) path);
+
+//        set controller
+        item.setController(getController((String)path));
     }
 
     @Override
@@ -39,11 +46,23 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
     }
 
 
+    private DraweeController getController(String url) {
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(url))
+                .setRotationOptions(RotationOptions.autoRotateAtRenderTime())
+                .build();
+        return Fresco.newDraweeControllerBuilder()
+                .setUri(Uri.parse(url))
+                .setImageRequest(request)
+                .setAutoPlayAnimations(true)
+                .build();
+    }
+
+
     private GenericDraweeHierarchy getRoundHierarchy(Context context) {
         GenericDraweeHierarchyBuilder builder =
                 new GenericDraweeHierarchyBuilder(context.getResources());
         RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
-       // roundingParams.setRoundAsCircle(true);
+        //roundingParams.setRoundAsCircle(true);
         builder.setRoundingParams(roundingParams);
         return builder
                 .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <cn.levey.bannerlib.RxBanner
+            android:id="@+id/banner_view_fresco"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            banner:itemPercent="80"
+            banner:itemSpace="0dp"
+            banner:timeInterval="5000"
+            banner:orientation="horizontal"
+            banner:orderType="asc"
+            banner:viewPaperMode="true"
+            banner:itemScale="0.5"
+            banner:titleColor="#FFFFFF"
+            banner:titleBackgroundColor="#33000000"
+            banner:titleGravity="end|top"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+            <Button
+                android:id="@+id/btn_preview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Previous"/>
+
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Next"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start"/>
+
+    </LinearLayout>
+
+
+

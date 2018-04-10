@@ -36,11 +36,19 @@ public class App extends Application{
 //                .setScrollStateChangedListener(new RxBannerScrollStateChangedListener() {
 //                    @Override
 //                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                        // fresco
 //                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 //                            Fresco.getImagePipeline().resume();
 //                        }else {
 //                            Fresco.getImagePipeline().pause();
 //                        }
+//                        // glide
+//                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                            Glide.with(getApplicationContext()).resumeRequests();
+//                        }else {
+//                            Glide.with(getApplicationContext()).pauseRequests();
+//                        }
+//                        // your image loader
 //                    }
 //                });
 //                .setLoader(new RxBannerImageViewLoader()); // global loader

@@ -12,6 +12,8 @@ import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
 
+import cn.levey.bannerlib.impl.RxBannerChangeListener;
+
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
 /**
@@ -92,7 +94,8 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
     protected float mInterval; //the mInterval of each item's mOffset
 
-    /* package */ OnPageChangeListener onPageChangeListener;
+    /* package */ RxBannerChangeListener onBannerChangeListener;
+    /* package */ OnInnerBannerChangeListener onInnerBannerChangeListener;
 
     private boolean mRecycleChildrenOnDetach;
 
@@ -816,8 +819,12 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
                 (!mShouldReverseLayout ? mInterval : -mInterval) - mOffset) * getDistanceRatio());
     }
 
-    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
-        this.onPageChangeListener = onPageChangeListener;
+    public void setOnBannerChangeListener(RxBannerChangeListener onPageChangeListener) {
+        this.onBannerChangeListener = onPageChangeListener;
+    }
+
+    public void setOnInnerBannerChangeListener(OnInnerBannerChangeListener onInnerBannerChangeListener){
+        this.onInnerBannerChangeListener = onInnerBannerChangeListener;
     }
 
     public void setInfinite(boolean enable) {
@@ -935,9 +942,8 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         };
     }
 
-    public interface OnPageChangeListener {
-        void onPageSelected(int position);
-
-        void onPageScrollStateChanged(int state);
+    public interface OnInnerBannerChangeListener {
+        void onInnerBannerSelected(int position);
+        void onInnerBannerScrollStateChanged(int state);
     }
 }

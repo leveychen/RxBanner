@@ -18,13 +18,17 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
     private Runnable autoPlayRunnable;
     private boolean runnableAdded;
     private RxBannerConfig.OrderType direction;
-    private boolean onePaperOnFling = false;
+    private boolean viewPaperMode = true;
 
 
-    public AutoPlaySnapHelper(int timeInterval, RxBannerConfig.OrderType direction) {
+    AutoPlaySnapHelper(int timeInterval, RxBannerConfig.OrderType direction) {
         checkTimeInterval(timeInterval);
         checkDirection(direction);
         handler = new WeakHandler();
+    }
+
+    void setViewPaperMode(boolean viewPaperMode) {
+        this.viewPaperMode = viewPaperMode;
     }
 
     @Override
@@ -40,14 +44,15 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             final RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
             if (!(layoutManager instanceof ViewPagerLayoutManager)) return;
 
+            snapToCenterView((ViewPagerLayoutManager) layoutManager,
+                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener);
+
             setupCallbacks();
             mGravityScroller = new Scroller(mRecyclerView.getContext(),
                     new DecelerateInterpolator());
 
-            snapToCenterView((ViewPagerLayoutManager) layoutManager,
-                    ((ViewPagerLayoutManager) layoutManager).onPageChangeListener);
 
-            ((ViewPagerLayoutManager) layoutManager).setInfinite(true);
+//            ((ViewPagerLayoutManager) layoutManager).setInfinite(true);
 
             autoPlayRunnable = new Runnable() {
                 @Override
@@ -72,18 +77,22 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
         }
     }
 
-    public void pause() {
+    void pause() {
         if (runnableAdded) {
             handler.removeCallbacks(autoPlayRunnable);
             runnableAdded = false;
         }
     }
 
-    public void start() {
+    void start() {
         if (!runnableAdded) {
             handler.postDelayed(autoPlayRunnable, timeInterval);
             runnableAdded = true;
         }
+    }
+
+    boolean isRunning(){
+        return runnableAdded;
     }
 
     void setTimeInterval(int timeInterval) {
@@ -97,7 +106,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     private void checkDirection(RxBannerConfig.OrderType direction) {
         if (direction != RxBannerConfig.OrderType.DESC && direction != RxBannerConfig.OrderType.ASC) {
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " direction should be one of ASC or DESC");
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": direction should be one of ASC or DESC");
         }else {
             this.direction = direction;
             //reset
@@ -110,7 +119,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     private void checkTimeInterval(int timeInterval) {
         if (timeInterval <= 0) {
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " time interval should greater than 0");
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": time interval should greater than 0");
         }else {
             this.timeInterval = timeInterval;
             if(handler != null &&  autoPlayRunnable != null){
@@ -122,7 +131,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     @Override
     public boolean onFling(int velocityX, int velocityY) {
-        if(!onePaperOnFling){
+        if(!viewPaperMode){
             ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
             if (layoutManager == null) {
                 return false;

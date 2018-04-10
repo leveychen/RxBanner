@@ -3,9 +3,10 @@
     <declare-styleable name="RxBanner">
         <attr name="android:layout_width"/>
         <attr name="android:layout_height"/>
+        <attr name="itemScale" format="float" />
         <attr name="timeInterval" format="integer" />
         <attr name="itemPercent" format="integer" />
-        <attr name="itemSpace" format="integer" />
+        <attr name="itemSpace" format="dimension" />
         <attr name="orderType" format="enum">
             <enum name="asc" value="1" />
             <enum name="desc" value="2" />
@@ -14,5 +15,49 @@
             <enum name="horizontal" value="0" />
             <enum name="vertical" value="1" />
         </attr>
+        <attr name="viewPaperMode" format="boolean"/>
+        <attr name="infinite" format="boolean"/>
+        <attr name="titleGravity">
+            <flag name="bottom" value="80" />
+            <flag name="center" value="17" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="16" />
+            <flag name="clip_horizontal" value="8" />
+            <flag name="clip_vertical" value="128" />
+            <flag name="end" value="8388613" />
+            <flag name="fill" value="119" />
+            <flag name="fill_horizontal" value="7" />
+            <flag name="fill_vertical" value="112" />
+            <flag name="left" value="3" />
+            <flag name="right" value="5" />
+            <flag name="start" value="8388611" />
+            <flag name="top" value="48" />
+        </attr>
+        <attr name="titleLayoutGravity">
+            <flag name="bottom" value="80" />
+            <flag name="center" value="17" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="16" />
+            <flag name="clip_horizontal" value="8" />
+            <flag name="clip_vertical" value="128" />
+            <flag name="end" value="8388613" />
+            <flag name="fill" value="119" />
+            <flag name="fill_horizontal" value="7" />
+            <flag name="fill_vertical" value="112" />
+            <flag name="left" value="3" />
+            <flag name="right" value="5" />
+            <flag name="start" value="8388611" />
+            <flag name="top" value="48" />
+        </attr>
+        <attr name="titleMargin" format="dimension" />
+        <attr name="titleMarginTop" format="dimension" />
+        <attr name="titleMarginBottom" format="dimension" />
+        <attr name="titleMarginStart" format="dimension" />
+        <attr name="titleMarginEnd" format="dimension" />
+        <attr name="titleWidth" format="dimension" />
+        <attr name="titleHeight" format="dimension" />
+        <attr name="titleColor" format="color" />
+        <attr name="titleBackgroundColor" format="color" />
+        <attr name="titleBackgroundResource" format="reference" />
     </declare-styleable>
 </resources>
