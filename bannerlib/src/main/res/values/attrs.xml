@@ -54,10 +54,18 @@
         <attr name="titleMarginBottom" format="dimension" />
         <attr name="titleMarginStart" format="dimension" />
         <attr name="titleMarginEnd" format="dimension" />
+        <attr name="titlePadding" format="dimension" />
+        <attr name="titlePaddingTop" format="dimension" />
+        <attr name="titlePaddingBottom" format="dimension" />
+        <attr name="titlePaddingStart" format="dimension" />
+        <attr name="titlePaddingEnd" format="dimension" />
+
         <attr name="titleWidth" format="dimension" />
         <attr name="titleHeight" format="dimension" />
+        <attr name="titleSize" format="dimension" />
         <attr name="titleColor" format="color" />
         <attr name="titleBackgroundColor" format="color" />
         <attr name="titleBackgroundResource" format="reference" />
+        <attr name="titleMarquee" format="boolean" />
     </declare-styleable>
 </resources>

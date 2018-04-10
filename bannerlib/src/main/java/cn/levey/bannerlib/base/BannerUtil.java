@@ -1,5 +1,8 @@
 package cn.levey.bannerlib.base;
 
+import android.content.Context;
+import android.util.TypedValue;
+
 /**
  * Created by Levey on 2018/4/9 10:57.
  * e-mail: m@levey.cn
@@ -31,4 +34,11 @@ public class BannerUtil {
         return RxBannerConfig.OrderType.ASC;
     }
 
+    public static int dp2px(Context context,int dp){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,context.getResources().getDisplayMetrics());
+    }
+
+    public static int sp2px(Context context,int sp){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp,context.getResources().getDisplayMetrics());
+    }
 }

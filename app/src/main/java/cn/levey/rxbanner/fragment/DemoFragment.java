@@ -36,25 +36,35 @@ public class DemoFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_view, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        int fragmentId = 1;
         if(getArguments() != null) {
-            int fragmentId = getArguments().getInt(FRAGMENT_ID, 1);
-            ArrayList<String> list = new ArrayList<>();
-            switch (fragmentId) {
-                case 1:
-                    list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_01));
-                    break;
-                case 2:
-                    list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_02));
-                    break;
-            }
-            bannerView
-                    .setLoader(new FrescoLoader())
-                    .setDatas(list)
-                    .start();
-            tvFragmentId.setText("Fragment " + fragmentId);
+            fragmentId = getArguments().getInt(FRAGMENT_ID, 1);
         }
+        View view = null;
+        if(fragmentId == 1){
+            view = inflater.inflate(R.layout.fragment_view_01, container, false);
+        }
+        if(fragmentId ==2){
+            view = inflater.inflate(R.layout.fragment_view_02, container, false);
+        }
+        if(view == null){
+            throw new NullPointerException("just demo");
+        }
+        unbinder = ButterKnife.bind(this, view);
+        ArrayList<String> list = new ArrayList<>();
+        switch (fragmentId) {
+            case 1:
+                list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_01));
+                break;
+            case 2:
+                list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_02));
+                break;
+        }
+        bannerView
+                .setLoader(new FrescoLoader())
+                .setDatas(list)
+                .start();
+        tvFragmentId.setText("Fragment " + fragmentId);
         return view;
     }
 

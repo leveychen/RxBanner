@@ -8,12 +8,7 @@
     <cn.levey.bannerlib.RxBanner
         android:id="@+id/banner_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        banner:itemPercent="80"
-        banner:itemSpace="0dp"
-        banner:timeInterval="5000"
-        banner:orientation="horizontal"
-        banner:orderType="asc"
+        android:layout_height="170dp"
         banner:viewPaperMode="true"/>
 
     <TextView

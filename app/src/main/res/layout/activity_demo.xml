@@ -11,16 +11,16 @@
             android:id="@+id/banner_view_fresco"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            banner:itemPercent="80"
-            banner:itemSpace="0dp"
+            banner:itemPercent="90"
+            banner:itemSpace="-10dp"
             banner:timeInterval="5000"
             banner:orientation="horizontal"
             banner:orderType="asc"
             banner:viewPaperMode="true"
-            banner:itemScale="0.5"
+            banner:itemScale="0.9"
             banner:titleColor="#FFFFFF"
-            banner:titleBackgroundColor="#33000000"
-            banner:titleGravity="end|top"
+            banner:titleBackgroundResource="@drawable/demo_title_background"
+            android:layout_marginTop="10dp"
             />
 
 
@@ -36,14 +36,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Previous"/>
+                android:text="Previous"
+                android:layout_margin="5dp"/>
 
             <Button
                 android:id="@+id/btn_next"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Next"/>
+                android:text="Next"
+                android:layout_margin="5dp"/>
 
         </LinearLayout>
 
@@ -52,6 +54,7 @@
             android:id="@+id/btn_auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Start"/>
 
     </LinearLayout>

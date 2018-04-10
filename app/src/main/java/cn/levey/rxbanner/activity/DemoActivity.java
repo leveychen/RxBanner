@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.FakeData;
 import cn.levey.rxbanner.loader.FrescoLoader;
@@ -42,10 +43,16 @@ public class DemoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle("Activity - RxBanner");
         ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> titles = new ArrayList<>();
         list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_01));
+
+        for (int i = 0; i < list.size(); i++) {
+            titles.add("banner title " + (i+1));
+        }
 //        banner.setLoader(new GlideLoader())
         banner.setLoader(new FrescoLoader())
-                .setDatas(list,list)
+                .setDatas(list,titles)
+//                .setDatas(list)
                 .setOnBannerClickListener(new RxBannerClickListener() {
                     @Override
                     public void onItemClick(int position, Object data) {
@@ -60,12 +67,18 @@ public class DemoActivity extends AppCompatActivity {
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
                     @Override
                     public void onBannerSelected(int position) {
-                      //  RxBannerLogger.i(" OUT onInnerBannerSelected = " + position);
+                      //  RxBannerLogger.i("onBannerSelected = " + position);
                     }
 
                     @Override
                     public void onBannerScrollStateChanged(int state) {
 
+                    }
+                })
+                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
+                    @Override
+                    public void onTitleClick(int position) {
+                        Toast.makeText(getApplicationContext(),"TITLE : " + position,Toast.LENGTH_SHORT).show();
                     }
                 })
                 .start();

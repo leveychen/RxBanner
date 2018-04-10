@@ -39,7 +39,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Create"/>
+                android:text="Create"
+                android:layout_margin="5dp"/>
 
         </LinearLayout>
 

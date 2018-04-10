@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +16,19 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.levey.bannerlib.base.BannerUtil;
+import cn.levey.bannerlib.base.MarqueeTextView;
 import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.data.RxBannerAdapter;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
+import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
 import cn.levey.bannerlib.manager.ViewPagerLayoutManager;
@@ -41,7 +44,7 @@ public class RxBanner extends FrameLayout {
     private int parentWidth, parentHeight;
     private RxBannerAdapter mAdapter;
     private AutoPlayRecyclerView mBannerRv;
-    private TextView mTitleTv;
+    private MarqueeTextView mTitleTv;
     private ScaleLayoutManager mLayoutManager;
     private int timeInterval = RxBannerConfig.getInstance().getTimeInterval();
     private RxBannerConfig.OrderType orderType;
@@ -51,8 +54,10 @@ public class RxBanner extends FrameLayout {
     private float itemScale;
     private int titleGravity,titleLayoutGravity;
     private int titleMargin,titleMarginTop,titleMarginBottom,titleMarginStart,titleMarginEnd;
-    private int titleWidth,titleHeight;
+    private int titlePadding,titlePaddingTop,titlePaddingBottom,titlePaddingStart,titlePaddingEnd;
+    private int titleWidth,titleHeight,titleSize;
     private int titleColor, titleBackgroundColor,titleBackgroundResource;
+    private boolean titleMarquee;
     private int itemPercent;
     private int itemSpace;
     private int orientation;
@@ -60,6 +65,7 @@ public class RxBanner extends FrameLayout {
     private List<String> mTitles = new ArrayList<>();
     private RxBannerClickListener onBannerClickListener;
     private RxBannerLoaderInterface mLoader;
+    private RxBannerTitleClickListener onTitleClickListener;
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
 
@@ -99,15 +105,20 @@ public class RxBanner extends FrameLayout {
         titleMarginBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleMarginBottom, 0);
         titleMarginStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleMarginStart, 0);
         titleMarginEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleMarginEnd, 0);
+
+        titlePadding = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePadding, BannerUtil.dp2px(mContext,3));
+        titlePaddingTop = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingTop, 0);
+        titlePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingBottom, 0);
+        titlePaddingStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingStart,0);
+        titlePaddingEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingEnd, 0);
+
         titleWidth = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleWidth, ViewGroup.LayoutParams.MATCH_PARENT);
         titleHeight = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        titleSize = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleSize, BannerUtil.sp2px(mContext,14));
         titleColor = typedArray.getColor(R.styleable.RxBanner_titleColor, Color.WHITE);
         titleBackgroundColor = typedArray.getColor(R.styleable.RxBanner_titleBackgroundColor, Color.parseColor("#0e000000"));
         titleBackgroundResource = typedArray.getResourceId(R.styleable.RxBanner_titleBackgroundResource, Integer.MAX_VALUE);
-
-        RxBannerLogger.i("titleColor = " + titleColor);
-        RxBannerLogger.i("titleBackgroundColor = " + titleBackgroundColor);
+        titleMarquee = typedArray.getBoolean(R.styleable.RxBanner_titleMarquee, false);
         typedArray.recycle();
         initView();
     }
@@ -122,16 +133,42 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemScale(itemScale);
         mLayoutManager.setInfinite(infinite);
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
-        mTitleTv = new TextView(mContext);
+        mTitleTv = new MarqueeTextView(mContext);
         LayoutParams titleLayoutParams = new LayoutParams(titleWidth, titleHeight);
+        if(titleMarginTop == 0) titleMarginTop = titleMargin;
+        if(titleMarginBottom == 0) titleMarginBottom = titleMargin;
+        if(titleMarginStart == 0) titleMarginStart = titleMargin;
+        if(titleMarginEnd == 0) titleMarginEnd = titleMargin;
+        titleLayoutParams.setMargins(titleMarginStart,titleMarginTop,titleMarginEnd,titleMarginBottom);
+
         titleLayoutParams.gravity = titleLayoutGravity;
         mTitleTv.setLayoutParams(titleLayoutParams);
         mTitleTv.setTextColor(titleColor);
         mTitleTv.setBackgroundColor(titleBackgroundColor);
         mTitleTv.setGravity(titleGravity);
+        mTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX,titleSize);
+
+        if(titlePadding != 0) mTitleTv.setPadding(titlePadding,titlePadding,titlePadding,titlePadding);
+        if(titlePaddingTop == 0) titlePaddingTop = titlePadding;
+        if(titlePaddingBottom == 0) titlePaddingBottom = titlePadding;
+        if(titlePaddingStart == 0) titlePaddingStart = titlePadding;
+        if(titlePaddingEnd == 0) titlePaddingEnd = titlePadding;
+        mTitleTv.setPadding(titlePaddingStart,titlePaddingTop,titlePaddingEnd,titlePaddingBottom);
+
         RxBannerLogger.i("titleBackgroundResource = " + titleBackgroundResource);
         if(titleBackgroundResource != Integer.MAX_VALUE) mTitleTv.setBackgroundResource(titleBackgroundResource);
+
+        if(titleMarquee) {
+            mTitleTv.setFocused(true);
+            mTitleTv.setSingleLine(true);
+            mTitleTv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            mTitleTv.setMarqueeRepeatLimit(-1);
+        }else {
+            mTitleTv.setFocused(false);
+        }
+
         addView(mTitleTv,titleLayoutParams);
+        mTitleTv.setVisibility(GONE);
         mLayoutManager.setOnInnerBannerChangeListener(new ViewPagerLayoutManager.OnInnerBannerChangeListener() {
             @Override
             public void onInnerBannerSelected(int position) {
@@ -182,6 +219,17 @@ public class RxBanner extends FrameLayout {
             mBannerRv.setAdapter(mAdapter);
         }
 
+
+        if(onTitleClickListener != null){
+            mTitleTv.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(onTitleClickListener != null && mLayoutManager != null){
+                        onTitleClickListener.onTitleClick(mLayoutManager.getCurrentPosition());
+                    }
+                }
+            });
+        }
     }
 
     public RxBanner setLoader(RxBannerLoaderInterface mLoader) {
@@ -234,6 +282,11 @@ public class RxBanner extends FrameLayout {
             this.mTitles.clear();
             this.mTitles.addAll(titles);
         }
+    }
+
+    public RxBanner setOnBannerTitleClickListener(final RxBannerTitleClickListener onTitleClickListener){
+        this.onTitleClickListener = onTitleClickListener;
+        return this;
     }
 
     protected void addTitles(List<String> titles) {
