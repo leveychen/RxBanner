@@ -20,6 +20,7 @@ import cn.levey.rxbanner.R;
 /**
  * Created by Levey on 2018/4/2 17:42.
  * e-mail: m@levey.cn
+ * @link https://github.com/facebook/fresco
  */
 
 public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {

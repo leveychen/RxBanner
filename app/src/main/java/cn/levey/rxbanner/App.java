@@ -3,6 +3,8 @@ package cn.levey.rxbanner;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
@@ -18,6 +20,7 @@ public class App extends Application{
         super.onCreate();
         initLeakCanary();
         initFresco();
+        initUniversalImageLoader();
         initRxBanner();
     }
 
@@ -28,6 +31,12 @@ public class App extends Application{
     private void initLeakCanary(){
         if (LeakCanary.isInAnalyzerProcess(this)) {return;}
         LeakCanary.install(this);
+    }
+
+    private void initUniversalImageLoader(){
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+			.build();
+        ImageLoader.getInstance().init(config);
     }
 
     private void initRxBanner(){

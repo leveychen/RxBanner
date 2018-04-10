@@ -52,6 +52,7 @@ public class DemoActivity extends AppCompatActivity {
         if(getIntent().getBooleanExtra(NEED_SCROLL_VIEW,false)){
             view01.setVisibility(View.VISIBLE);
             view02.setVisibility(View.VISIBLE);
+            setTitle("ScrollView - RxBanner");
         }
         ArrayList<String> titles = new ArrayList<>();
         //添加图片资源
@@ -66,10 +67,12 @@ public class DemoActivity extends AppCompatActivity {
         for (int i = 0; i < list.size(); i++) {
             titles.add("banner title " + (i + 1));
         }
+//        banner.setLoader(new UniversalImageLoader())
+//        banner.setLoader(new PicassoLoader())
 //        banner.setLoader(new GlideLoader())
         banner.setLoader(new FrescoLoader())
                 .setDatas(list, titles)
-//                .setDatas(list)
+//                .setDatas(list)  // no title
                 .setOnBannerClickListener(new RxBannerClickListener() {
                     @Override
                     public void onItemClick(int position, Object data) {
