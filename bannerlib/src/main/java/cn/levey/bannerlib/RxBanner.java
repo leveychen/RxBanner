@@ -169,6 +169,8 @@ public class RxBanner extends FrameLayout {
 
         addView(mTitleTv,titleLayoutParams);
         mTitleTv.setVisibility(GONE);
+
+
         mLayoutManager.setOnInnerBannerChangeListener(new ViewPagerLayoutManager.OnInnerBannerChangeListener() {
             @Override
             public void onInnerBannerSelected(int position) {
@@ -341,15 +343,15 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-
-    public void onStop(){
-        pause();
-    }
-
     public void onDestroy(){
         pause();
         if(mAdapter != null) mAdapter = null;
-        if(mBannerRv != null) mBannerRv.destroyDrawingCache();
+        if(mTitleTv != null) mTitleTv = null;
+        if(mBannerRv != null) {
+            mBannerRv.removeAllViews();
+            mBannerRv.destroyDrawingCache();
+            mBannerRv = null;
+        }
     }
 
     public void onResume(){
@@ -360,6 +362,10 @@ public class RxBanner extends FrameLayout {
         if (mBannerRv != null && autoPlay) {
             mBannerRv.pause();
         }
+    }
+
+    public void onPause(){
+        pause();
     }
 
     protected void restart() {
@@ -408,12 +414,12 @@ public class RxBanner extends FrameLayout {
     }
 
     private int getPercentSize() {
-        int percentSize = -1;
+        int percentSize = RelativeLayout.LayoutParams.MATCH_PARENT;
         if (orientation == LinearLayout.VERTICAL) {
-            if (parentHeight == -1) return -1;
+            if (parentHeight == RelativeLayout.LayoutParams.MATCH_PARENT) return RelativeLayout.LayoutParams.MATCH_PARENT;
             percentSize = BannerUtil.getPercentSize(parentHeight, itemPercent);
         } else if (orientation == LinearLayout.HORIZONTAL) {
-            if (parentWidth == -1) return -1;
+            if (parentWidth == RelativeLayout.LayoutParams.MATCH_PARENT) return RelativeLayout.LayoutParams.MATCH_PARENT;
             percentSize = BannerUtil.getPercentSize(parentWidth, itemPercent);
         }
         return percentSize;
@@ -453,5 +459,11 @@ public class RxBanner extends FrameLayout {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        onDestroy();
     }
 }

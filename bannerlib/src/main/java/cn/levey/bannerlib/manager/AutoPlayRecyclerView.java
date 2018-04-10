@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerLogger;
 
 /**
  * An implement of {@link RecyclerView} which support auto play.
@@ -32,21 +33,24 @@ public class AutoPlayRecyclerView extends RecyclerView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        boolean result = super.dispatchTouchEvent(ev);
         if(isAutoPlay()) {
             switch (ev.getAction()) {
+                    //按下暂停轮播
                 case MotionEvent.ACTION_DOWN:
                     if (autoPlaySnapHelper != null) {
                         autoPlaySnapHelper.pause();
                     }
                     break;
+                    //抬起继续轮播,在ScrollView里按住然后滑出Banner时会无法监听 ACTION_UP 事件，所以同时需要监听 ACTION_CANCEL 事件
                 case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
                     if (autoPlaySnapHelper != null) {
                         autoPlaySnapHelper.start();
                     }
+                    break;
             }
         }
-        return result;
+        return super.dispatchTouchEvent(ev);
     }
 
     public void start() {
@@ -83,11 +87,6 @@ public class AutoPlayRecyclerView extends RecyclerView {
         autoPlaySnapHelper.attachToRecyclerView(this);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        autoPlaySnapHelper.destroyCallbacks();
-    }
 
     public boolean isAutoPlay() {
         return autoPlay;
@@ -98,5 +97,11 @@ public class AutoPlayRecyclerView extends RecyclerView {
             autoPlaySnapHelper.pause();
         }
         this.autoPlay = autoPlay;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        autoPlaySnapHelper.destroyCallbacks();
     }
 }

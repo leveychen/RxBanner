@@ -1,51 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:banner="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/view_01"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:orientation="vertical"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="Other View 01"/>
+
+        </LinearLayout>
 
         <cn.levey.bannerlib.RxBanner
             android:id="@+id/banner_view_fresco"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            banner:itemPercent="90"
-            banner:itemSpace="-10dp"
-            banner:timeInterval="5000"
-            banner:orientation="horizontal"
-            banner:orderType="asc"
-            banner:viewPaperMode="true"
+            banner:itemPercent="70"
             banner:itemScale="0.9"
-            banner:titleColor="#FFFFFF"
+            banner:itemSpace="0dp"
+            banner:orderType="asc"
+            banner:orientation="horizontal"
+            banner:timeInterval="3000"
             banner:titleBackgroundResource="@drawable/demo_title_background"
-            android:layout_marginTop="10dp"
-            />
-
-
+            banner:titleColor="#FFFFFF"
+            banner:titleMarquee="true"
+            banner:viewPaperMode="true"
+            android:layout_marginTop="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_preview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Previous"
-                android:layout_margin="5dp"/>
+                android:text="Prev" />
 
             <Button
                 android:id="@+id/btn_next"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Next"
-                android:layout_margin="5dp"/>
+                android:text="Next" />
 
         </LinearLayout>
 
@@ -55,9 +76,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Start"/>
+            android:text="Start" />
+
+
+        <LinearLayout
+            android:id="@+id/view_02"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="Other View 02"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
+
+
+</android.support.v4.widget.NestedScrollView>
 
 
 

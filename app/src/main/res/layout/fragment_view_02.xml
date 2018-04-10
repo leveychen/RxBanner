@@ -11,7 +11,7 @@
         android:layout_height="160dp"
         banner:itemPercent="80"
         banner:itemSpace="-10dp"
-        banner:timeInterval="5000"
+        banner:timeInterval="2000"
         banner:orientation="horizontal"
         banner:orderType="desc"
         banner:viewPaperMode="true"

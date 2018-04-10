@@ -7,6 +7,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 
 /**

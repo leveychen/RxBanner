@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ import cn.levey.rxbanner.loader.FrescoLoader;
 
 public class DemoActivity extends AppCompatActivity {
 
+    public static final String NEED_SCROLL_VIEW = "NEED_SCROLL_VIEW";
+
     @BindView(R.id.banner_view_fresco)
     RxBanner banner;
     @BindView(R.id.btn_preview)
@@ -35,6 +38,10 @@ public class DemoActivity extends AppCompatActivity {
     Button btnNext;
     @BindView(R.id.btn_auto)
     Button btnAuto;
+    @BindView(R.id.view_01)
+    LinearLayout view01;
+    @BindView(R.id.view_02)
+    LinearLayout view02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,32 +49,36 @@ public class DemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_demo);
         ButterKnife.bind(this);
         setTitle("Activity - RxBanner");
+        if(getIntent().getBooleanExtra(NEED_SCROLL_VIEW,false)){
+            view01.setVisibility(View.VISIBLE);
+            view02.setVisibility(View.VISIBLE);
+        }
         ArrayList<String> list = new ArrayList<>();
         ArrayList<String> titles = new ArrayList<>();
         list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_01));
 
         for (int i = 0; i < list.size(); i++) {
-            titles.add("banner title " + (i+1));
+            titles.add("banner title " + (i + 1));
         }
 //        banner.setLoader(new GlideLoader())
         banner.setLoader(new FrescoLoader())
-                .setDatas(list,titles)
+                .setDatas(list, titles)
 //                .setDatas(list)
                 .setOnBannerClickListener(new RxBannerClickListener() {
                     @Override
                     public void onItemClick(int position, Object data) {
-                        Toast.makeText(getApplicationContext(),"Click : " + position,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Click : " + position, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onItemLongClick(int position, Object data) {
-                        Toast.makeText(getApplicationContext(),"LONG : " + position,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "LONG : " + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
                     @Override
                     public void onBannerSelected(int position) {
-                      //  RxBannerLogger.i("onBannerSelected = " + position);
+                        //  RxBannerLogger.i("onBannerSelected = " + position);
                     }
 
                     @Override
@@ -78,7 +89,7 @@ public class DemoActivity extends AppCompatActivity {
                 .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
                     @Override
                     public void onTitleClick(int position) {
-                        Toast.makeText(getApplicationContext(),"TITLE : " + position,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "TITLE : " + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .start();
@@ -120,20 +131,20 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        banner.pause();
+    protected void onPause() {
+        super.onPause();
+        banner.onPause();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        banner.pause();
-    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        banner.onDestroy();
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        banner.start();
+        banner.onResume();
     }
 }

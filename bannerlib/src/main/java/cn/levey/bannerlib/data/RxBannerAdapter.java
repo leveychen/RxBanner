@@ -72,7 +72,7 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
                 @Override
                 public boolean onLongClick(View v) {
                     rxBannerClickListener.onItemLongClick(position,mList.get(position));
-                    return false;
+                    return true;
                 }
             });
         }

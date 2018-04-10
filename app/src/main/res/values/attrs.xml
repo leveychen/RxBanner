@@ -3,5 +3,6 @@
     <string-array name="banner_parent_view">
         <item>Activity</item>
         <item>Fragment</item>
+        <item>ScrollView</item>
     </string-array>
 </resources>

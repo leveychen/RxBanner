@@ -68,11 +68,17 @@ public class DemoFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bannerView.onDestroy();
-        unbinder.unbind();
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        bannerView.onDestroy();
+//        unbinder.unbind();
+//
+//    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        bannerView.onPause();
     }
 }

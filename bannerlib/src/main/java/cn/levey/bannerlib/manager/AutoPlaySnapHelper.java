@@ -44,15 +44,15 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             final RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
             if (!(layoutManager instanceof ViewPagerLayoutManager)) return;
 
-            snapToCenterView((ViewPagerLayoutManager) layoutManager,
-                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener);
 
             setupCallbacks();
             mGravityScroller = new Scroller(mRecyclerView.getContext(),
                     new DecelerateInterpolator());
 
 
-//            ((ViewPagerLayoutManager) layoutManager).setInfinite(true);
+            snapToCenterView((ViewPagerLayoutManager) layoutManager,
+                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener);
+
 
             autoPlayRunnable = new Runnable() {
                 @Override
@@ -74,7 +74,9 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
         if (runnableAdded) {
             handler.removeCallbacks(autoPlayRunnable);
             runnableAdded = false;
+
         }
+        handler = null;
     }
 
     void pause() {

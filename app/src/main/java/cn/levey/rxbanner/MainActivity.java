@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent frag = new Intent(getApplicationContext(), FragmentActivity.class);
                         startActivity(frag);
                         break;
+                    case "ScrollView":
+                        Intent scroll = new Intent(getApplicationContext(), DemoActivity.class);
+                        scroll.putExtra(DemoActivity.NEED_SCROLL_VIEW,true);
+                        startActivity(scroll);
+                        break;
                 }
             }
         });
