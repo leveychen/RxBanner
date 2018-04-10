@@ -26,6 +26,7 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
 
     @Override
     public void show(Context context, Object path, SimpleDraweeView item) {
+        //该方法用于加载resource资源
         if(path instanceof Integer){
             item.setImageResource((int)path);
             return;

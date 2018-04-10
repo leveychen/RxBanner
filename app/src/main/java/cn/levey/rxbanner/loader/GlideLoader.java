@@ -19,7 +19,7 @@ public class GlideLoader implements RxBannerLoaderInterface<ImageView> {
     public void show(Context context, Object path, ImageView item) {
         Glide.with(context)
                 .load(path)
-                .apply(RequestOptions.centerCropTransform())
+                .apply(RequestOptions.circleCropTransform())
                 .into(item);
     }
 

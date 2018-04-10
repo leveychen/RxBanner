@@ -59,7 +59,6 @@
         <attr name="titlePaddingBottom" format="dimension" />
         <attr name="titlePaddingStart" format="dimension" />
         <attr name="titlePaddingEnd" format="dimension" />
-
         <attr name="titleWidth" format="dimension" />
         <attr name="titleHeight" format="dimension" />
         <attr name="titleSize" format="dimension" />

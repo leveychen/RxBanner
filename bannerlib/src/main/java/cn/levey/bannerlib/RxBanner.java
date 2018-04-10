@@ -20,8 +20,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.levey.bannerlib.base.BannerUtil;
-import cn.levey.bannerlib.base.MarqueeTextView;
+import cn.levey.bannerlib.base.RxBannerUtil;
+import cn.levey.bannerlib.base.RxBannerTextView;
 import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.data.RxBannerAdapter;
@@ -44,7 +44,7 @@ public class RxBanner extends FrameLayout {
     private int parentWidth, parentHeight;
     private RxBannerAdapter mAdapter;
     private AutoPlayRecyclerView mBannerRv;
-    private MarqueeTextView mTitleTv;
+    private RxBannerTextView mTitleTv;
     private ScaleLayoutManager mLayoutManager;
     private int timeInterval = RxBannerConfig.getInstance().getTimeInterval();
     private RxBannerConfig.OrderType orderType;
@@ -94,8 +94,8 @@ public class RxBanner extends FrameLayout {
         timeInterval = typedArray.getInt(R.styleable.RxBanner_timeInterval, RxBannerConfig.getInstance().getTimeInterval());
         if (itemPercent <= 0) throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": itemPercent should be greater than 0");
         if (timeInterval < 200) throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": for better performance, timeInterval should be greater than 200 millisecond");
-        orderType = BannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_orderType,
-                BannerUtil.getOrderType(RxBannerConfig.getInstance().getOrderType())));
+        orderType = RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_orderType,
+                RxBannerUtil.getOrderType(RxBannerConfig.getInstance().getOrderType())));
 
         //title
         titleGravity = typedArray.getInt(R.styleable.RxBanner_titleGravity, Gravity.CENTER);
@@ -105,16 +105,14 @@ public class RxBanner extends FrameLayout {
         titleMarginBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleMarginBottom, 0);
         titleMarginStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleMarginStart, 0);
         titleMarginEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleMarginEnd, 0);
-
-        titlePadding = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePadding, BannerUtil.dp2px(mContext,3));
+        titlePadding = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePadding, RxBannerUtil.dp2px(mContext,3));
         titlePaddingTop = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingTop, 0);
         titlePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingBottom, 0);
         titlePaddingStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingStart,0);
         titlePaddingEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titlePaddingEnd, 0);
-
         titleWidth = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleWidth, ViewGroup.LayoutParams.MATCH_PARENT);
         titleHeight = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
-        titleSize = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleSize, BannerUtil.sp2px(mContext,14));
+        titleSize = typedArray.getDimensionPixelSize(R.styleable.RxBanner_titleSize, RxBannerUtil.sp2px(mContext,14));
         titleColor = typedArray.getColor(R.styleable.RxBanner_titleColor, Color.WHITE);
         titleBackgroundColor = typedArray.getColor(R.styleable.RxBanner_titleBackgroundColor, Color.parseColor("#0e000000"));
         titleBackgroundResource = typedArray.getResourceId(R.styleable.RxBanner_titleBackgroundResource, Integer.MAX_VALUE);
@@ -133,7 +131,7 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemScale(itemScale);
         mLayoutManager.setInfinite(infinite);
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
-        mTitleTv = new MarqueeTextView(mContext);
+        mTitleTv = new RxBannerTextView(mContext);
         LayoutParams titleLayoutParams = new LayoutParams(titleWidth, titleHeight);
         if(titleMarginTop == 0) titleMarginTop = titleMargin;
         if(titleMarginBottom == 0) titleMarginBottom = titleMargin;
@@ -343,6 +341,8 @@ public class RxBanner extends FrameLayout {
         }
     }
 
+
+    //已在 onDetachedFromWindow 实现回收资源，也可根据需求自行调用完成销毁
     public void onDestroy(){
         pause();
         if(mAdapter != null) mAdapter = null;
@@ -399,10 +399,10 @@ public class RxBanner extends FrameLayout {
     }
 
     public int getCurrentPosition() {
-        if (mBannerRv != null && mAdapter != null && !mAdapter.getDatas().isEmpty()) {
+        if (mBannerRv != null && mAdapter != null && mLayoutManager != null && !mAdapter.getDatas().isEmpty()) {
             return mLayoutManager.getCurrentPosition();
         }
-        return -1;
+        throw new IllegalStateException(RxBannerLogger.LOGGER_TAG + ": please set datas and start to get position");
     }
 
     public RxBanner setOnBannerClickListener(RxBannerClickListener onClickListener) {
@@ -417,10 +417,10 @@ public class RxBanner extends FrameLayout {
         int percentSize = RelativeLayout.LayoutParams.MATCH_PARENT;
         if (orientation == LinearLayout.VERTICAL) {
             if (parentHeight == RelativeLayout.LayoutParams.MATCH_PARENT) return RelativeLayout.LayoutParams.MATCH_PARENT;
-            percentSize = BannerUtil.getPercentSize(parentHeight, itemPercent);
+            percentSize = RxBannerUtil.getPercentSize(parentHeight, itemPercent);
         } else if (orientation == LinearLayout.HORIZONTAL) {
             if (parentWidth == RelativeLayout.LayoutParams.MATCH_PARENT) return RelativeLayout.LayoutParams.MATCH_PARENT;
-            percentSize = BannerUtil.getPercentSize(parentWidth, itemPercent);
+            percentSize = RxBannerUtil.getPercentSize(parentWidth, itemPercent);
         }
         return percentSize;
     }
@@ -459,6 +459,21 @@ public class RxBanner extends FrameLayout {
                 }
             }
         });
+    }
+
+    public RxBannerTextView getTitleTextView() {
+        if(mTitleTv != null){
+            return mTitleTv;
+        }
+        return null;
+    }
+
+    public String getTitleString(){
+        if(mTitleTv != null){
+            return mTitleTv.getText().toString();
+        }else {
+            return null;
+        }
     }
 
     @Override

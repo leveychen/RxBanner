@@ -8,7 +8,7 @@ import android.util.TypedValue;
  * e-mail: m@levey.cn
  */
 
-public class BannerUtil {
+public class RxBannerUtil {
 
     public static int getPercentSize(int parentSize, int itemPercent){
         return (int) (parentSize * (itemPercent / 100f));

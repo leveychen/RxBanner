@@ -53,9 +53,15 @@ public class DemoActivity extends AppCompatActivity {
             view01.setVisibility(View.VISIBLE);
             view02.setVisibility(View.VISIBLE);
         }
-        ArrayList<String> list = new ArrayList<>();
         ArrayList<String> titles = new ArrayList<>();
-        list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_01));
+        //添加图片资源
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
+
+//        ArrayList<Integer> list = new ArrayList<>();
+//        list.add(R.mipmap.ic_launcher);
+//        list.add(R.mipmap.ic_launcher);
+//        list.add(R.mipmap.ic_launcher);
+//        list.add(R.mipmap.ic_launcher);
 
         for (int i = 0; i < list.size(); i++) {
             titles.add("banner title " + (i + 1));
@@ -135,6 +141,7 @@ public class DemoActivity extends AppCompatActivity {
         super.onPause();
         banner.onPause();
     }
+
 //
 //    @Override
 //    protected void onDestroy() {

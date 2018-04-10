@@ -4,19 +4,19 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
+public class RxBannerTextView extends android.support.v7.widget.AppCompatTextView {
 
     private boolean isFocused = false;
 
-    public MarqueeTextView(Context context) {
+    public RxBannerTextView(Context context) {
         super(context);
     }
 
-    public MarqueeTextView(Context context, @Nullable AttributeSet attrs) {
+    public RxBannerTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MarqueeTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RxBannerTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
