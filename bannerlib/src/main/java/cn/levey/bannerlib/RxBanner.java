@@ -29,7 +29,6 @@ import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
-import cn.levey.bannerlib.indicator.DotIndicator;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
 import cn.levey.bannerlib.manager.ViewPagerLayoutManager;
@@ -74,7 +73,8 @@ public class RxBanner extends FrameLayout {
     private RxBannerTitleClickListener onTitleClickListener;
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
-    private DotIndicator indicator;
+    private View indicatorView;
+
 
     public RxBanner(@NonNull Context context) {
         this(context, null);
@@ -213,10 +213,6 @@ public class RxBanner extends FrameLayout {
                 }else {
                     if(mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
                 }
-
-                if(indicator != null){
-                    indicator.onPageSelected(position);
-                }
             }
 
             @Override
@@ -266,16 +262,11 @@ public class RxBanner extends FrameLayout {
             });
         }
 
-
-        indicator = new DotIndicator(mContext);
-        indicator.attachToRecyclerView(mBannerRv);
-
-        LayoutParams indicatorLayoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        indicatorLayoutParams.gravity = Gravity.BOTTOM|Gravity.END;
-        indicatorLayoutParams.setMargins(20,20,20,20);
-        indicator.setLayoutParams(indicatorLayoutParams);
-        addView(indicator);
+        if(indicatorView != null){
+            addView(indicatorView);
+        }
     }
+
 
     public RxBanner setLoader(RxBannerLoaderInterface mLoader) {
         if (mAdapter != null) {
@@ -416,6 +407,11 @@ public class RxBanner extends FrameLayout {
             pause();
             start();
         }
+    }
+
+    public RxBanner setIndicator(View indicatorView){
+        this.indicatorView = indicatorView;
+        return this;
     }
 
     public boolean isAutoPlay() {
