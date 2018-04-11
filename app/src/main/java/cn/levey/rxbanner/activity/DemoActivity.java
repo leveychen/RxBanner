@@ -13,6 +13,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
@@ -54,6 +55,7 @@ public class DemoActivity extends AppCompatActivity {
             view02.setVisibility(View.VISIBLE);
             setTitle("ScrollView - RxBanner");
         }
+
         ArrayList<String> titles = new ArrayList<>();
         //添加图片资源
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
@@ -84,6 +86,7 @@ public class DemoActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "LONG : " + position, Toast.LENGTH_SHORT).show();
                     }
                 })
+
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
                     @Override
                     public void onBannerSelected(int position) {
@@ -126,6 +129,8 @@ public class DemoActivity extends AppCompatActivity {
         btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                RxBannerLogger.i(" btnPreview = " +banner.getCurrentPosition() );
                 banner.setCurrentPosition(banner.getCurrentPosition() - 1);
             }
         });

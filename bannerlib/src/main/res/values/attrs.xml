@@ -6,6 +6,9 @@
         <attr name="itemScale" format="float" />
         <attr name="timeInterval" format="integer" />
         <attr name="itemPercent" format="integer" />
+        <attr name="itemMoveSpeed" format="float" />
+        <attr name="centerAlpha" format="float" />
+        <attr name="sideAlpha" format="float" />
         <attr name="itemSpace" format="dimension" />
         <attr name="orderType" format="enum">
             <enum name="asc" value="1" />
@@ -49,6 +52,7 @@
             <flag name="start" value="8388611" />
             <flag name="top" value="48" />
         </attr>
+        <attr name="titleVisibility" format="boolean" />
         <attr name="titleMargin" format="dimension" />
         <attr name="titleMarginTop" format="dimension" />
         <attr name="titleMarginBottom" format="dimension" />
@@ -59,12 +63,19 @@
         <attr name="titlePaddingBottom" format="dimension" />
         <attr name="titlePaddingStart" format="dimension" />
         <attr name="titlePaddingEnd" format="dimension" />
-        <attr name="titleWidth" format="dimension" />
-        <attr name="titleHeight" format="dimension" />
+        <attr name="titleWidth" format="dimension|enum" >
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="titleHeight" format="dimension|enum" >
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
         <attr name="titleSize" format="dimension" />
         <attr name="titleColor" format="color" />
         <attr name="titleBackgroundColor" format="color" />
         <attr name="titleBackgroundResource" format="reference" />
         <attr name="titleMarquee" format="boolean" />
+
     </declare-styleable>
 </resources>

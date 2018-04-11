@@ -13,9 +13,9 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
 
     private int itemSpace;
     private float itemScale;
-    private float moveSpeed;
-    private float maxAlpha;
-    private float minAlpha;
+    private float itemMoveSpeed;
+    private float centerAlpha;
+    private float sideAlpha;
 
     public ScaleLayoutManager(Context context, int itemSpace) {
         this(new Builder(context, itemSpace));
@@ -35,17 +35,17 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
                 builder.reverseLayout);
     }
 
-    private ScaleLayoutManager(Context context, int itemSpace, float itemScale, float maxAlpha, float minAlpha,
-                               int orientation, float moveSpeed, int maxVisibleItemCount, int distanceToBottom,
+    private ScaleLayoutManager(Context context, int itemSpace, float itemScale, float centerAlpha, float sideAlpha,
+                               int orientation, float itemMoveSpeed, int maxVisibleItemCount, int distanceToBottom,
                                boolean reverseLayout) {
         super(context, orientation, reverseLayout);
         setDistanceToBottom(distanceToBottom);
         setMaxVisibleItemCount(maxVisibleItemCount);
         this.itemSpace = itemSpace;
         this.itemScale = itemScale;
-        this.moveSpeed = moveSpeed;
-        this.maxAlpha = maxAlpha;
-        this.minAlpha = minAlpha;
+        this.itemMoveSpeed = itemMoveSpeed;
+        this.centerAlpha = centerAlpha;
+        this.sideAlpha = sideAlpha;
     }
 
     public int getItemSpace() {
@@ -56,16 +56,16 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
         return itemScale;
     }
 
-    public float getMoveSpeed() {
-        return moveSpeed;
+    public float getItemMoveSpeed() {
+        return itemMoveSpeed;
     }
 
-    public float getMaxAlpha() {
-        return maxAlpha;
+    public float getCenterAlpha() {
+        return centerAlpha;
     }
 
-    public float getMinAlpha() {
-        return minAlpha;
+    public float getSideAlpha() {
+        return sideAlpha;
     }
 
     public void setItemSpace(int itemSpace) {
@@ -82,26 +82,26 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
         removeAllViews();
     }
 
-    public void setMaxAlpha(float maxAlpha) {
+    public void setCenterAlpha(float centerAlpha) {
         assertNotInLayoutOrScroll(null);
-        if (maxAlpha > 1) maxAlpha = 1;
-        if (this.maxAlpha == maxAlpha) return;
-        this.maxAlpha = maxAlpha;
+        if (centerAlpha > 1) centerAlpha = 1;
+        if (this.centerAlpha == centerAlpha) return;
+        this.centerAlpha = centerAlpha;
         requestLayout();
     }
 
-    public void setMinAlpha(float minAlpha) {
+    public void setSideAlpha(float sideAlpha) {
         assertNotInLayoutOrScroll(null);
-        if (minAlpha < 0) minAlpha = 0;
-        if (this.minAlpha == minAlpha) return;
-        this.minAlpha = minAlpha;
+        if (sideAlpha < 0) sideAlpha = 0;
+        if (this.sideAlpha == sideAlpha) return;
+        this.sideAlpha = sideAlpha;
         requestLayout();
     }
 
-    public void setMoveSpeed(float moveSpeed) {
+    public void setItemMoveSpeed(float itemMoveSpeed) {
         assertNotInLayoutOrScroll(null);
-        if (this.moveSpeed == moveSpeed) return;
-        this.moveSpeed = moveSpeed;
+        if (this.itemMoveSpeed == itemMoveSpeed) return;
+        this.itemMoveSpeed = itemMoveSpeed;
     }
 
     @Override
@@ -120,15 +120,15 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
 
     private float calAlpha(float targetOffset) {
         final float offset = Math.abs(targetOffset);
-        float alpha = (minAlpha - maxAlpha) / mInterval * offset + maxAlpha;
-        if (offset >= mInterval) alpha = minAlpha;
+        float alpha = (sideAlpha - centerAlpha) / mInterval * offset + centerAlpha;
+        if (offset >= mInterval) alpha = sideAlpha;
         return alpha;
     }
 
     @Override
     protected float getDistanceRatio() {
-        if (moveSpeed == 0) return Float.MAX_VALUE;
-        return 1 / moveSpeed;
+        if (itemMoveSpeed == 0) return Float.MAX_VALUE;
+        return 1 / itemMoveSpeed;
     }
 
     /**

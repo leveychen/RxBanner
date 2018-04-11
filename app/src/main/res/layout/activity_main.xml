@@ -8,7 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="titleGravity: start"
+                android:tag="titleGravity: "
+                android:background="@drawable/text_view_bg"
+                android:layout_margin="2dp"/>
+
+            <TextView
+                android:id="@+id/title_layout_gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="titleLayoutGravity: bottom | center_horizontal"
+                android:tag="titleLayoutGravity: "
+                android:background="@drawable/text_view_bg"
+                android:layout_margin="2dp"/>
+
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

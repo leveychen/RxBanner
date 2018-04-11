@@ -5,4 +5,14 @@
         <item>Fragment</item>
         <item>ScrollView</item>
     </string-array>
+
+    <string-array name="gravity_items">
+        <item>center</item>
+        <item>top</item>
+        <item>bottom</item>
+        <item>start</item>
+        <item>end</item>
+        <item>center_horizontal</item>
+        <item>center_vertical</item>
+    </string-array>
 </resources>

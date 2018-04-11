@@ -10,6 +10,8 @@ import android.util.TypedValue;
 
 public class RxBannerUtil {
 
+    public static final int DEFAULT_BG_COLOR = 1426063360; // color = #55000000
+
     public static int getPercentSize(int parentSize, int itemPercent){
         return (int) (parentSize * (itemPercent / 100f));
     }
