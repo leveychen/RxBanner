@@ -158,6 +158,8 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 final int currentPosition = layoutManager.getCurrentPosition();
                 final int offsetPosition = (int) (mGravityScroller.getFinalY() /
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
+                onInnerBannerChangeListener.onInnerBannerSelected(layoutManager.getReverseLayout() ?
+                        currentPosition - offsetPosition : currentPosition + offsetPosition);
                 mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
                         currentPosition - offsetPosition : currentPosition + offsetPosition);
                 return true;
@@ -209,4 +211,5 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
         return true;
     }
+
 }

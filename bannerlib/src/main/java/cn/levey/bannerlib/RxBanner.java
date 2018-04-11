@@ -20,15 +20,16 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.levey.bannerlib.base.RxBannerUtil;
-import cn.levey.bannerlib.base.RxBannerTextView;
 import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.base.RxBannerTextView;
+import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.data.RxBannerAdapter;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
+import cn.levey.bannerlib.indicator.DotIndicator;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
 import cn.levey.bannerlib.manager.ViewPagerLayoutManager;
@@ -73,6 +74,7 @@ public class RxBanner extends FrameLayout {
     private RxBannerTitleClickListener onTitleClickListener;
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
+    private DotIndicator indicator;
 
     public RxBanner(@NonNull Context context) {
         this(context, null);
@@ -136,9 +138,6 @@ public class RxBanner extends FrameLayout {
             titleBackgroundColor = typedArray.getColor(R.styleable.RxBanner_titleBackgroundColor, RxBannerUtil.DEFAULT_BG_COLOR);
             titleBackgroundResource = typedArray.getResourceId(R.styleable.RxBanner_titleBackgroundResource, Integer.MAX_VALUE);
             titleMarquee = typedArray.getBoolean(R.styleable.RxBanner_titleMarquee, false);
-
-            RxBannerLogger.i("titleWidth = ");
-            RxBannerLogger.i("titleHeight = ");
         }
         typedArray.recycle();
         initView();
@@ -160,7 +159,7 @@ public class RxBanner extends FrameLayout {
 
         if(titleVisibility) {
             mTitleTv = new RxBannerTextView(mContext);
-            LayoutParams titleLayoutParams = new LayoutParams((int)titleWidth, (int)titleHeight);
+            LayoutParams titleLayoutParams = new LayoutParams(titleWidth, titleHeight);
             if (titleMarginTop == 0) titleMarginTop = titleMargin;
             if (titleMarginBottom == 0) titleMarginBottom = titleMargin;
             if (titleMarginStart == 0) titleMarginStart = titleMargin;
@@ -173,7 +172,6 @@ public class RxBanner extends FrameLayout {
             mTitleTv.setBackgroundColor(titleBackgroundColor);
             mTitleTv.setGravity(titleGravity);
             mTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize);
-
 
             if (titlePadding != 0)
                 mTitleTv.setPadding(titlePadding, titlePadding, titlePadding, titlePadding);
@@ -214,6 +212,10 @@ public class RxBanner extends FrameLayout {
                     if(mTitleTv.getVisibility() == GONE) mTitleTv.setVisibility(VISIBLE);
                 }else {
                     if(mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
+                }
+
+                if(indicator != null){
+                    indicator.onPageSelected(position);
                 }
             }
 
@@ -263,6 +265,16 @@ public class RxBanner extends FrameLayout {
                 }
             });
         }
+
+
+        indicator = new DotIndicator(mContext);
+        indicator.attachToRecyclerView(mBannerRv);
+
+        LayoutParams indicatorLayoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        indicatorLayoutParams.gravity = Gravity.BOTTOM|Gravity.END;
+        indicatorLayoutParams.setMargins(20,20,20,20);
+        indicator.setLayoutParams(indicatorLayoutParams);
+        addView(indicator);
     }
 
     public RxBanner setLoader(RxBannerLoaderInterface mLoader) {

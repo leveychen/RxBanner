@@ -44,7 +44,7 @@
             banner:titleMarquee="true"
             banner:viewPaperMode="true"
             banner:titleGravity="start"
-            banner:titlePadding="20dp"
+            banner:titlePadding="5dp"
             android:layout_marginTop="10dp"
             banner:titleLayoutGravity="bottom"/>
 

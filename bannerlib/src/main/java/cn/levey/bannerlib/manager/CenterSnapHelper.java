@@ -7,7 +7,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 
 /**
@@ -21,6 +20,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     RecyclerView mRecyclerView;
     Scroller mGravityScroller;
+    public ViewPagerLayoutManager.OnInnerBannerChangeListener onInnerBannerChangeListener;
 
 
     /**
@@ -49,8 +49,12 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                         onPageChangeListener.onBannerScrollStateChanged(newState);
                     }
 
-                    final ViewPagerLayoutManager.OnInnerBannerChangeListener onInnerBannerChangeListener =
-                            layoutManager.onInnerBannerChangeListener;
+//                    final ViewPagerLayoutManager.OnInnerBannerChangeListener
+
+                    if(onInnerBannerChangeListener == null) {
+                        onInnerBannerChangeListener =
+                                layoutManager.onInnerBannerChangeListener;
+                    }
                     if (onInnerBannerChangeListener != null) {
                         onInnerBannerChangeListener.onInnerBannerScrollStateChanged(newState);
                     }
@@ -148,7 +152,6 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             setupCallbacks();
             mGravityScroller = new Scroller(mRecyclerView.getContext(),
                     new DecelerateInterpolator());
-
             snapToCenterView((ViewPagerLayoutManager) layoutManager,
                     ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener);
         }
