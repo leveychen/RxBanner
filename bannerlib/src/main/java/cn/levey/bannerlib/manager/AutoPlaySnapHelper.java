@@ -51,7 +51,9 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
 
             snapToCenterView((ViewPagerLayoutManager) layoutManager,
-                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener);
+                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,
+                    ((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener,
+                    ((ViewPagerLayoutManager) layoutManager).onInnerIndicatorChangeListener);
 
 
             autoPlayRunnable = new Runnable() {
@@ -158,8 +160,6 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 final int currentPosition = layoutManager.getCurrentPosition();
                 final int offsetPosition = (int) (mGravityScroller.getFinalY() /
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
-                onInnerBannerChangeListener.onInnerBannerSelected(layoutManager.getReverseLayout() ?
-                        currentPosition - offsetPosition : currentPosition + offsetPosition);
                 mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
                         currentPosition - offsetPosition : currentPosition + offsetPosition);
                 return true;

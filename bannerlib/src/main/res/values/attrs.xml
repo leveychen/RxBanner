@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RxBanner">
-        <attr name="android:layout_width"/>
-        <attr name="android:layout_height"/>
-        <attr name="itemScale" format="float" />
-        <attr name="timeInterval" format="integer" />
-        <attr name="itemPercent" format="integer" />
-        <attr name="itemMoveSpeed" format="float" />
-        <attr name="centerAlpha" format="float" />
-        <attr name="sideAlpha" format="float" />
-        <attr name="itemSpace" format="dimension" />
-        <attr name="orderType" format="enum">
+        <attr name="rb_infinite" format="boolean"/>
+        <attr name="rb_itemScale" format="float" />
+        <attr name="rb_timeInterval" format="integer" />
+        <attr name="rb_itemPercent" format="integer" />
+        <attr name="rb_itemMoveSpeed" format="float" />
+        <attr name="rb_centerAlpha" format="float" />
+        <attr name="rb_sideAlpha" format="float" />
+        <attr name="rb_itemSpace" format="dimension" />
+        <attr name="rb_orderType" format="enum">
             <enum name="asc" value="1" />
             <enum name="desc" value="2" />
         </attr>
-        <attr name="orientation" format="enum">
+        <attr name="rb_orientation" format="enum">
             <enum name="horizontal" value="0" />
             <enum name="vertical" value="1" />
         </attr>
-        <attr name="viewPaperMode" format="boolean"/>
-        <attr name="infinite" format="boolean"/>
-        <attr name="titleGravity">
+        <attr name="rb_viewPaperMode" format="boolean"/>
+        <!--title-->
+        <attr name="rb_title_gravity">
             <flag name="bottom" value="80" />
             <flag name="center" value="17" />
             <flag name="center_horizontal" value="1" />
@@ -36,7 +35,7 @@
             <flag name="start" value="8388611" />
             <flag name="top" value="48" />
         </attr>
-        <attr name="titleLayoutGravity">
+        <attr name="rb_title_layout_gravity">
             <flag name="bottom" value="80" />
             <flag name="center" value="17" />
             <flag name="center_horizontal" value="1" />
@@ -52,30 +51,86 @@
             <flag name="start" value="8388611" />
             <flag name="top" value="48" />
         </attr>
-        <attr name="titleVisibility" format="boolean" />
-        <attr name="titleMargin" format="dimension" />
-        <attr name="titleMarginTop" format="dimension" />
-        <attr name="titleMarginBottom" format="dimension" />
-        <attr name="titleMarginStart" format="dimension" />
-        <attr name="titleMarginEnd" format="dimension" />
-        <attr name="titlePadding" format="dimension" />
-        <attr name="titlePaddingTop" format="dimension" />
-        <attr name="titlePaddingBottom" format="dimension" />
-        <attr name="titlePaddingStart" format="dimension" />
-        <attr name="titlePaddingEnd" format="dimension" />
-        <attr name="titleWidth" format="dimension|enum" >
+        <attr name="rb_title_visible" format="boolean" />
+        <attr name="rb_title_margin" format="dimension" />
+        <attr name="rb_title_marginTop" format="dimension" />
+        <attr name="rb_title_marginBottom" format="dimension" />
+        <attr name="rb_title_marginStart" format="dimension" />
+        <attr name="rb_title_marginEnd" format="dimension" />
+        <attr name="rb_title_padding" format="dimension" />
+        <attr name="rb_title_paddingTop" format="dimension" />
+        <attr name="rb_title_paddingBottom" format="dimension" />
+        <attr name="rb_title_paddingStart" format="dimension" />
+        <attr name="rb_title_paddingEnd" format="dimension" />
+        <attr name="rb_title_width" format="dimension|enum" >
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
-        <attr name="titleHeight" format="dimension|enum" >
+        <attr name="rb_title_height" format="dimension|enum" >
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
-        <attr name="titleSize" format="dimension" />
-        <attr name="titleColor" format="color" />
-        <attr name="titleBackgroundColor" format="color" />
-        <attr name="titleBackgroundResource" format="reference" />
-        <attr name="titleMarquee" format="boolean" />
+        <attr name="rb_title_size" format="dimension" />
+        <attr name="rb_title_color" format="color" />
+        <attr name="rb_title_backgroundColor" format="color" />
+        <attr name="rb_title_backgroundResource" format="reference" />
+        <attr name="rb_title_marquee" format="boolean" />
+
+
+        <!--indicator-->
+        <attr name="rb_indicator_orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="rb_indicator_radius" format="dimension" />
+        <attr name="rb_indicator_padding" format="dimension" />
+        <attr name="rb_indicator_stroke_width" format="dimension" />
+        <attr name="rb_indicator_scale" format="float" />
+        <attr name="rb_indicator_unselected_color" format="color" />
+        <attr name="rb_indicator_selected_color" format="color" />
+        <attr name="rb_indicator_clickable" format="boolean" />
+        <attr name="rb_indicator_visible" format="boolean" />
+        <attr name="rb_indicator_margin" format="dimension" />
+        <attr name="rb_indicator_marginTop" format="dimension" />
+        <attr name="rb_indicator_marginBottom" format="dimension" />
+        <attr name="rb_indicator_marginStart" format="dimension" />
+        <attr name="rb_indicator_marginEnd" format="dimension" />
+        <attr name="rb_indicator_interactiveAnimation" format="boolean" />
+        <attr name="rb_indicator_animationDuration" format="integer" />
+        <attr name="rb_indicator_animationType">
+            <enum name="none" value="0" />
+            <enum name="color" value="1" />
+            <enum name="scale" value="2" />
+            <enum name="worm" value="3" />
+            <enum name="slide" value="4" />
+            <enum name="fill" value="5" />
+            <enum name="thinWorm" value="6" />
+            <enum name="drop" value="7" />
+            <enum name="swap" value="8" />
+            <enum name="scale_down" value="9" />
+        </attr>
+        <attr name="rb_indicator_rtl_mode">
+            <enum name="on" value="0" />
+            <enum name="off" value="1" />
+            <enum name="auto" value="2" />
+        </attr>
+
+        <attr name="rb_indicator_layout_gravity">
+            <flag name="bottom" value="80" />
+            <flag name="center" value="17" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="16" />
+            <flag name="clip_horizontal" value="8" />
+            <flag name="clip_vertical" value="128" />
+            <flag name="end" value="8388613" />
+            <flag name="fill" value="119" />
+            <flag name="fill_horizontal" value="7" />
+            <flag name="fill_vertical" value="112" />
+            <flag name="left" value="3" />
+            <flag name="right" value="5" />
+            <flag name="start" value="8388611" />
+            <flag name="top" value="48" />
+        </attr>
 
     </declare-styleable>
 </resources>

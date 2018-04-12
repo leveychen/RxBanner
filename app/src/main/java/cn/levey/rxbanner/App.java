@@ -22,6 +22,7 @@ public class App extends Application{
         initFresco();
         initUniversalImageLoader();
         initRxBanner();
+
     }
 
     private void initFresco(){

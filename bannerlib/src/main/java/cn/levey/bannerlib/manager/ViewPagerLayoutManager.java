@@ -96,6 +96,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
     /* package */ RxBannerChangeListener onBannerChangeListener;
     /* package */ OnInnerBannerChangeListener onInnerBannerChangeListener;
+    /* package */ OnInnerIndicatorChangeListener onInnerIndicatorChangeListener;
 
     private boolean mRecycleChildrenOnDetach;
 
@@ -827,6 +828,10 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         this.onInnerBannerChangeListener = onInnerBannerChangeListener;
     }
 
+    public void setOnInnerIndicatorChangeListener(OnInnerIndicatorChangeListener onInnerIndicatorChangeListener){
+        this.onInnerIndicatorChangeListener = onInnerIndicatorChangeListener;
+    }
+
     public void setInfinite(boolean enable) {
         assertNotInLayoutOrScroll(null);
         if (enable == mInfinite) {
@@ -943,6 +948,11 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     }
 
     public interface OnInnerBannerChangeListener {
+        void onInnerBannerSelected(int position);
+        void onInnerBannerScrollStateChanged(int state);
+    }
+
+    public interface OnInnerIndicatorChangeListener {
         void onInnerBannerSelected(int position);
         void onInnerBannerScrollStateChanged(int state);
     }

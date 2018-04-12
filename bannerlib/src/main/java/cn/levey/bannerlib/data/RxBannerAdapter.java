@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,7 +12,6 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.levey.bannerlib.R;
 import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
@@ -46,7 +44,7 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
     @NonNull
     @Override
     public RxBannerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RelativeLayout view = (RelativeLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.rx_banner_item_view, parent, false);
+        RelativeLayout view = new RelativeLayout(mContext);
         RelativeLayout.LayoutParams lp;
         if(orientation == LinearLayout.VERTICAL){
             lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mSize);

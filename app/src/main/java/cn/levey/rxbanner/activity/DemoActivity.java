@@ -2,16 +2,10 @@ package cn.levey.rxbanner.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.rd.PageIndicatorView;
-import com.rd.animation.type.AnimationType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,17 +73,6 @@ public class DemoActivity extends AppCompatActivity {
 //        banner.setLoader(new PicassoLoader())
 //        banner.setLoader(new GlideLoader())
 
-        final PageIndicatorView indicatorView = new PageIndicatorView(getApplicationContext());
-        indicatorView.setCount(list.size());
-        indicatorView.setAnimationType(AnimationType.SWAP);
-        indicatorView.setSelection(0);
-        indicatorView.setAutoVisibility(true);
-        indicatorView.setRadius(10);
-        indicatorView.setPadding(3);
-        FrameLayout.LayoutParams indicatorViewLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        indicatorViewLayoutParams.gravity = Gravity.END|Gravity.BOTTOM;
-        indicatorView.setLayoutParams(indicatorViewLayoutParams);
-
 
 
         banner.setLoader(new FrescoLoader())
@@ -112,7 +95,6 @@ public class DemoActivity extends AppCompatActivity {
                     @Override
                     public void onBannerSelected(int position) {
                         //  RxBannerLogger.i("onBannerSelected = " + position);
-                        indicatorView.setSelection(position);
                     }
 
                     @Override
@@ -126,7 +108,6 @@ public class DemoActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "TITLE : " + position, Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setIndicator(indicatorView)
                 .start();
 
 

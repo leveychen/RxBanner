@@ -1,6 +1,6 @@
 package cn.levey.bannerlib.base;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.util.TypedValue;
 
 /**
@@ -36,11 +36,15 @@ public class RxBannerUtil {
         return RxBannerConfig.OrderType.ASC;
     }
 
-    public static int dp2px(Context context,int dp){
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,context.getResources().getDisplayMetrics());
+    public static int dp2px(int dp){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
-    public static int sp2px(Context context,int sp){
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp,context.getResources().getDisplayMetrics());
+    public static int sp2px(int sp){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp,Resources.getSystem().getDisplayMetrics());
+    }
+
+    public static int px2Dp(float px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, Resources.getSystem().getDisplayMetrics());
     }
 }

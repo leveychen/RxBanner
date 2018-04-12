@@ -9,7 +9,7 @@
         android:id="@+id/banner_view"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        banner:viewPaperMode="true"/>
+        banner:rb_viewPaperMode="true"/>
 
     <TextView
         android:id="@+id/fragment_id"
