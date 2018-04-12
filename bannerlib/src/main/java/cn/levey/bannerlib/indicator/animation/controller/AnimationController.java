@@ -112,7 +112,7 @@ public class AnimationController {
         int selectedColor = indicator.getSelectedColor();
         int unselectedColor = indicator.getUnselectedColor();
         int radiusPx = indicator.getRadius();
-        float scaleFactor = indicator.getScaleFactor();
+        float scaleFactor = indicator.getScale();
         long animationDuration = indicator.getAnimationDuration();
 
         BaseAnimation animation = valueController
@@ -279,7 +279,7 @@ public class AnimationController {
         int selectedColor = indicator.getSelectedColor();
         int unselectedColor = indicator.getUnselectedColor();
         int radiusPx = indicator.getRadius();
-        float scaleFactor = indicator.getScaleFactor();
+        float scaleFactor = indicator.getScale();
         long animationDuration = indicator.getAnimationDuration();
 
         BaseAnimation animation = valueController

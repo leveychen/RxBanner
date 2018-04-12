@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerConstants;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerTextView;
 import cn.levey.bannerlib.base.RxBannerUtil;
@@ -120,7 +121,7 @@ public class RxBanner extends FrameLayout {
         //title
         titleVisibility = typedArray.getBoolean(R.styleable.RxBanner_rb_title_visible, true);
         if (titleVisibility) {
-            titleGravity = typedArray.getInt(R.styleable.RxBanner_rb_title_gravity, Gravity.CENTER);
+            titleGravity = typedArray.getInt(R.styleable.RxBanner_rb_title_gravity, Gravity.START);
             titleLayoutGravity = typedArray.getInt(R.styleable.RxBanner_rb_title_layout_gravity, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
             titleMargin = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_margin, 0);
             titleMarginTop = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_marginTop, 0);
@@ -282,10 +283,10 @@ public class RxBanner extends FrameLayout {
 
         if (rb_indicator_visibility) {
             if (indicatorView != null) {
+                indicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
                 addView(indicatorView);
             } else {
                 final RxBannerIndicator indicator = new RxBannerIndicator(mContext);
-                RxBannerLogger.i(" SET INI = " + indicatorConfig.getCount());
                 indicator.setIndicatorConfig(indicatorConfig);
                 indicator.setRecyclerView(mBannerRv);
                 if (indicator.getConfig().isClickable()) {
@@ -306,9 +307,24 @@ public class RxBanner extends FrameLayout {
                         indicator.getConfig().getMarginBottom());
                 indicator.setLayoutParams(indicatorLp);
                 indicatorView = indicator;
+                indicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
                 addView(indicatorView);
             }
         }
+    }
+
+    public View getCustomIndicator(){
+        if(indicatorView != null && indicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)){
+            return indicatorView;
+        }
+        throw new NullPointerException("please set a custom indicator view before get it");
+    }
+
+    public RxBannerIndicator getDefaultIndicator(){
+        if(indicatorView != null && indicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)){
+            return (RxBannerIndicator)indicatorView;
+        }
+        throw new NullPointerException("please check rb_indicator_viable attribute in xml");
     }
 
     public RxBanner setLoader(RxBannerLoaderInterface mLoader) {
@@ -365,6 +381,16 @@ public class RxBanner extends FrameLayout {
 
     public RxBanner setOnBannerTitleClickListener(final RxBannerTitleClickListener onTitleClickListener) {
         this.onTitleClickListener = onTitleClickListener;
+        if (onTitleClickListener != null && mTitleTv != null) {
+            mTitleTv.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mLayoutManager != null) {
+                        onTitleClickListener.onTitleClick(mLayoutManager.getCurrentPosition());
+                    }
+                }
+            });
+        }
         return this;
     }
 
@@ -452,7 +478,7 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    public RxBanner setIndicator(View indicatorView) {
+    public RxBanner setCustomIndicator(View indicatorView) {
         this.indicatorView = indicatorView;
         return this;
     }

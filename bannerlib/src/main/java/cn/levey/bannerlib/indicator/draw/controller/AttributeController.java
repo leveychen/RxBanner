@@ -142,7 +142,7 @@ public class AttributeController {
         indicator.setRadius(radius);
         indicator.setOrientation(orientation);
         indicator.setPadding(padding);
-        indicator.setScaleFactor(scaleFactor);
+        indicator.setScale(scaleFactor);
         indicator.setStroke(stroke);
     }
 

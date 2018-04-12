@@ -41,12 +41,13 @@ public class RxBannerConfig {
         return orientation;
     }
 
-    public void setOrientation(int orientation) {
+    public RxBannerConfig setOrientation(int orientation) {
         if(orientation == LinearLayout.HORIZONTAL  || orientation == LinearLayout.VERTICAL){
             this.orientation = orientation;
         }else {
             throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " orientation should be one of HORIZONTAL or VERTICAL");
         }
+        return this;
     }
 
     public int getTimeInterval() {

@@ -1,12 +1,12 @@
 # RxBanner
 [![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)    [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)       [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-Flexible banner base on RecyclerView
+一个灵活可制制定的基于 Recyclerview 的轮播图
 
-[ENGLISH](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_CN.md)
+[ENGLISH](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_CN.md)
 
-## Integration
-### Step 1. Add it in your root `build.gradle` at the end of repositories:
+## 引入
+### 1.添加 jitpack
 ```code
     allprojects {
         repositories {
@@ -16,15 +16,15 @@ Flexible banner base on RecyclerView
     }
 ```
 
-### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
+### 2.导入引用      [![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```code
     implementation 'com.github.leveychen:RxBanner:x.x.x'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
-## Usage
-### sample
+## 用法
+### 示例
 #### `Layout`
 ````code
     <cn.levey.bannerlib.RxBanner
@@ -42,23 +42,23 @@ Flexible banner base on RecyclerView
         .start();
 ````
 
-you `MUST` set a image loader and datas before start
+在 `start()` 之前必须设置好 image loader 和 setDatas
 
-#### image loader sample
+#### 各种 image loader 栗子
 
 [Fresco](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/FrescoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [Glide](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/GlideLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [Picasso](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/PicassoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [UniversalImageLoader](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/UniversalImageLoader.java)
-### listener
+### 各类监听器
 ````code
     .setOnBannerClickListener(new RxBannerClickListener())
     .setOnBannerChangeListener(new RxBannerChangeListener())
     .setOnBannerTitleClickListener(new RxBannerTitleClickListener())
 ````
 
-
-### custom indicator
+### 自定义指示器
+如果觉得自带的指示器效果不好，自己找一个指示器设置好监听然后丢进去
 ````code
     banner.setCustomIndicator(indicator)
     .setOnBannerChangeListener(new RxBannerChangeListener() {
@@ -74,7 +74,8 @@ you `MUST` set a image loader and datas before start
                     })
 ````
 
-## Global Settings
+
+## 全局设置
 ````code
     RxBannerConfig
         .getInstance()
@@ -87,40 +88,40 @@ you `MUST` set a image loader and datas before start
 
 ````
 
-## Lifecycle
-lifecycle for Activity or Fragment and other views
+## 生命周期
+更好的 在 Activity 、 Fragment 和其他 view 中管理生命周期
 ````code
     banner.onResume()
     banner.onPause()
-    banner.onDestroy() // not necessary, onDetachedFromWindow handled it.
+    banner.onDestroy() // 非必需, onDetachedFromWindow 里面已经处理
 ````
 
 
-## Attributes
-All the `rb_` attributes here are specific for RxBanner
+## 属性
+所有属性均以 `rb_` 开头
 ### Banner
-|Attributes|format|default|description
+|属性|格式|初始值|介绍
 |---|---|---|---|
-|rb_infinite|boolean|true|infinite loop
-|rb_timeInterval|integer (`millisecond`)|5000| for better performance, `rb_timeInterval` should be greater than 200 millisecond
-|rb_orientation|horizontal / vertical|horizontal|layout orientation
-|rb_itemPercent|integer|100| item width or height percentage
-|rb_itemScale|float|1|banner item scale
-|rb_itemSpace|dimension|0|banner item space
-|rb_centerAlpha|float|1|center item alpha
-|rb_sideAlpha|float|1|side item alpha
-|rb_itemMoveSpeed|float|1|fling speed
-|rb_orderType|asc / desc|asc| /
-|rb_viewPaperMode|boolean|true| one fling one paper like `ViewPaper`
+|rb_infinite|boolean|true|是否无限循环,关闭无限循环就是 `引导页` ,了解一下
+|rb_timeInterval|integer (`millisecond`)|5000| 200毫秒以上
+|rb_orientation|horizontal / vertical|horizontal| /
+|rb_itemPercent|integer|100| 宽度或者高度的百分比，取决于 `rb_orientation` 方向
+|rb_itemScale|float|1|缩放比
+|rb_itemSpace|dimension|0|两个item之间的间距
+|rb_centerAlpha|float|1|中间 item 透明度
+|rb_sideAlpha|float|1|旁边 item 透明度
+|rb_itemMoveSpeed|float|1|滑动速度
+|rb_orderType|asc / desc|asc| 升序或者降序排列
+|rb_viewPaperMode|boolean|true|跟 `ViewPaper` 一样，一次滑动一页
 
 
 
-### Title
-|Attributes|format|default|description
+### 标题
+|属性|格式|初始值|介绍
 |---|---|---|---|
-|rb_title_visible|boolean|true| view visibility
-|rb_title_gravity|gravity|START| text gravity
-|rb_title_layout_gravity|gravity|CENTER_HORIZONTAL and BOTTOM|layout gravity
+|rb_title_visible|boolean|true| /
+|rb_title_gravity|gravity|START| /
+|rb_title_layout_gravity|gravity|CENTER_HORIZONTAL and BOTTOM| /
 |rb_title_margin|dimension|0dp| margin
 |rb_title_padding|dimension|3dp| padding
 |rb_title_width|dimension / enum|MATCH_PARENT| /
@@ -129,33 +130,33 @@ All the `rb_` attributes here are specific for RxBanner
 |rb_title_color|color|Color.WHITE| /
 |rb_title_backgroundColor|color|#55000000| /
 |rb_title_backgroundResource|reference| / | /
-|rb_title_marquee|boolean|true| /
+|rb_title_marquee|boolean|true| 跑马灯
 
 
 
-### Indicator
-|Attributes|format|default|description
+### 指示器
+|属性|格式|初始值|介绍
 |---|---|---|---|
-|rb_indicator_visible|boolean|true| view visibility
-|rb_indicator_clickable|boolean|true| clicke position to change banner selection
-|rb_indicator_orientation|horizontal / vertical|horizontal|layout orientation
-|rb_indicator_layout_gravity|gravity|BOTTOM / END|layout gravity
-|rb_indicator_radius|dimension|5dp|indicator radius
-|rb_indicator_size|dimension|5dp|the same as `rb_indicator_radius`
-|rb_indicator_scale|float|0.7| set unselected scale when `rb_indicator_animationType` is `scale` or `scale_down`
+|rb_indicator_visible|boolean|true| /
+|rb_indicator_clickable|boolean|true| 是否可以点击指示器来切换banner
+|rb_indicator_orientation|horizontal / vertical|horizontal|/
+|rb_indicator_layout_gravity|gravity|BOTTOM / END|/
+|rb_indicator_radius|dimension|5dp|指示器大小
+|rb_indicator_size|dimension|5dp|同上
+|rb_indicator_scale|float|0.7|  当 `rb_indicator_animationType` 为 `scale` or `scale_down` 用于调整缩放比
 |rb_indicator_margin|dimension|8dp| margin
 |rb_indicator_padding|dimension|3dp| padding
 |rb_indicator_selected_color|color|WHITE|  /
 |rb_indicator_unselected_color|color|WHITE|  /
 |rb_indicator_interactiveAnimation|boolean|false|  /
-|rb_indicator_animationDuration|integer|350|millisecond
+|rb_indicator_animationDuration|integer|350|毫秒
 |rb_indicator_animationType|type|none|see `AnimationType`
-|rb_indicator_rtl_mode|on / off / auto|auto|support [`RTL` ](https://android-developers.googleblog.com/2013/03/native-rtl-support-in-android-42.html)
+|rb_indicator_rtl_mode|on / off / auto|auto|支持左右自动布局 [`RTL` ](https://android-developers.googleblog.com/2013/03/native-rtl-support-in-android-42.html)
 
 ### AnimationType
-forked from [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorView)
+这里抄的，了解一下 [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorView)
 
-|Name|Attributes| Preview
+|名称|属性| 预览
 |---|---|---
 |`AnimationType.NONE`|`none`| ![anim_none](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_none.gif)
 |`AnimationType.COLOR`|`color` |![anim_color](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_color.gif)

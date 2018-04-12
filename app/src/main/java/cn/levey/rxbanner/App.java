@@ -60,7 +60,10 @@ public class App extends Application{
 //                        }
 //                        // your image loader
 //                    }
-//                });
-//                .setLoader(new RxBannerImageViewLoader()); // global loader
+//                })
+//                .setLoader(new RxBannerImageViewLoader())
+//                .setOrientation(LinearLayout.HORIZONTAL)
+//                .setOrderType(RxBannerConfig.OrderType.ASC)
+//                .setTimeInterval(5000);
     }
 }

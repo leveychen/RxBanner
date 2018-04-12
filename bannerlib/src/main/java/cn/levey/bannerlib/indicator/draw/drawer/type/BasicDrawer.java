@@ -28,7 +28,7 @@ public class BasicDrawer extends BaseDrawer {
 
         float radius = indicator.getRadius();
         int strokePx = indicator.getStroke();
-        float scaleFactor = indicator.getScaleFactor();
+        float scaleFactor = indicator.getScale();
 
         int selectedColor = indicator.getSelectedColor();
         int unselectedColor = indicator.getUnselectedColor();

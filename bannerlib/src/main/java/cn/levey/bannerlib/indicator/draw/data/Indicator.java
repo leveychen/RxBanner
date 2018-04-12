@@ -32,7 +32,7 @@ public class Indicator {
     private int marginEnd;
 
     private int stroke; //For "Fill" animation only
-    private float scaleFactor; //For "Scale" animation only
+    private float scale; //For "Scale" animation only
 
     private int unselectedColor;
     private int selectedColor;
@@ -127,12 +127,12 @@ public class Indicator {
         this.stroke = stroke;
     }
 
-    public float getScaleFactor() {
-        return scaleFactor;
+    public float getScale() {
+        return scale;
     }
 
-    public void setScaleFactor(float scaleFactor) {
-        this.scaleFactor = scaleFactor;
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
     public int getUnselectedColor() {

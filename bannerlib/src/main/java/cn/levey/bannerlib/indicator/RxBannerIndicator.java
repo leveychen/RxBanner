@@ -260,7 +260,7 @@ public class RxBannerIndicator extends View implements ViewPagerLayoutManager.On
      *
      * @param factor float value in range between 0 and 1.
      */
-    public void setScaleFactor(float factor) {
+    public void setScale(float factor) {
         if (factor > ScaleAnimation.MAX_SCALE_FACTOR) {
             factor = ScaleAnimation.MAX_SCALE_FACTOR;
 
@@ -268,7 +268,7 @@ public class RxBannerIndicator extends View implements ViewPagerLayoutManager.On
             factor = ScaleAnimation.MIN_SCALE_FACTOR;
         }
 
-        manager.indicator().setScaleFactor(factor);
+        manager.indicator().setScale(factor);
     }
 
     /**
@@ -279,8 +279,8 @@ public class RxBannerIndicator extends View implements ViewPagerLayoutManager.On
      *
      * @return float value that indicate scale factor.
      */
-    public float getScaleFactor() {
-        return manager.indicator().getScaleFactor();
+    public float getScale() {
+        return manager.indicator().getScale();
     }
 
     /**
