@@ -7,7 +7,7 @@
 
 ## 引入
 ### 1.添加 jitpack
-```code
+```xml
     allprojects {
         repositories {
             ...
@@ -18,7 +18,7 @@
 
 ### 2.导入引用      [![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
-```code
+```xml
     implementation 'com.github.leveychen:RxBanner:x.x.x'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
@@ -26,7 +26,7 @@
 ## 用法
 ### 示例
 #### `Layout`
-````code
+````xml
     <cn.levey.bannerlib.RxBanner
         android:id="@+id/rx_banner"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
 ````
 
 #### `Java Code`
-````code
+````java
     banner = findViewById(R.id.rx_banner);
     banner
         .setLoader(new ImageLoader())
@@ -51,7 +51,7 @@
 [Picasso](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/PicassoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [UniversalImageLoader](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/UniversalImageLoader.java)
 ### 各类监听器
-````code
+````java
     .setOnBannerClickListener(new RxBannerClickListener())
     .setOnBannerChangeListener(new RxBannerChangeListener())
     .setOnBannerTitleClickListener(new RxBannerTitleClickListener())
@@ -59,7 +59,7 @@
 
 ### 自定义指示器
 如果觉得自带的指示器效果不好，自己找一个指示器设置好监听然后丢进去
-````code
+````java
     banner.setCustomIndicator(indicator)
     .setOnBannerChangeListener(new RxBannerChangeListener() {
                         @Override
@@ -76,7 +76,7 @@
 
 
 ## 全局设置
-````code
+````java
     RxBannerConfig
         .getInstance()
         .setDebug(true)  // debug: default false
@@ -172,7 +172,7 @@
 
 ## Permission
 display images from network
-````code
+````xml
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

@@ -7,7 +7,7 @@ Flexible banner base on RecyclerView
 
 ## Integration
 ### Step 1. Add it in your root `build.gradle` at the end of repositories:
-```code
+```xml
     allprojects {
         repositories {
             ...
@@ -18,7 +18,7 @@ Flexible banner base on RecyclerView
 
 ### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
-```code
+```xml
     implementation 'com.github.leveychen:RxBanner:x.x.x'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
@@ -26,7 +26,7 @@ Flexible banner base on RecyclerView
 ## Usage
 ### sample
 #### `Layout`
-````code
+````xml
     <cn.levey.bannerlib.RxBanner
         android:id="@+id/rx_banner"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@ Flexible banner base on RecyclerView
 ````
 
 #### `Java Code`
-````code
+````java
     banner = findViewById(R.id.rx_banner);
     banner
         .setLoader(new ImageLoader())
@@ -51,7 +51,7 @@ you `MUST` set a image loader and datas before start
 [Picasso](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/PicassoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [UniversalImageLoader](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/UniversalImageLoader.java)
 ### listener
-````code
+````java
     .setOnBannerClickListener(new RxBannerClickListener())
     .setOnBannerChangeListener(new RxBannerChangeListener())
     .setOnBannerTitleClickListener(new RxBannerTitleClickListener())
@@ -59,7 +59,7 @@ you `MUST` set a image loader and datas before start
 
 
 ### custom indicator
-````code
+````java
     banner.setCustomIndicator(indicator)
     .setOnBannerChangeListener(new RxBannerChangeListener() {
                         @Override
@@ -75,7 +75,7 @@ you `MUST` set a image loader and datas before start
 ````
 
 ## Global Settings
-````code
+````java
     RxBannerConfig
         .getInstance()
         .setDebug(true)  // debug: default false
@@ -89,7 +89,7 @@ you `MUST` set a image loader and datas before start
 
 ## Lifecycle
 lifecycle for Activity or Fragment and other views
-````code
+````java
     banner.onResume()
     banner.onPause()
     banner.onDestroy() // not necessary, onDetachedFromWindow handled it.
@@ -171,7 +171,7 @@ forked from [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorVie
 
 ## Permission
 display images from network
-````code
+````xml
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
