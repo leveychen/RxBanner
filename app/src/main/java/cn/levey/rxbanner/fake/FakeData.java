@@ -14,7 +14,7 @@ public class FakeData {
             "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8mpkngcj31hc0u0guy.jpg",
             "http://ww1.sinaimg.cn/large/0060lm7Tly1fpz8mrse94j31hc0u0dml.jpg",
             "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8mrvksij31hc0u046c.jpg",
-//            "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8ms6p4bj31hc0u0nbl.jpg",
+            "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8ms6p4bj31hc0u0nbl.jpg",
 //            "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8ms7nvwj31hb0u0475.jpg",
 //            "http://ww1.sinaimg.cn/large/0060lm7Tly1fpz8mt5uh6j31hc0u0nia.jpg"
     };

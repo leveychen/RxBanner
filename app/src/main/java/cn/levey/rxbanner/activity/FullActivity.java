@@ -35,7 +35,7 @@ public class FullActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ArrayList<String> titles = new ArrayList<>();
         //添加图片资源
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_01));
 
 //        ArrayList<Integer> list = new ArrayList<>();
 //        list.add(R.mipmap.ic_launcher);
