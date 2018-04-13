@@ -5,6 +5,11 @@
 
 [ENGLISH](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_CN.md)
 
+
+
+## 预览
+[![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqaqqlrawxg30bo06tb2b.gif)]
+
 ## 引入
 ### 1.添加 jitpack
 ```xml

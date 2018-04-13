@@ -5,6 +5,15 @@ Flexible banner base on RecyclerView
 
 [ENGLISH](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_CN.md)
 
+
+
+
+## Preview
+[![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqaqqlrawxg30bo06tb2b.gif)]
+
+
+
+
 ## Integration
 ### Step 1. Add it in your root `build.gradle` at the end of repositories:
 ```xml
