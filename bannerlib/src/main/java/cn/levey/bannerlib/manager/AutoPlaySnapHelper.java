@@ -52,9 +52,16 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             snapToCenterView((ViewPagerLayoutManager) layoutManager,
                     ((ViewPagerLayoutManager) layoutManager).getRxBannerChangeListener());
 
+
             autoPlayRunnable = new Runnable() {
                 @Override
                 public void run() {
+
+                    if(!((ViewPagerLayoutManager) layoutManager).isAutoPlay()){
+                        pause();
+                        return;
+                    }
+
                     final int currentPosition =
                             ((ViewPagerLayoutManager) layoutManager).getCurrentPosition();
                     mRecyclerView.smoothScrollToPosition(direction == RxBannerConfig.OrderType.ASC ? currentPosition + 1 : currentPosition - 1);
@@ -131,7 +138,15 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     @Override
     public boolean onFling(int velocityX, int velocityY) {
+
+
+        RxBannerLogger.i(" velocityX = " + velocityX + "  /  velocityY = " + velocityY);
+
+        RxBannerLogger.i("viewPaperMode onFling = " + viewPaperMode);
         if(!viewPaperMode){
+
+            RxBannerLogger.i("nooo onFling = ");
+
             ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
             if (layoutManager == null) {
                 return false;
@@ -141,7 +156,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 return false;
             }
 
-            if (!layoutManager.getInfinite() &&
+            if (!layoutManager.isInfinite() &&
                     (layoutManager.mOffset == layoutManager.getMaxOffset()
                             || layoutManager.mOffset == layoutManager.getMinOffset())) {
                 return false;
@@ -158,6 +173,9 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
                 mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
                         currentPosition - offsetPosition : currentPosition + offsetPosition);
+
+                RxBannerLogger.i(" V1 I = " + layoutManager.mInterval + "  / " + currentPosition);
+
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity) {
@@ -166,9 +184,16 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
                 mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
                         currentPosition - offsetPosition : currentPosition + offsetPosition);
+
+
+
+                RxBannerLogger.i(" V2 I = " + layoutManager.mInterval + "  / " + currentPosition);
                 return true;
             }
         }else {
+
+            RxBannerLogger.i("yyyy onFling = ");
+
             ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
             if (layoutManager == null) {
                 return false;
@@ -178,7 +203,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 return false;
             }
 
-            if (!layoutManager.getInfinite() &&
+            if (!layoutManager.isInfinite() &&
                     (layoutManager.mOffset == layoutManager.getMaxOffset()
                             || layoutManager.mOffset == layoutManager.getMinOffset())) {
                 return false;
@@ -194,18 +219,40 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
                 mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
                         currentPosition - offsetPosition : currentPosition + offsetPosition);
+                RxBannerLogger.i(" H1 I = " + layoutManager.mInterval + "  / " + currentPosition);
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity) {
                 final int currentPosition = layoutManager.getCurrentPosition();
                 final int offsetPosition = mGravityScroller.getFinalX() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
+
                 mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
                         currentPosition - offsetPosition : currentPosition + offsetPosition);
-                return true;
+
+
+
+
+//                if(layoutManager.isScrollEnabled) {
+//                    if(Math.abs(cp - currentPosition) == 1 ) {
+//                        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+//                        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+//                    }
+//                }
+
+
+                    layoutManager.isScrollEnabled = false;
+
+
+
+                return false;
             }
         }
 
         return true;
     }
+
+
+
+
 
 }

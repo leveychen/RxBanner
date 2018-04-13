@@ -20,6 +20,7 @@ import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.rxbanner.activity.DemoActivity;
 import cn.levey.rxbanner.activity.FragmentActivity;
 import cn.levey.rxbanner.activity.FullActivity;
+import cn.levey.rxbanner.activity.SplashActivity;
 import cn.levey.rxbanner.fake.Sys;
 
 
@@ -130,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
                     case "FullScreen":
                         Intent full = new Intent(getApplicationContext(), FullActivity.class);
                         startActivity(full);
+                        break;
+                    case "Splash":
+                        Intent splash = new Intent(getApplicationContext(), SplashActivity.class);
+                        startActivity(splash);
                         break;
                 }
             }

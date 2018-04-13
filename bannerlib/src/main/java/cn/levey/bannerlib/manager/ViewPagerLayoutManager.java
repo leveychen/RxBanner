@@ -45,6 +45,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     protected int mDecoratedMeasurement;
 
     protected int mDecoratedMeasurementInOther;
+    public boolean isScrollEnabled = true;
 
 
     private RxBannerIndicatorChangeListener rxBannerIndicatorChangeListener;
@@ -129,12 +130,14 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     private boolean mRecycleChildrenOnDetach;
 
     private boolean mInfinite = false;
+    private boolean mAutoPlay = false;
 
     private boolean mEnableBringCenterToFront;
 
     private int mLeftItems;
 
     private int mRightItems;
+    private int lastPosition = 0;
 
     /**
      * max visible item count
@@ -253,7 +256,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public boolean canScrollHorizontally() {
-        return mOrientation == HORIZONTAL;
+        return isScrollEnabled && mOrientation == HORIZONTAL;
     }
 
     /**
@@ -261,7 +264,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public boolean canScrollVertically() {
-        return mOrientation == VERTICAL;
+        return isScrollEnabled && mOrientation == VERTICAL;
     }
 
     /**
@@ -367,12 +370,10 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
         final int offsetPosition;
-        final int sp;
         // fix wrong scroll direction when infinite enable
         if (mInfinite) {
             final int currentPosition = getCurrentPosition();
             final int total = getItemCount();
-            sp = currentPosition < total - 1  ? currentPosition + 1 : 0;
             final int targetPosition;
             if (position < currentPosition) {
                 int d1 = currentPosition - position;
@@ -384,20 +385,18 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
                 targetPosition = d1 < d2 ? (currentPosition + d1) : (currentPosition - d2);
             }
             offsetPosition = getOffsetToPosition(targetPosition);
+
         } else {
-            sp = position;
             offsetPosition = getOffsetToPosition(position);
         }
+
+
 
         if (mOrientation == VERTICAL) {
             recyclerView.smoothScrollBy(0, offsetPosition, mSmoothScrollInterpolator);
         } else {
             recyclerView.smoothScrollBy(offsetPosition, 0, mSmoothScrollInterpolator);
         }
-        if (rxBannerIndicatorChangeListener != null) rxBannerIndicatorChangeListener.onBannerSelected(sp);
-        if (rxBannerTitleChangeListener != null) rxBannerTitleChangeListener.onBannerSelected(sp);
-        if (rxBannerChangeListener != null) rxBannerChangeListener.onBannerSelected(sp);
-
 
     }
 
@@ -863,8 +862,16 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         requestLayout();
     }
 
-    public boolean getInfinite() {
+    public boolean isInfinite() {
         return mInfinite;
+    }
+
+    public boolean isAutoPlay() {
+        return mAutoPlay;
+    }
+
+    public void setAutoPlay(boolean mAutoPlay) {
+        this.mAutoPlay = mAutoPlay;
     }
 
     public int getDistanceToBottom() {

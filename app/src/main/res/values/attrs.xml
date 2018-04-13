@@ -5,6 +5,7 @@
         <item>Fragment</item>
         <item>ScrollView</item>
         <item>FullScreen</item>
+        <item>Splash</item>
     </string-array>
 
     <string-array name="gravity_items">

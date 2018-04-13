@@ -29,7 +29,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
      * {@link #snapToCenterView(ViewPagerLayoutManager,RxBannerChangeListener)}
      * may keep calling itself because the accuracy of float
      */
-    private boolean snapToCenter = false;
+    private boolean snapToCenter = true;
 
     // Handles the snap on scroll case.
     private final RecyclerView.OnScrollListener mScrollListener =
@@ -60,12 +60,13 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && mScrolled) {
                         mScrolled = false;
-                        if (!snapToCenter) {
-                            snapToCenter = true;
+                        layoutManager.isScrollEnabled = true;
+//                        if (!snapToCenter) {
+//                            snapToCenter = true;
                             snapToCenterView(layoutManager,changeListener);
-                        } else {
-                            snapToCenter = false;
-                        }
+//                        } else {
+//                            snapToCenter = false;
+//                        }
                     }
 
                     if (RxBannerConfig.getInstance().getScrollStateChangedListener() != null) {
@@ -83,45 +84,51 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     @Override
     public boolean onFling(int velocityX, int velocityY) {
-        ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
-        if (layoutManager == null) {
-            return false;
-        }
-        RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
-        if (adapter == null) {
-            return false;
-        }
-
-        if (!layoutManager.getInfinite() &&
-                (layoutManager.mOffset == layoutManager.getMaxOffset()
-                        || layoutManager.mOffset == layoutManager.getMinOffset())) {
-            return false;
-        }
-
-        final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-        mGravityScroller.fling(0, 0, velocityX, velocityY,
-                Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-        if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                && Math.abs(velocityY) > minFlingVelocity) {
-            final int currentPosition = layoutManager.getCurrentPosition();
-            final int offsetPosition = (int) (mGravityScroller.getFinalY() /
-                    layoutManager.mInterval / layoutManager.getDistanceRatio());
-            mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-                    currentPosition - offsetPosition : currentPosition + offsetPosition);
-            return true;
-        } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                && Math.abs(velocityX) > minFlingVelocity) {
-            final int currentPosition = layoutManager.getCurrentPosition();
-            final int offsetPosition = (int) (mGravityScroller.getFinalX() /
-                    layoutManager.mInterval / layoutManager.getDistanceRatio());
-            mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-                    currentPosition - offsetPosition : currentPosition + offsetPosition);
-            return true;
-        }
-
         return true;
     }
+
+
+    //    @Override
+//    public boolean onFling(int velocityX, int velocityY) {
+//        ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
+//        if (layoutManager == null) {
+//            return false;
+//        }
+//        RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+//        if (adapter == null) {
+//            return false;
+//        }
+//
+//        if (!layoutManager.isInfinite() &&
+//                (layoutManager.mOffset == layoutManager.getMaxOffset()
+//                        || layoutManager.mOffset == layoutManager.getMinOffset())) {
+//            return false;
+//        }
+//
+//        final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
+//        mGravityScroller.fling(0, 0, velocityX, velocityY,
+//                Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+//
+//        if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
+//                && Math.abs(velocityY) > minFlingVelocity) {
+//            final int currentPosition = layoutManager.getCurrentPosition();
+//            final int offsetPosition = (int) (mGravityScroller.getFinalY() /
+//                    layoutManager.mInterval / layoutManager.getDistanceRatio());
+//            mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
+//                    currentPosition - offsetPosition : currentPosition + offsetPosition);
+//            return true;
+//        } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
+//                && Math.abs(velocityX) > minFlingVelocity) {
+//            final int currentPosition = layoutManager.getCurrentPosition();
+//            final int offsetPosition = (int) (mGravityScroller.getFinalX() /
+//                    layoutManager.mInterval / layoutManager.getDistanceRatio());
+//            mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
+//                    currentPosition - offsetPosition : currentPosition + offsetPosition);
+//            return true;
+//        }
+//
+//        return true;
+//    }
 
     /**
      * Please attach after {{@link LayoutManager} is setting}
@@ -162,6 +169,11 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             changeListener.onBannerSelected(cp);
         }
 
+        if(layoutManager.getRxBannerIndicatorChangeListener() != null)
+        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(layoutManager.getCurrentPosition());
+
+        if(layoutManager.getRxBannerTitleChangeListener() != null)
+        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(layoutManager.getCurrentPosition());
 
         final int delta = layoutManager.getOffsetToCenter();
         if (delta != 0) {
@@ -170,10 +182,11 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 mRecyclerView.smoothScrollBy(0, delta);
             else
                 mRecyclerView.smoothScrollBy(delta, 0);
-        } else {
-            // set it false to make smoothScrollToPosition keep trigger the listener
-            snapToCenter = false;
         }
+//        else {
+//            // set it false to make smoothScrollToPosition keep trigger the listener
+//           // snapToCenter = false;
+//        }
     }
 
     /**

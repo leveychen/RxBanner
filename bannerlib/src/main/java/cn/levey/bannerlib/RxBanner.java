@@ -54,7 +54,7 @@ public class RxBanner extends FrameLayout {
     private int timeInterval = RxBannerConfig.getInstance().getTimeInterval();
     private RxBannerConfig.OrderType orderType;
     private boolean autoPlay = true;
-    private boolean viewPaperMode;
+    private boolean viewPaperMode = true;
     private boolean infinite;
     private float itemScale;
     private boolean titleVisibility;
@@ -100,8 +100,12 @@ public class RxBanner extends FrameLayout {
     protected void initView(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RxBanner);
         orientation = typedArray.getInt(R.styleable.RxBanner_rb_orientation, LinearLayout.HORIZONTAL);
-        viewPaperMode = typedArray.getBoolean(R.styleable.RxBanner_rb_itemPercent, true);
+        viewPaperMode = typedArray.getBoolean(R.styleable.RxBanner_rb_viewPaperMode, true);
         infinite = typedArray.getBoolean(R.styleable.RxBanner_rb_infinite, true);
+        autoPlay = typedArray.getBoolean(R.styleable.RxBanner_rb_autoPlay, true);
+
+        RxBannerLogger.i(" infinite = " + infinite);
+        RxBannerLogger.i(" autoPlay = " + autoPlay);
         itemPercent = typedArray.getInt(R.styleable.RxBanner_rb_itemPercent, 100);
         itemSpace = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_itemSpace, 0);
         itemScale = typedArray.getFloat(R.styleable.RxBanner_rb_itemScale, 1.0f);
@@ -167,6 +171,7 @@ public class RxBanner extends FrameLayout {
         mLayoutManager = new ScaleLayoutManager.Builder(mContext, itemSpace).build();
         mLayoutManager.setOrientation(orientation);
         mLayoutManager.setItemScale(itemScale);
+        mLayoutManager.setAutoPlay(autoPlay);
         mLayoutManager.setInfinite(infinite);
         mLayoutManager.setItemMoveSpeed(itemMoveSpeed);
         mLayoutManager.setCenterAlpha(centerAlpha);
@@ -253,6 +258,7 @@ public class RxBanner extends FrameLayout {
     protected void initRvData() {
         if (mBannerRv != null) {
             mBannerRv.setLayoutManager(mLayoutManager);
+            RxBannerLogger.i( " viewPaperMode = " + viewPaperMode);
             mBannerRv.setViewPaperMode(viewPaperMode);
             mBannerRv.setDirection(orderType);
             mBannerRv.setTimeInterval(timeInterval);
@@ -353,7 +359,12 @@ public class RxBanner extends FrameLayout {
         if (urls != null && !urls.isEmpty()) {
             this.mUrls.clear();
             this.mUrls.addAll(urls);
-            if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && !mAdapter.getDatas().isEmpty()) {
+            if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null) {
+                mAdapter.setDatas(mUrls);
+                mBannerRv.smoothScrollToPosition(0);
+                if(indicatorView != null && indicatorView instanceof RxBannerIndicator){
+                    ((RxBannerIndicator) indicatorView).setSelection(0);
+                }
                 restart();
             }
         }

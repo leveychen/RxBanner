@@ -38,7 +38,7 @@ public class Indicator {
     private int selectedColor;
 
     private boolean interactiveAnimation;
-    private boolean autoVisibility;
+    private boolean autoVisibility = false;
     private boolean dynamicCount;
     private boolean clickable;
 

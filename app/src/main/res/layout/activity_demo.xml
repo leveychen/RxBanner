@@ -103,6 +103,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Start" />
+        <Button
+            android:id="@+id/btn_network"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="GET BANNER" />
 
 
         <LinearLayout

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RxBanner">
+        <attr name="rb_autoPlay" format="boolean"/>
         <attr name="rb_infinite" format="boolean"/>
         <attr name="rb_itemScale" format="float" />
         <attr name="rb_timeInterval" format="integer" />

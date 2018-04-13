@@ -66,4 +66,6 @@ public class App extends Application{
 //                .setOrderType(RxBannerConfig.OrderType.ASC)
 //                .setTimeInterval(5000);
     }
+
+
 }

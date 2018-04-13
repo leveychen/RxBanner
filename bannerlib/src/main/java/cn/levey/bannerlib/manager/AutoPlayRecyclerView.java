@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
-import cn.levey.bannerlib.base.RxBannerLogger;
 
 /**
  * An implement of {@link RecyclerView} which support auto play.
@@ -104,4 +103,5 @@ public class AutoPlayRecyclerView extends RecyclerView {
         super.onDetachedFromWindow();
         autoPlaySnapHelper.destroyCallbacks();
     }
+
 }
