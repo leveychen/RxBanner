@@ -49,12 +49,8 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             mGravityScroller = new Scroller(mRecyclerView.getContext(),
                     new DecelerateInterpolator());
 
-
             snapToCenterView((ViewPagerLayoutManager) layoutManager,
-                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,
-                    ((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener,
-                    ((ViewPagerLayoutManager) layoutManager).onInnerIndicatorChangeListener);
-
+                    ((ViewPagerLayoutManager) layoutManager).getRxBannerChangeListener());
 
             autoPlayRunnable = new Runnable() {
                 @Override

@@ -2,9 +2,6 @@ package cn.levey.rxbanner.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
@@ -27,35 +23,16 @@ import cn.levey.rxbanner.loader.FrescoLoader;
  * e-mail: m@levey.cn
  */
 
-public class DemoActivity extends AppCompatActivity {
+public class FullActivity extends AppCompatActivity {
 
-    public static final String NEED_SCROLL_VIEW = "NEED_SCROLL_VIEW";
-
-    @BindView(R.id.banner_view_fresco)
+    @BindView(R.id.rx_banner)
     RxBanner banner;
-    @BindView(R.id.btn_preview)
-    Button btnPreview;
-    @BindView(R.id.btn_next)
-    Button btnNext;
-    @BindView(R.id.btn_auto)
-    Button btnAuto;
-    @BindView(R.id.view_01)
-    LinearLayout view01;
-    @BindView(R.id.view_02)
-    LinearLayout view02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
+        setContentView(R.layout.activity_full);
         ButterKnife.bind(this);
-        setTitle("Activity - RxBanner");
-        if(getIntent().getBooleanExtra(NEED_SCROLL_VIEW,false)){
-            view01.setVisibility(View.VISIBLE);
-            view02.setVisibility(View.VISIBLE);
-            setTitle("ScrollView - RxBanner");
-        }
-
         ArrayList<String> titles = new ArrayList<>();
         //添加图片资源
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
@@ -72,8 +49,6 @@ public class DemoActivity extends AppCompatActivity {
 //        banner.setLoader(new UniversalImageLoader())
 //        banner.setLoader(new PicassoLoader())
 //        banner.setLoader(new GlideLoader())
-
-
 
         banner.setLoader(new FrescoLoader())
                 .setDatas(list, titles)
@@ -94,7 +69,7 @@ public class DemoActivity extends AppCompatActivity {
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
                     @Override
                     public void onBannerSelected(int position) {
-                          RxBannerLogger.i("onBannerSelected = " + position);
+                        //  RxBannerLogger.i("onBannerSelected = " + position);
                     }
 
                     @Override
@@ -110,42 +85,6 @@ public class DemoActivity extends AppCompatActivity {
                 })
                 .start();
 
-
-        if (banner.isAutoPlay()) {
-            btnAuto.setText("Pause");
-        } else {
-            btnAuto.setText("Start");
-        }
-
-        btnAuto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btnAuto.getText().toString().equals("Pause")) {
-                    btnAuto.setText("Start");
-                    banner.pause();
-                } else {
-                    btnAuto.setText("Pause");
-                    banner.start();
-                }
-            }
-        });
-
-        btnPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                RxBannerLogger.i(" btnPreview = " +banner.getCurrentPosition() );
-                banner.setCurrentPosition(banner.getCurrentPosition() - 1);
-            }
-        });
-
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                banner.setCurrentPosition(banner.getCurrentPosition() + 1);
-            }
-        });
     }
 
     @Override

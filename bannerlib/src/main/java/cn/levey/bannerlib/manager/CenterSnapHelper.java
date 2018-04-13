@@ -8,6 +8,8 @@ import android.widget.Scroller;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
+import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
+import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 
 /**
  * Class intended to support snapping for a {@link RecyclerView}
@@ -20,13 +22,11 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     RecyclerView mRecyclerView;
     Scroller mGravityScroller;
-    private ViewPagerLayoutManager.OnInnerBannerChangeListener onInnerBannerChangeListener;
-    private ViewPagerLayoutManager.OnInnerIndicatorChangeListener onInnerIndicatorChangeListener;
 
 
     /**
      * when the dataSet is extremely large
-     * {@link #snapToCenterView(ViewPagerLayoutManager, RxBannerChangeListener, ViewPagerLayoutManager.OnInnerBannerChangeListener,ViewPagerLayoutManager.OnInnerIndicatorChangeListener)}
+     * {@link #snapToCenterView(ViewPagerLayoutManager,RxBannerChangeListener)}
      * may keep calling itself because the accuracy of float
      */
     private boolean snapToCenter = false;
@@ -41,45 +41,35 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
 
+                    final ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) recyclerView.getLayoutManager();
 
-                    final ViewPagerLayoutManager layoutManager =
-                            (ViewPagerLayoutManager) recyclerView.getLayoutManager();
-                    final RxBannerChangeListener onPageChangeListener =
-                            layoutManager.onBannerChangeListener;
-                    if (onPageChangeListener != null) {
-                        onPageChangeListener.onBannerScrollStateChanged(newState);
+                    final RxBannerChangeListener changeListener = layoutManager.getRxBannerChangeListener();
+
+                    if(changeListener != null){
+                        changeListener.onBannerScrollStateChanged(newState);
                     }
 
-//                    final ViewPagerLayoutManager.OnInnerBannerChangeListener
+                    final RxBannerIndicatorChangeListener indicatorChangeListener= layoutManager.getRxBannerIndicatorChangeListener();
+                    final RxBannerTitleChangeListener titleChangeListener= layoutManager.getRxBannerTitleChangeListener();
 
-                    if(onInnerBannerChangeListener == null) {
-                        onInnerBannerChangeListener = layoutManager.onInnerBannerChangeListener;
+                    if(indicatorChangeListener != null){
+                        indicatorChangeListener.onBannerScrollStateChanged(newState);
                     }
 
-                    if(onInnerIndicatorChangeListener == null){
-                        onInnerIndicatorChangeListener = layoutManager.onInnerIndicatorChangeListener;
-                    }
 
-                    if (onInnerBannerChangeListener != null) {
-                        onInnerBannerChangeListener.onInnerBannerScrollStateChanged(newState);
-                    }
-
-                    if (onInnerIndicatorChangeListener != null) {
-                        onInnerIndicatorChangeListener.onInnerBannerScrollStateChanged(newState);
-                    }
 
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && mScrolled) {
                         mScrolled = false;
                         if (!snapToCenter) {
                             snapToCenter = true;
-                            snapToCenterView(layoutManager, onPageChangeListener, onInnerBannerChangeListener,onInnerIndicatorChangeListener);
+                            snapToCenterView(layoutManager,changeListener);
                         } else {
                             snapToCenter = false;
                         }
                     }
 
-                    if(RxBannerConfig.getInstance().getScrollStateChangedListener() != null){
-                        RxBannerConfig.getInstance().getScrollStateChangedListener().onScrollStateChanged(recyclerView,newState);
+                    if (RxBannerConfig.getInstance().getScrollStateChangedListener() != null) {
+                        RxBannerConfig.getInstance().getScrollStateChangedListener().onScrollStateChanged(recyclerView, newState);
                     }
                 }
 
@@ -161,23 +151,17 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             setupCallbacks();
             mGravityScroller = new Scroller(mRecyclerView.getContext(),
                     new DecelerateInterpolator());
-            snapToCenterView((ViewPagerLayoutManager) layoutManager,
-                    ((ViewPagerLayoutManager) layoutManager).onBannerChangeListener,
-                    ((ViewPagerLayoutManager) layoutManager).onInnerBannerChangeListener,
-                    ((ViewPagerLayoutManager) layoutManager).onInnerIndicatorChangeListener);
+            snapToCenterView((ViewPagerLayoutManager) layoutManager,((ViewPagerLayoutManager) layoutManager).getRxBannerChangeListener());
         }
     }
 
-    void snapToCenterView(ViewPagerLayoutManager layoutManager,
-                          RxBannerChangeListener listener,
-                          ViewPagerLayoutManager.OnInnerBannerChangeListener onInnerBannerChangeListener,
-                          ViewPagerLayoutManager.OnInnerIndicatorChangeListener onInnerIndicatorChangeListener) {
-        if (listener != null)
-            listener.onBannerSelected(layoutManager.getCurrentPosition());
-        if(onInnerBannerChangeListener != null)
-            onInnerBannerChangeListener.onInnerBannerSelected(layoutManager.getCurrentPosition());
-        if(onInnerIndicatorChangeListener != null)
-            onInnerIndicatorChangeListener.onInnerBannerSelected(layoutManager.getCurrentPosition());
+    void snapToCenterView(ViewPagerLayoutManager layoutManager,RxBannerChangeListener changeListener) {
+
+        final int cp = layoutManager.getCurrentPosition();
+        if(changeListener != null) {
+            changeListener.onBannerSelected(cp);
+        }
+
 
         final int delta = layoutManager.getOffsetToCenter();
         if (delta != 0) {

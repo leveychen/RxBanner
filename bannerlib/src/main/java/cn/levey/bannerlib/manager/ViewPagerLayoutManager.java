@@ -13,6 +13,8 @@ import android.view.animation.Interpolator;
 import java.util.ArrayList;
 
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
+import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
+import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
@@ -43,6 +45,36 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     protected int mDecoratedMeasurement;
 
     protected int mDecoratedMeasurementInOther;
+
+
+    private RxBannerIndicatorChangeListener rxBannerIndicatorChangeListener;
+    private RxBannerChangeListener rxBannerChangeListener;
+    private RxBannerTitleChangeListener rxBannerTitleChangeListener;
+
+
+    public RxBannerIndicatorChangeListener getRxBannerIndicatorChangeListener() {
+        return rxBannerIndicatorChangeListener;
+    }
+
+    public void setRxBannerIndicatorChangeListener(RxBannerIndicatorChangeListener rxBannerIndicatorChangeListener) {
+        this.rxBannerIndicatorChangeListener = rxBannerIndicatorChangeListener;
+    }
+
+    public RxBannerTitleChangeListener getRxBannerTitleChangeListener() {
+        return rxBannerTitleChangeListener;
+    }
+
+    public void setRxBannerTitleChangeListener(RxBannerTitleChangeListener rxBannerTitleChangeListener) {
+        this.rxBannerTitleChangeListener = rxBannerTitleChangeListener;
+    }
+
+    public RxBannerChangeListener getRxBannerChangeListener() {
+        return rxBannerChangeListener;
+    }
+
+    public void setRxBannerChangeListener(RxBannerChangeListener rxBannerChangeListener) {
+        this.rxBannerChangeListener = rxBannerChangeListener;
+    }
 
     /**
      * Current orientation. Either {@link #HORIZONTAL} or {@link #VERTICAL}
@@ -93,10 +125,6 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     private SavedState mPendingSavedState = null;
 
     protected float mInterval; //the mInterval of each item's mOffset
-
-    /* package */ RxBannerChangeListener onBannerChangeListener;
-    /* package */ OnInnerBannerChangeListener onInnerBannerChangeListener;
-    /* package */ OnInnerIndicatorChangeListener onInnerIndicatorChangeListener;
 
     private boolean mRecycleChildrenOnDetach;
 
@@ -339,11 +367,12 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
         final int offsetPosition;
-
+        final int sp;
         // fix wrong scroll direction when infinite enable
         if (mInfinite) {
             final int currentPosition = getCurrentPosition();
             final int total = getItemCount();
+            sp = currentPosition < total - 1  ? currentPosition + 1 : 0;
             final int targetPosition;
             if (position < currentPosition) {
                 int d1 = currentPosition - position;
@@ -354,18 +383,22 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
                 int d2 = currentPosition + total - position;
                 targetPosition = d1 < d2 ? (currentPosition + d1) : (currentPosition - d2);
             }
-
             offsetPosition = getOffsetToPosition(targetPosition);
         } else {
+            sp = position;
             offsetPosition = getOffsetToPosition(position);
         }
-
 
         if (mOrientation == VERTICAL) {
             recyclerView.smoothScrollBy(0, offsetPosition, mSmoothScrollInterpolator);
         } else {
             recyclerView.smoothScrollBy(offsetPosition, 0, mSmoothScrollInterpolator);
         }
+        if (rxBannerIndicatorChangeListener != null) rxBannerIndicatorChangeListener.onBannerSelected(sp);
+        if (rxBannerTitleChangeListener != null) rxBannerTitleChangeListener.onBannerSelected(sp);
+        if (rxBannerChangeListener != null) rxBannerChangeListener.onBannerSelected(sp);
+
+
     }
 
     @Override
@@ -820,17 +853,6 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
                 (!mShouldReverseLayout ? mInterval : -mInterval) - mOffset) * getDistanceRatio());
     }
 
-    public void setOnBannerChangeListener(RxBannerChangeListener onPageChangeListener) {
-        this.onBannerChangeListener = onPageChangeListener;
-    }
-
-    public void setOnInnerBannerChangeListener(OnInnerBannerChangeListener onInnerBannerChangeListener){
-        this.onInnerBannerChangeListener = onInnerBannerChangeListener;
-    }
-
-    public void setOnInnerIndicatorChangeListener(OnInnerIndicatorChangeListener onInnerIndicatorChangeListener){
-        this.onInnerIndicatorChangeListener = onInnerIndicatorChangeListener;
-    }
 
     public void setInfinite(boolean enable) {
         assertNotInLayoutOrScroll(null);
@@ -945,15 +967,5 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
                 return new SavedState[size];
             }
         };
-    }
-
-    public interface OnInnerBannerChangeListener {
-        void onInnerBannerSelected(int position);
-        void onInnerBannerScrollStateChanged(int state);
-    }
-
-    public interface OnInnerIndicatorChangeListener {
-        void onInnerBannerSelected(int position);
-        void onInnerBannerScrollStateChanged(int state);
     }
 }

@@ -29,6 +29,7 @@ import cn.levey.bannerlib.data.RxBannerAdapter;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
+import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.bannerlib.indicator.RxBannerIndicator;
 import cn.levey.bannerlib.indicator.draw.controller.AttributeController;
@@ -36,7 +37,6 @@ import cn.levey.bannerlib.indicator.draw.controller.DrawController;
 import cn.levey.bannerlib.indicator.draw.data.Indicator;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
-import cn.levey.bannerlib.manager.ViewPagerLayoutManager;
 
 /**
  * Created by Levey on 2018/4/2 15:11.
@@ -171,6 +171,12 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemMoveSpeed(itemMoveSpeed);
         mLayoutManager.setCenterAlpha(centerAlpha);
         mLayoutManager.setSideAlpha(sideAlpha);
+        mLayoutManager.setSmoothListener(new RxBannerTitleChangeListener() {
+            @Override
+            public void onBannerSelected(int position) {
+                RxBannerLogger.i(" setSmoothListener = " + position);
+            }
+        });
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
 
         if (titleVisibility) {
@@ -207,15 +213,14 @@ public class RxBanner extends FrameLayout {
             } else {
                 mTitleTv.setFocused(false);
             }
-
+            mTitleTv.setTag(RxBannerConstants.TAG_TITLE_VIEW + 0);
             addView(mTitleTv, titleLayoutParams);
-            mTitleTv.setVisibility(GONE);
         }
 
 
-        mLayoutManager.setOnInnerBannerChangeListener(new ViewPagerLayoutManager.OnInnerBannerChangeListener() {
+        mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
             @Override
-            public void onInnerBannerSelected(int position) {
+            public void onBannerSelected(int position) {
                 if (mTitleTv == null) {
                     return;
                 }
@@ -224,23 +229,22 @@ public class RxBanner extends FrameLayout {
                     return;
                 }
                 if (mUrls.size() == mTitles.size()) {
+                    if(mTitleTv.getTag().toString().equals(RxBannerConstants.TAG_TITLE_VIEW + position)){
+                        return;
+                    }
+                    mTitleTv.setTag(RxBannerConstants.TAG_TITLE_VIEW + position);
                     mTitleTv.setText(mTitles.get(position));
                     if (mTitleTv.getVisibility() == GONE) mTitleTv.setVisibility(VISIBLE);
                 } else {
                     if (mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
                 }
             }
-
-            @Override
-            public void onInnerBannerScrollStateChanged(int state) {
-
-            }
         });
     }
 
     public RxBanner setOnBannerChangeListener(RxBannerChangeListener onBannerChangeListener) {
         if (mLayoutManager != null) {
-            mLayoutManager.setOnBannerChangeListener(onBannerChangeListener);
+            mLayoutManager.setRxBannerChangeListener(onBannerChangeListener);
         }
         return this;
     }
@@ -309,6 +313,14 @@ public class RxBanner extends FrameLayout {
                 indicatorView = indicator;
                 indicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
                 addView(indicatorView);
+            }
+        }
+
+        if(mTitleTv != null ){
+            try {
+                mTitleTv.setText(mTitles.get(0));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

@@ -23,6 +23,9 @@
         </activity>
         <activity android:name=".activity.DemoActivity"/>
         <activity android:name=".activity.FragmentActivity"/>
+        <activity android:name=".activity.FullActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.FullScreen"/>
     </application>
 
 </manifest>

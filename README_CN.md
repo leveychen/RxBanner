@@ -100,7 +100,7 @@
 ## 属性
 所有属性均以 `rb_` 开头
 ### Banner
-|属性|格式|初始值|介绍
+|属性|格式|初始值|描述
 |---|---|---|---|
 |rb_infinite|boolean|true|是否无限循环,关闭无限循环就是 `引导页` ,了解一下
 |rb_timeInterval|integer (`millisecond`)|5000| 200毫秒以上
@@ -117,7 +117,7 @@
 
 
 ### 标题
-|属性|格式|初始值|介绍
+|属性|格式|初始值|描述
 |---|---|---|---|
 |rb_title_visible|boolean|true| /
 |rb_title_gravity|gravity|START| /
@@ -135,7 +135,7 @@
 
 
 ### 指示器
-|属性|格式|初始值|介绍
+|属性|格式|初始值|描述
 |---|---|---|---|
 |rb_indicator_visible|boolean|true| /
 |rb_indicator_clickable|boolean|true| 是否可以点击指示器来切换banner
@@ -146,8 +146,8 @@
 |rb_indicator_scale|float|0.7|  当 `rb_indicator_animationType` 为 `scale` or `scale_down` 用于调整缩放比
 |rb_indicator_margin|dimension|8dp| margin
 |rb_indicator_padding|dimension|3dp| padding
-|rb_indicator_selected_color|color|WHITE|  /
-|rb_indicator_unselected_color|color|WHITE|  /
+|rb_indicator_selected_color|color|#FFFFFF|  /
+|rb_indicator_unselected_color|color|#33FFFFFF|  /
 |rb_indicator_interactiveAnimation|boolean|false|  /
 |rb_indicator_animationDuration|integer|350|毫秒
 |rb_indicator_animationType|type|none|see `AnimationType`

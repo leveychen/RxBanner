@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
 import cn.levey.bannerlib.indicator.animation.type.ColorAnimation;
@@ -32,14 +33,13 @@ import cn.levey.bannerlib.indicator.utils.DensityUtils;
 import cn.levey.bannerlib.indicator.utils.IdUtils;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
-import cn.levey.bannerlib.manager.ViewPagerLayoutManager;
 
 
 /**
  * forked from https://github.com/romandanylyk/PageIndicatorView
  * Modify by Levey
  * */
-public class RxBannerIndicator extends View implements ViewPagerLayoutManager.OnInnerIndicatorChangeListener,IndicatorManager.Listener {
+public class RxBannerIndicator extends View implements RxBannerIndicatorChangeListener,IndicatorManager.Listener {
 
     private IndicatorManager manager;
     private RecyclerView.AdapterDataObserver setObserver;
@@ -125,17 +125,19 @@ public class RxBannerIndicator extends View implements ViewPagerLayoutManager.On
         invalidate();
     }
 
+
     @Override
-    public void onInnerBannerSelected(int position) {
+    public void onBannerSelected(int position) {
         onPageSelect(position);
     }
 
     @Override
-    public void onInnerBannerScrollStateChanged(int state) {
+    public void onBannerScrollStateChanged(int state) {
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
             manager.indicator().setInteractiveAnimation(isInteractionEnabled);
         }
     }
+
 
     /**
      * Set static number of circle indicators to be displayed.
@@ -457,7 +459,7 @@ public class RxBannerIndicator extends View implements ViewPagerLayoutManager.On
         }
         recyclerView = pager;
         layoutManager = (ScaleLayoutManager) recyclerView.getLayoutManager();
-        layoutManager.setOnInnerIndicatorChangeListener(this);
+        layoutManager.setRxBannerIndicatorChangeListener(this);
         manager.indicator().setRecyclerViewId(recyclerView.getId());
         setDynamicCount(manager.indicator().isDynamicCount());
         int count = getRecyclerViewCount();

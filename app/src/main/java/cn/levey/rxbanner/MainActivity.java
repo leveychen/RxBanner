@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.rxbanner.activity.DemoActivity;
 import cn.levey.rxbanner.activity.FragmentActivity;
+import cn.levey.rxbanner.activity.FullActivity;
 import cn.levey.rxbanner.fake.Sys;
 
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
         setCreateBtn();
         setGravityValueListener(titleGravity, new Integer[]{3});
-        setGravityValueListener(titleLayoutGravity, new Integer[]{2,5});
+        setGravityValueListener(titleLayoutGravity, new Integer[]{2, 5});
     }
 
     public void setGravityValueListener(final TextView tv, final Integer[] defaultIndices) {
@@ -125,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
                         Intent scroll = new Intent(getApplicationContext(), DemoActivity.class);
                         scroll.putExtra(DemoActivity.NEED_SCROLL_VIEW, true);
                         startActivity(scroll);
+                        break;
+                    case "FullScreen":
+                        Intent full = new Intent(getApplicationContext(), FullActivity.class);
+                        startActivity(full);
                         break;
                 }
             }

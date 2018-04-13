@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <cn.levey.bannerlib.RxBanner
+            android:id="@+id/rx_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            banner:rb_orderType="asc"
+            banner:rb_orientation="horizontal"
+            banner:rb_timeInterval="3000"
+            banner:rb_title_color="#FFFFFF"
+            banner:rb_title_marquee="true"
+            banner:rb_viewPaperMode="true"
+            banner:rb_title_gravity="start"
+            banner:rb_title_padding="5dp"
+            banner:rb_title_size="22sp"
+            banner:rb_title_layout_gravity="bottom"
+            banner:rb_indicator_selected_color="@color/colorAccent"
+            banner:rb_indicator_radius="12dp"
+            banner:rb_indicator_orientation="horizontal"
+            banner:rb_indicator_animationType="thinWorm"
+            banner:rb_indicator_interactiveAnimation="false"/>
+
+    </LinearLayout>
+
+
+
+

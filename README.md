@@ -145,8 +145,8 @@ All the `rb_` attributes here are specific for RxBanner
 |rb_indicator_scale|float|0.7| set unselected scale when `rb_indicator_animationType` is `scale` or `scale_down`
 |rb_indicator_margin|dimension|8dp| margin
 |rb_indicator_padding|dimension|3dp| padding
-|rb_indicator_selected_color|color|WHITE|  /
-|rb_indicator_unselected_color|color|WHITE|  /
+|rb_indicator_selected_color|color|#FFFFFF|  /
+|rb_indicator_unselected_color|color|#33FFFFFF|  /
 |rb_indicator_interactiveAnimation|boolean|false|  /
 |rb_indicator_animationDuration|integer|350|millisecond
 |rb_indicator_animationType|type|none|see `AnimationType`

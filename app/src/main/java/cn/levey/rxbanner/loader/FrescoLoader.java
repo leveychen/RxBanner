@@ -7,7 +7,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.RotationOptions;
@@ -63,9 +62,9 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
     private GenericDraweeHierarchy getRoundHierarchy(Context context) {
         GenericDraweeHierarchyBuilder builder =
                 new GenericDraweeHierarchyBuilder(context.getResources());
-        RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
-        //roundingParams.setRoundAsCircle(true);
-        builder.setRoundingParams(roundingParams);
+//        RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
+//        //roundingParams.setRoundAsCircle(true);
+//        builder.setRoundingParams(roundingParams);
         return builder
                 .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
                 .setPlaceholderImage(R.mipmap.ic_launcher)
