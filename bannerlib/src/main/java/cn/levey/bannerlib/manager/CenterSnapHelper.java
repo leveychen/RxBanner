@@ -232,13 +232,13 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 }
                 return false;
             }
-            final int ss = (int) layoutManager.mInterval;
+            final int interval = (int) layoutManager.mInterval;
             final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-            mGravityScroller.fling(0, 0, velocityX, velocityY,0, ss, 0, ss);
+            mGravityScroller.fling(0, 0, velocityX, velocityY,0, interval, 0, interval);
             if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
                     && Math.abs(velocityY) > minFlingVelocity) {
                 final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
+                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > interval ? 1 : 0;
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
@@ -248,7 +248,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity) {
                 final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = mGravityScroller.getFinalX() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
+                final int offsetPosition = mGravityScroller.getFinalX() * layoutManager.getDistanceRatio() > interval ? 1 : 0;
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
