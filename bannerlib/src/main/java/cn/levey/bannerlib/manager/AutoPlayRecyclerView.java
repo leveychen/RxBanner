@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 
 /**
  * An implement of {@link RecyclerView} which support auto play.
@@ -27,20 +27,24 @@ public class AutoPlayRecyclerView extends RecyclerView {
 
     public AutoPlayRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        autoPlaySnapHelper = new AutoPlaySnapHelper(RxBannerConfig.getInstance().getTimeInterval(), RxBannerConfig.getInstance().getOrderType());
+        autoPlaySnapHelper = new AutoPlaySnapHelper(RxBannerGlobalConfig.getInstance().getTimeInterval(), RxBannerGlobalConfig.getInstance().getOrderType());
+        setHasFixedSize(true);
+        setNestedScrollingEnabled(false);
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+
         if(isAutoPlay()) {
             switch (ev.getAction()) {
-                    //按下暂停轮播
+                //按下暂停轮播
                 case MotionEvent.ACTION_DOWN:
                     if (autoPlaySnapHelper != null) {
                         autoPlaySnapHelper.pause();
                     }
                     break;
-                    //抬起继续轮播,在ScrollView里按住然后滑出Banner时会无法监听 ACTION_UP 事件，所以同时需要监听 ACTION_CANCEL 事件
+                //抬起继续轮播,在ScrollView里按住然后滑出Banner时会无法监听 ACTION_UP 事件，所以同时需要监听 ACTION_CANCEL 事件
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     if (autoPlaySnapHelper != null) {
@@ -49,6 +53,11 @@ public class AutoPlayRecyclerView extends RecyclerView {
                     break;
             }
         }
+        //当父布局有ViewPaper时，拦截父容器的事件，防止滑动冲突
+//        ViewParent parent = this;
+//        while(((parent = parent.getParent()) instanceof ViewPager)) {
+//            parent.requestDisallowInterceptTouchEvent(true);
+//        }
         return super.dispatchTouchEvent(ev);
     }
 
@@ -68,8 +77,8 @@ public class AutoPlayRecyclerView extends RecyclerView {
        return autoPlaySnapHelper.isRunning();
     }
 
-    public void setDirection(RxBannerConfig.OrderType direction){
-        autoPlaySnapHelper.setDirection(direction);
+    public void setDirection(RxBannerGlobalConfig.OrderType direction){
+        autoPlaySnapHelper.setOrderType(direction);
     }
 
     public void setTimeInterval(int timeInterval){
@@ -94,6 +103,8 @@ public class AutoPlayRecyclerView extends RecyclerView {
     public void setAutoPlay(boolean autoPlay) {
         if(!autoPlay){
             autoPlaySnapHelper.pause();
+        }else {
+            autoPlaySnapHelper.start();
         }
         this.autoPlay = autoPlay;
     }
@@ -103,5 +114,6 @@ public class AutoPlayRecyclerView extends RecyclerView {
         super.onDetachedFromWindow();
         autoPlaySnapHelper.destroyCallbacks();
     }
+
 
 }

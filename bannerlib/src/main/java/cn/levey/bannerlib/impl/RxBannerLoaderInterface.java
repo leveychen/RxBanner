@@ -11,9 +11,6 @@ import java.io.Serializable;
  */
 
 public interface RxBannerLoaderInterface<T extends View> extends Serializable {
-
     void show(Context context, Object path, T item);
-
     T create(Context context);
-
 }

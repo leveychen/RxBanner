@@ -10,6 +10,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
@@ -33,25 +34,20 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        ArrayList<String> titles = new ArrayList<>();
         //添加图片资源
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_NUM));
-
+//
 //        ArrayList<Integer> list = new ArrayList<>();
 //        list.add(R.mipmap.ic_launcher);
 //        list.add(R.mipmap.ic_launcher);
 //        list.add(R.mipmap.ic_launcher);
 //        list.add(R.mipmap.ic_launcher);
-
-        for (int i = 0; i < list.size(); i++) {
-            titles.add("banner title " + (i + 1));
-        }
 //        banner.setLoader(new UniversalImageLoader())
 //        banner.setLoader(new PicassoLoader())
 //        banner.setLoader(new GlideLoader())
 
         banner.setLoader(new FrescoLoader())
-                .setDatas(list, titles)
+                .setDatas(list)
 //                .setDatas(list)  // no title
                 .setOnBannerClickListener(new RxBannerClickListener() {
 
@@ -67,13 +63,11 @@ public class SplashActivity extends AppCompatActivity {
                 })
 
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
-                    @Override
-                    public void onBannerSelected(int position) {
-                        //  RxBannerLogger.i("onBannerSelected = " + position);
-                    }
 
                     @Override
-                    public void onBannerScrollStateChanged(int state) {
+                    public void onGuideFinished() {
+                        RxBannerLogger.i(" onGuideFinished ");
+                        finish();
 
                     }
                 })

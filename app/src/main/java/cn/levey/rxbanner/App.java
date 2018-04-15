@@ -7,7 +7,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
 
-import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 
 /**
  * Created by Levey on 2018/4/2 17:38.
@@ -41,7 +41,7 @@ public class App extends Application{
     }
 
     private void initRxBanner(){
-        RxBannerConfig.getInstance()
+        RxBannerGlobalConfig.getInstance()
                 .setDebug(true);
 //                .setScrollStateChangedListener(new RxBannerScrollStateChangedListener() {
 //                    @Override

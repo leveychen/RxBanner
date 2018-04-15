@@ -145,12 +145,11 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      * @param count total count of indicators.
      */
     public void setCount(int count) {
-        if (count >= 0 && manager.indicator().getCount() != count) {
-            manager.indicator().setCount(count);
-            updateVisibility();
+//        if (count >= 0 && manager.indicator().getCount() != count) {
 
-            requestLayout();
-        }
+            manager.indicator().setCount(count);
+            setVisibility(GONE);
+            updateVisibility();
     }
 
     /**
@@ -468,6 +467,9 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
             int selectedPosition = (count - 1) - layoutManager.getCurrentPosition();
             manager.indicator().setSelectedPosition(selectedPosition);
         }
+
+        RxBannerLogger.i(" setRecyclerView count " +count);
+
         setCount(count);
     }
 
@@ -639,6 +641,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
             public void onChanged() {
                 updateCount();
             }
+
         };
 
         try {
@@ -673,24 +676,26 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
         manager.indicator().setSelectingPosition(currItem);
         manager.indicator().setLastSelectedPosition(currItem);
         manager.animate().end();
-
         setCount(newCount);
     }
 
     private void updateVisibility() {
-        if (!manager.indicator().isAutoVisibility()) {
-            return;
-        }
+//        if (!manager.indicator().isAutoVisibility()) {
+//            return;
+//        }
 
         int count = manager.indicator().getCount();
-        int visibility = getVisibility();
 
-        if (visibility != VISIBLE && count > Indicator.MIN_COUNT) {
+        RxBannerLogger.i(" updateVisibility = " + count);
+
+        if ( count > Indicator.MIN_COUNT) {
+            RxBannerLogger.i(" updateVisibility =VISIBLE");
             setVisibility(VISIBLE);
-
-        } else if (visibility != INVISIBLE && count <= Indicator.MIN_COUNT) {
-            setVisibility(View.INVISIBLE);
+        } else{
+            RxBannerLogger.i(" updateVisibility =GONE");
+            setVisibility(View.GONE);
         }
+        requestLayout();
     }
 
     private int getRecyclerViewCount() {

@@ -6,7 +6,7 @@ import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 
 public class Indicator {
 
-    public static final int DEFAULT_COUNT = 3;
+    public static final int DEFAULT_COUNT = 0;
     public static final int MIN_COUNT = 1;
     public static final int COUNT_NONE = -1;
 

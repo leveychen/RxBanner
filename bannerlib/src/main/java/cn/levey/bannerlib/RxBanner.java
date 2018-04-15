@@ -20,8 +20,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.base.RxBannerConstants;
+import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerTextView;
 import cn.levey.bannerlib.base.RxBannerUtil;
@@ -29,7 +29,6 @@ import cn.levey.bannerlib.data.RxBannerAdapter;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
-import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.bannerlib.indicator.RxBannerIndicator;
 import cn.levey.bannerlib.indicator.draw.controller.AttributeController;
@@ -51,8 +50,8 @@ public class RxBanner extends FrameLayout {
     private AutoPlayRecyclerView mBannerRv;
     private RxBannerTextView mTitleTv;
     private ScaleLayoutManager mLayoutManager;
-    private int timeInterval = RxBannerConfig.getInstance().getTimeInterval();
-    private RxBannerConfig.OrderType orderType;
+    private int timeInterval = RxBannerGlobalConfig.getInstance().getTimeInterval();
+    private RxBannerGlobalConfig.OrderType orderType;
     private boolean autoPlay = true;
     private boolean viewPaperMode = true;
     private boolean infinite;
@@ -72,13 +71,12 @@ public class RxBanner extends FrameLayout {
     private float sideAlpha;
     private int orientation;
     private List<Object> mUrls = new ArrayList<>();
-    private List<String> mTitles = new ArrayList<>();
     private RxBannerClickListener onBannerClickListener;
     private RxBannerLoaderInterface mLoader;
     private RxBannerTitleClickListener onTitleClickListener;
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
-    private View indicatorView;
+    private View mIndicatorView;
     private Indicator indicatorConfig;
     private boolean rb_indicator_visibility;
 
@@ -103,7 +101,6 @@ public class RxBanner extends FrameLayout {
         viewPaperMode = typedArray.getBoolean(R.styleable.RxBanner_rb_viewPaperMode, true);
         infinite = typedArray.getBoolean(R.styleable.RxBanner_rb_infinite, true);
         autoPlay = typedArray.getBoolean(R.styleable.RxBanner_rb_autoPlay, true);
-
         RxBannerLogger.i(" infinite = " + infinite);
         RxBannerLogger.i(" autoPlay = " + autoPlay);
         itemPercent = typedArray.getInt(R.styleable.RxBanner_rb_itemPercent, 100);
@@ -112,7 +109,7 @@ public class RxBanner extends FrameLayout {
         itemMoveSpeed = typedArray.getFloat(R.styleable.RxBanner_rb_itemMoveSpeed, 1.0f);
         centerAlpha = typedArray.getFloat(R.styleable.RxBanner_rb_centerAlpha, 1.0f);
         sideAlpha = typedArray.getFloat(R.styleable.RxBanner_rb_sideAlpha, 1.0f);
-        timeInterval = typedArray.getInt(R.styleable.RxBanner_rb_timeInterval, RxBannerConfig.getInstance().getTimeInterval());
+        timeInterval = typedArray.getInt(R.styleable.RxBanner_rb_timeInterval, RxBannerGlobalConfig.getInstance().getTimeInterval());
         if (itemMoveSpeed <= 0)
             throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": itemMoveSpeed should be greater than 0");
         if (itemPercent <= 0)
@@ -120,7 +117,7 @@ public class RxBanner extends FrameLayout {
         if (timeInterval < 200)
             throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": for better performance, timeInterval should be greater than 200 millisecond");
         orderType = RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_rb_orderType,
-                RxBannerUtil.getOrderType(RxBannerConfig.getInstance().getOrderType())));
+                RxBannerUtil.getOrderType(RxBannerGlobalConfig.getInstance().getOrderType())));
 
         //title
         titleVisibility = typedArray.getBoolean(R.styleable.RxBanner_rb_title_visible, true);
@@ -165,6 +162,7 @@ public class RxBanner extends FrameLayout {
 
     protected void initView() {
         mBannerRv = new AutoPlayRecyclerView(mContext);
+        mBannerRv.setItemAnimator(null);
         LayoutParams layoutParams = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
         addView(mBannerRv, layoutParams);
@@ -176,75 +174,81 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemMoveSpeed(itemMoveSpeed);
         mLayoutManager.setCenterAlpha(centerAlpha);
         mLayoutManager.setSideAlpha(sideAlpha);
-        mLayoutManager.setSmoothListener(new RxBannerTitleChangeListener() {
-            @Override
-            public void onBannerSelected(int position) {
-                RxBannerLogger.i(" setSmoothListener = " + position);
-            }
-        });
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
 
         if (titleVisibility) {
-            mTitleTv = new RxBannerTextView(mContext);
-            LayoutParams titleLayoutParams = new LayoutParams(titleWidth, titleHeight);
-            if (titleMarginTop == 0) titleMarginTop = titleMargin;
-            if (titleMarginBottom == 0) titleMarginBottom = titleMargin;
-            if (titleMarginStart == 0) titleMarginStart = titleMargin;
-            if (titleMarginEnd == 0) titleMarginEnd = titleMargin;
-            titleLayoutParams.setMargins(titleMarginStart, titleMarginTop, titleMarginEnd, titleMarginBottom);
-
-            titleLayoutParams.gravity = titleLayoutGravity;
-            mTitleTv.setLayoutParams(titleLayoutParams);
-            mTitleTv.setTextColor(titleColor);
-            mTitleTv.setBackgroundColor(titleBackgroundColor);
-            mTitleTv.setGravity(titleGravity);
-            mTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize);
-
-            if (titlePadding != 0)
-                mTitleTv.setPadding(titlePadding, titlePadding, titlePadding, titlePadding);
-            if (titlePaddingTop == 0) titlePaddingTop = titlePadding;
-            if (titlePaddingBottom == 0) titlePaddingBottom = titlePadding;
-            if (titlePaddingStart == 0) titlePaddingStart = titlePadding;
-            if (titlePaddingEnd == 0) titlePaddingEnd = titlePadding;
-            mTitleTv.setPadding(titlePaddingStart, titlePaddingTop, titlePaddingEnd, titlePaddingBottom);
-            if (titleBackgroundResource != Integer.MAX_VALUE)
-                mTitleTv.setBackgroundResource(titleBackgroundResource);
-
-            if (titleMarquee) {
-                mTitleTv.setFocused(true);
-                mTitleTv.setSingleLine(true);
-                mTitleTv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                mTitleTv.setMarqueeRepeatLimit(-1);
-            } else {
-                mTitleTv.setFocused(false);
-            }
-            mTitleTv.setTag(RxBannerConstants.TAG_TITLE_VIEW + 0);
-            addView(mTitleTv, titleLayoutParams);
+            createTitle();
         }
 
 
-        mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
-            @Override
-            public void onBannerSelected(int position) {
-                if (mTitleTv == null) {
-                    return;
-                }
-                if (mTitles.isEmpty()) {
-                    if (mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
-                    return;
-                }
-                if (mUrls.size() == mTitles.size()) {
-                    if(mTitleTv.getTag().toString().equals(RxBannerConstants.TAG_TITLE_VIEW + position)){
-                        return;
-                    }
-                    mTitleTv.setTag(RxBannerConstants.TAG_TITLE_VIEW + position);
-                    mTitleTv.setText(mTitles.get(position));
-                    if (mTitleTv.getVisibility() == GONE) mTitleTv.setVisibility(VISIBLE);
-                } else {
-                    if (mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
-                }
-            }
-        });
+//        mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
+//            @Override
+//            public void onBannerSelected(int position, String title) {
+//
+//                RxBannerLogger.i(" setRxBannerTitleChangeListener = " + System.currentTimeMillis());
+//                if (mTitleTv == null) {
+//                    return;
+//                }
+//                if (mTitles.isEmpty()) {
+//                    if (mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
+//                    return;
+//                }
+//                if (mUrls.size() == mTitles.size()) {
+//                    String t= title;
+//                    try {
+//                        t = mTitles.get(position);
+//                    } catch (Exception e) {
+//                        mTitleTv.setVisibility(GONE);
+//                        return;
+//                    }
+//                    if(mTitleTv.getTag().toString().equals(RxBannerConstants.TAG_TITLE_VIEW + position)){
+//                        return;
+//                    }
+//                    mTitleTv.setTag(RxBannerConstants.TAG_TITLE_VIEW + position);
+//                    mTitleTv.setText(t);
+//                    if (mTitleTv.getVisibility() == GONE) mTitleTv.setVisibility(VISIBLE);
+//                } else {
+//                    if (mTitleTv.getVisibility() == VISIBLE) mTitleTv.setVisibility(GONE);
+//                }
+//            }
+//        });
+    }
+
+    protected void createTitle(){
+        mTitleTv = new RxBannerTextView(mContext);
+        mTitleTv.setLayoutManager(mLayoutManager);
+        LayoutParams titleLayoutParams = new LayoutParams(titleWidth, titleHeight);
+        if (titleMarginTop == 0) titleMarginTop = titleMargin;
+        if (titleMarginBottom == 0) titleMarginBottom = titleMargin;
+        if (titleMarginStart == 0) titleMarginStart = titleMargin;
+        if (titleMarginEnd == 0) titleMarginEnd = titleMargin;
+        titleLayoutParams.setMargins(titleMarginStart, titleMarginTop, titleMarginEnd, titleMarginBottom);
+        titleLayoutParams.gravity = titleLayoutGravity;
+        mTitleTv.setLayoutParams(titleLayoutParams);
+        mTitleTv.setTextColor(titleColor);
+        mTitleTv.setBackgroundColor(titleBackgroundColor);
+        mTitleTv.setGravity(titleGravity);
+        mTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize);
+        if (titlePadding != 0)
+            mTitleTv.setPadding(titlePadding, titlePadding, titlePadding, titlePadding);
+        if (titlePaddingTop == 0) titlePaddingTop = titlePadding;
+        if (titlePaddingBottom == 0) titlePaddingBottom = titlePadding;
+        if (titlePaddingStart == 0) titlePaddingStart = titlePadding;
+        if (titlePaddingEnd == 0) titlePaddingEnd = titlePadding;
+        mTitleTv.setPadding(titlePaddingStart, titlePaddingTop, titlePaddingEnd, titlePaddingBottom);
+        if (titleBackgroundResource != Integer.MAX_VALUE)
+            mTitleTv.setBackgroundResource(titleBackgroundResource);
+
+        if (titleMarquee) {
+            mTitleTv.setFocused(true);
+            mTitleTv.setSingleLine(true);
+            mTitleTv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            mTitleTv.setMarqueeRepeatLimit(-1);
+        } else {
+            mTitleTv.setFocused(false);
+        }
+        mTitleTv.setTag(RxBannerConstants.TAG_TITLE_VIEW + 0);
+        addView(mTitleTv, titleLayoutParams);
     }
 
     public RxBanner setOnBannerChangeListener(RxBannerChangeListener onBannerChangeListener) {
@@ -292,9 +296,9 @@ public class RxBanner extends FrameLayout {
         }
 
         if (rb_indicator_visibility) {
-            if (indicatorView != null) {
-                indicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
-                addView(indicatorView);
+            if (mIndicatorView != null) {
+                mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
+                addView(mIndicatorView);
             } else {
                 final RxBannerIndicator indicator = new RxBannerIndicator(mContext);
                 indicator.setIndicatorConfig(indicatorConfig);
@@ -316,31 +320,27 @@ public class RxBanner extends FrameLayout {
                         indicator.getConfig().getMarginEnd(),
                         indicator.getConfig().getMarginBottom());
                 indicator.setLayoutParams(indicatorLp);
-                indicatorView = indicator;
-                indicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
-                addView(indicatorView);
+                mIndicatorView = indicator;
+                mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
+                addView(mIndicatorView);
             }
         }
 
-        if(mTitleTv != null ){
-            try {
-                mTitleTv.setText(mTitles.get(0));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if(mTitleTv != null ) mTitleTv.setSelection(0);
+        setLongClickable(true);
+
     }
 
     public View getCustomIndicator(){
-        if(indicatorView != null && indicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)){
-            return indicatorView;
+        if(mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)){
+            return mIndicatorView;
         }
         throw new NullPointerException("please set a custom indicator view before get it");
     }
 
     public RxBannerIndicator getDefaultIndicator(){
-        if(indicatorView != null && indicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)){
-            return (RxBannerIndicator)indicatorView;
+        if(mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)){
+            return (RxBannerIndicator) mIndicatorView;
         }
         throw new NullPointerException("please check rb_indicator_viable attribute in xml");
     }
@@ -356,34 +356,33 @@ public class RxBanner extends FrameLayout {
 
     @SuppressWarnings("unchecked")
     public RxBanner setDatas(List<?> urls) {
+        setInnerDatas(urls);
+        return this;
+    }
+
+    protected void setInnerDatas(List<?> urls){
         if (urls != null && !urls.isEmpty()) {
             this.mUrls.clear();
             this.mUrls.addAll(urls);
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null) {
                 mAdapter.setDatas(mUrls);
+                if(mIndicatorView != null && mIndicatorView instanceof RxBannerIndicator)
+                    ((RxBannerIndicator) mIndicatorView).setSelection(0);
+                if(mTitleTv != null) mTitleTv.setSelection(0);
                 mBannerRv.smoothScrollToPosition(0);
-                if(indicatorView != null && indicatorView instanceof RxBannerIndicator){
-                    ((RxBannerIndicator) indicatorView).setSelection(0);
-                }
                 restart();
             }
         }
-        return this;
     }
 
     public RxBanner setDatas(List<?> urls, List<String> titles) {
-        if (urls.size() != titles.size()) {
-            throw new IllegalStateException("urls size not equal to titles size");
-        }
+        RxBannerLogger.i( "setDatas = " + urls.size() + "  /  " +  titles.size());
         setDatas(urls);
         setTitles(titles);
         return this;
     }
 
     public void addDatas(List<?> urls, List<String> titles) {
-        if (urls.size() != titles.size()) {
-            throw new IllegalStateException("urls size not equal to titles size");
-        }
         addDatas(urls);
         addTitles(titles);
     }
@@ -391,15 +390,16 @@ public class RxBanner extends FrameLayout {
     public void addDatas(List<?> urls) {
         if (urls != null && !urls.isEmpty()) {
             this.mUrls.addAll(urls);
+            if(mAdapter != null) mAdapter.notifyDataSetChanged();
         }
     }
 
 
     protected void setTitles(List<String> titles) {
-        if (titles != null && !titles.isEmpty()) {
-            this.mTitles.clear();
-            this.mTitles.addAll(titles);
+        if(mTitleTv == null){
+            createTitle();
         }
+        mTitleTv.setDatas(titles);
     }
 
     public RxBanner setOnBannerTitleClickListener(final RxBannerTitleClickListener onTitleClickListener) {
@@ -418,12 +418,13 @@ public class RxBanner extends FrameLayout {
     }
 
     protected void addTitles(List<String> titles) {
-        if (titles != null && !titles.isEmpty()) {
-            this.mTitles.addAll(titles);
+        if(mTitleTv == null) throw new NullPointerException(" titleView no init, please call setDatas(urls, titles) first");
+        if(titles != null && !titles.isEmpty()){
+            mTitleTv.addDatas(titles);
         }
     }
 
-    public RxBanner setOrderType(RxBannerConfig.OrderType orderType) {
+    public RxBanner setOrderType(RxBannerGlobalConfig.OrderType orderType) {
         if (mBannerRv != null) {
             mBannerRv.setDirection(orderType);
         }
@@ -443,7 +444,7 @@ public class RxBanner extends FrameLayout {
         return timeInterval;
     }
 
-    public RxBannerConfig.OrderType getOrderType() {
+    public RxBannerGlobalConfig.OrderType getOrderType() {
         return orderType;
     }
 
@@ -462,15 +463,21 @@ public class RxBanner extends FrameLayout {
 
     public void start() {
         needStart = true;
-        if (isParentCreate() && mBannerRv != null && mAdapter != null && autoPlay) {
-            mBannerRv.start();
+        if (isParentCreate() && autoPlay) {
+            setAutoPlay(true);
         }
+    }
+
+    public void  forceStart(){
+        autoPlay = true;
+        start();
     }
 
 
     //已在 onDetachedFromWindow 实现回收资源，也可根据需求自行调用完成销毁
     public void onDestroy() {
         pause();
+        if(mUrls !=null) mUrls = null;
         if (mAdapter != null) mAdapter = null;
         if (mTitleTv != null) mTitleTv = null;
         if (mBannerRv != null) {
@@ -502,7 +509,7 @@ public class RxBanner extends FrameLayout {
     }
 
     public RxBanner setCustomIndicator(View indicatorView) {
-        this.indicatorView = indicatorView;
+        this.mIndicatorView = indicatorView;
         return this;
     }
 
@@ -511,7 +518,8 @@ public class RxBanner extends FrameLayout {
     }
 
     public RxBanner setAutoPlay(boolean autoPlay) {
-        if (mBannerRv != null && mAdapter != null) {
+        if (mBannerRv != null && mAdapter != null && mLayoutManager != null) {
+            mLayoutManager.setAutoPlay(autoPlay);
             mBannerRv.setAutoPlay(autoPlay);
         }
         this.autoPlay = autoPlay;
@@ -520,8 +528,13 @@ public class RxBanner extends FrameLayout {
     }
 
     public void setCurrentPosition(int position) {
+        RxBannerLogger.i(" setCurrentPosition " + position);
         if (mBannerRv != null && mAdapter != null && mLayoutManager != null && !mAdapter.getDatas().isEmpty()) {
+            if(position == mUrls.size()) position = 0;
             mBannerRv.smoothScrollToPosition(position);
+            if(mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof  RxBannerIndicator)
+                ((RxBannerIndicator) mIndicatorView).setSelection(position);
+            if(mTitleTv != null) mTitleTv.setSelection(position);
             if (autoPlay && mBannerRv.isRunning()) {
                 mBannerRv.pause();
                 mBannerRv.start();

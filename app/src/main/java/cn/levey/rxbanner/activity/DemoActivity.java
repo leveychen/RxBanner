@@ -49,6 +49,7 @@ public class DemoActivity extends AppCompatActivity {
     Button btnNetwork;
     private int fuliPage = 1;
     private ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
+    private ArrayList<String> titles = new ArrayList<>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class DemoActivity extends AppCompatActivity {
             setTitle("ScrollView - RxBanner");
         }
 
-        ArrayList<String> titles = new ArrayList<>();
+
         //添加图片资源
 
 
@@ -130,7 +131,7 @@ public class DemoActivity extends AppCompatActivity {
                     banner.pause();
                 } else {
                     btnAuto.setText("Pause");
-                    banner.start();
+                    banner.forceStart();
                 }
             }
         });
@@ -155,17 +156,24 @@ public class DemoActivity extends AppCompatActivity {
         btnNetwork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final int size = (int)Math.round(Math.random()*10 + 1);
+                 int size = (int)Math.round(Math.random()*10 + 1);
+
+                if(fuliPage % 3 == 0) size = 2;
                 final String pageUrl = "http://gank.io/api/data/福利/" + size + "/" + fuliPage++;
                 OkGo.<String>get(pageUrl).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         GankBean gank = JSON.parseObject(response.body(),GankBean.class);
                         list.clear();
-                        for (GankBean.ResultsBean rs : gank.getResults()) {
-                            list.add(rs.getUrl());
+                        titles.clear();
+
+                        for (int i = 0; i < gank.getResults().size(); i++) {
+                            list.add(gank.getResults().get(i).getUrl());
+                            titles.add("福利 " + i);
                         }
-                        banner.setDatas(list);
+
+                        RxBannerLogger.i("LS = " + list.size() + " TS = " + titles.size());
+                        banner.setDatas(list,titles);
                     }
                 });
                 if(fuliPage > 10) fuliPage = 1;

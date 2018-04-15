@@ -12,7 +12,7 @@
             android:layout_height="match_parent"
             banner:rb_orderType="asc"
             banner:rb_orientation="horizontal"
-            banner:rb_timeInterval="500"
+            banner:rb_timeInterval="1000"
             banner:rb_title_color="#FFFFFF"
             banner:rb_title_marquee="true"
             banner:rb_viewPaperMode="true"

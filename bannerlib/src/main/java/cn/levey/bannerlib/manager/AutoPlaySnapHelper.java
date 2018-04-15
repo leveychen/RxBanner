@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
-import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.WeakHandler;
 
@@ -17,18 +17,18 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
     private int timeInterval;
     private Runnable autoPlayRunnable;
     private boolean runnableAdded;
-    private RxBannerConfig.OrderType direction;
-    private boolean viewPaperMode = true;
+    private RxBannerGlobalConfig.OrderType orderType;
 
 
-    AutoPlaySnapHelper(int timeInterval, RxBannerConfig.OrderType direction) {
+
+    AutoPlaySnapHelper(int timeInterval, RxBannerGlobalConfig.OrderType orderType) {
         checkTimeInterval(timeInterval);
-        checkDirection(direction);
+        checkDirection(orderType);
         handler = new WeakHandler();
     }
 
-    void setViewPaperMode(boolean viewPaperMode) {
-        this.viewPaperMode = viewPaperMode;
+    public void setViewPaperMode(boolean viewPaperMode) {
+        setPaperMode(viewPaperMode);
     }
 
     @Override
@@ -61,10 +61,23 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                         pause();
                         return;
                     }
-
-                    final int currentPosition =
-                            ((ViewPagerLayoutManager) layoutManager).getCurrentPosition();
-                    mRecyclerView.smoothScrollToPosition(direction == RxBannerConfig.OrderType.ASC ? currentPosition + 1 : currentPosition - 1);
+                    final ViewPagerLayoutManager viewPagerLayoutManager = (ViewPagerLayoutManager) layoutManager;
+                    final int currentPosition = viewPagerLayoutManager.getCurrentPosition();
+                    int cp = orderType == RxBannerGlobalConfig.OrderType.ASC ? currentPosition + 1 : currentPosition - 1;
+                    if(cp == -1) {
+                        cp = layoutManager.getItemCount()  - 1;
+                    }else if(cp == layoutManager.getItemCount()){
+                        cp = 0;
+                    }
+                    RxBannerLogger.i(" autoPlayRunnable =  " + cp);
+                    if(viewPagerLayoutManager.getRxBannerChangeListener() != null){
+                        if(cp == viewPagerLayoutManager.getItemCount()) viewPagerLayoutManager.getRxBannerChangeListener().onGuideFinished();
+                    }
+                    if(viewPagerLayoutManager.getRxBannerIndicatorChangeListener() != null)
+                        viewPagerLayoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+                    if(viewPagerLayoutManager.getRxBannerTitleChangeListener() != null)
+                        viewPagerLayoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                    mRecyclerView.smoothScrollToPosition(cp);
                     handler.postDelayed(autoPlayRunnable, timeInterval);
                 }
             };
@@ -107,15 +120,15 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
     }
 
-    void setDirection(RxBannerConfig.OrderType direction) {
-        checkDirection(direction);
+    void setOrderType(RxBannerGlobalConfig.OrderType orderType) {
+        checkDirection(orderType);
     }
 
-    private void checkDirection(RxBannerConfig.OrderType direction) {
-        if (direction != RxBannerConfig.OrderType.DESC && direction != RxBannerConfig.OrderType.ASC) {
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": direction should be one of ASC or DESC");
+    private void checkDirection(RxBannerGlobalConfig.OrderType direction) {
+        if (direction != RxBannerGlobalConfig.OrderType.DESC && direction != RxBannerGlobalConfig.OrderType.ASC) {
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": orderType should be one of ASC or DESC");
         }else {
-            this.direction = direction;
+            this.orderType = direction;
             //reset
             if(handler != null && autoPlayRunnable != null){
                 pause();
@@ -135,124 +148,4 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             }
         }
     }
-
-    @Override
-    public boolean onFling(int velocityX, int velocityY) {
-
-
-        RxBannerLogger.i(" velocityX = " + velocityX + "  /  velocityY = " + velocityY);
-
-        RxBannerLogger.i("viewPaperMode onFling = " + viewPaperMode);
-        if(!viewPaperMode){
-
-            RxBannerLogger.i("nooo onFling = ");
-
-            ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
-            if (layoutManager == null) {
-                return false;
-            }
-            RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
-            if (adapter == null) {
-                return false;
-            }
-
-            if (!layoutManager.isInfinite() &&
-                    (layoutManager.mOffset == layoutManager.getMaxOffset()
-                            || layoutManager.mOffset == layoutManager.getMinOffset())) {
-                return false;
-            }
-
-            final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-            mGravityScroller.fling(0, 0, velocityX, velocityY,
-                    Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-            if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                    && Math.abs(velocityY) > minFlingVelocity) {
-                final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = (int) (mGravityScroller.getFinalY() /
-                        layoutManager.mInterval / layoutManager.getDistanceRatio());
-                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-                        currentPosition - offsetPosition : currentPosition + offsetPosition);
-
-                RxBannerLogger.i(" V1 I = " + layoutManager.mInterval + "  / " + currentPosition);
-
-                return true;
-            } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                    && Math.abs(velocityX) > minFlingVelocity) {
-                final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = (int) (mGravityScroller.getFinalX() /
-                        layoutManager.mInterval / layoutManager.getDistanceRatio());
-                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-                        currentPosition - offsetPosition : currentPosition + offsetPosition);
-
-
-
-                RxBannerLogger.i(" V2 I = " + layoutManager.mInterval + "  / " + currentPosition);
-                return true;
-            }
-        }else {
-
-            RxBannerLogger.i("yyyy onFling = ");
-
-            ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
-            if (layoutManager == null) {
-                return false;
-            }
-            RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
-            if (adapter == null) {
-                return false;
-            }
-
-            if (!layoutManager.isInfinite() &&
-                    (layoutManager.mOffset == layoutManager.getMaxOffset()
-                            || layoutManager.mOffset == layoutManager.getMinOffset())) {
-                return false;
-            }
-
-            final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-            mGravityScroller.fling(0, 0, velocityX, velocityY,
-                    Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-            if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                    && Math.abs(velocityY) > minFlingVelocity) {
-                final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
-                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-                        currentPosition - offsetPosition : currentPosition + offsetPosition);
-                RxBannerLogger.i(" H1 I = " + layoutManager.mInterval + "  / " + currentPosition);
-                return true;
-            } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                    && Math.abs(velocityX) > minFlingVelocity) {
-                final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = mGravityScroller.getFinalX() * layoutManager.getDistanceRatio() > layoutManager.mInterval ? 1 : 0;
-
-                mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-                        currentPosition - offsetPosition : currentPosition + offsetPosition);
-
-
-
-
-//                if(layoutManager.isScrollEnabled) {
-//                    if(Math.abs(cp - currentPosition) == 1 ) {
-//                        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-//                        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
-//                    }
-//                }
-
-
-                    layoutManager.isScrollEnabled = false;
-
-
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-
-
-
 }

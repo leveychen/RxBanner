@@ -132,7 +132,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     private boolean mInfinite = false;
     private boolean mAutoPlay = false;
 
-    private boolean mEnableBringCenterToFront;
+    private boolean mEnableBringCenterToFront = true;
 
     private int mLeftItems;
 
@@ -184,9 +184,10 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         super(context);
         setOrientation(orientation);
         setReverseLayout(reverseLayout);
-        setAutoMeasureEnabled(true);
+      //  setAutoMeasureEnabled(true);
         setItemPrefetchEnabled(false);
     }
+
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -230,6 +231,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
             recycler.clear();
         }
     }
+
 
     @Override
     public Parcelable onSaveInstanceState() {
@@ -391,7 +393,6 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         }
 
 
-
         if (mOrientation == VERTICAL) {
             recyclerView.smoothScrollBy(0, offsetPosition, mSmoothScrollInterpolator);
         } else {
@@ -412,7 +413,15 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         resolveShouldLayoutReverse();
 
         //make sure properties are correct while measure more than once
-        View scrap = recycler.getViewForPosition(0);
+        View scrap = getMeasureView(recycler, state, 0);
+        if (scrap == null) {
+            removeAndRecycleAllViews(recycler);
+            mOffset = 0;
+            return;
+
+        }
+
+     //   View scrap = recycler.getViewForPosition(0);
         measureChildWithMargins(scrap, 0, 0);
         mDecoratedMeasurement = mOrientationHelper.getDecoratedMeasurement(scrap);
         mDecoratedMeasurementInOther = mOrientationHelper.getDecoratedMeasurementInOther(scrap);
@@ -438,9 +447,17 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
             mOffset = mShouldReverseLayout ?
                     mPendingScrollPosition * -mInterval : mPendingScrollPosition * mInterval;
         }
-
-        detachAndScrapAttachedViews(recycler);
+        //detachAndScrapAttachedViews(recycler);
         layoutItems(recycler);
+    }
+
+    private View getMeasureView(RecyclerView.Recycler recycler, RecyclerView.State state, int index) {
+        if (index >= state.getItemCount() || index < 0) return null;
+        try {
+            return recycler.getViewForPosition(index);
+        } catch (Exception e) {
+            return getMeasureView(recycler, state, index + 1);
+        }
     }
 
     @Override

@@ -3,8 +3,6 @@ package cn.levey.bannerlib.manager;
 import android.content.Context;
 import android.view.View;
 
-import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
-
 /**
  * An implementation of {@link ViewPagerLayoutManager}
  * which zooms the center item
@@ -218,10 +216,6 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
         public ScaleLayoutManager build() {
             return new ScaleLayoutManager(this);
         }
-    }
-
-    public void setSmoothListener(RxBannerTitleChangeListener listener){
-        setRxBannerTitleChangeListener(listener);
     }
 }
 

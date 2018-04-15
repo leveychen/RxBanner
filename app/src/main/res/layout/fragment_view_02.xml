@@ -17,6 +17,7 @@
         banner:rb_viewPaperMode="true"
         banner:rb_itemScale="0.9"
         banner:rb_title_color="#FFFFFF"
+        banner:rb_infinite="true"
         banner:rb_title_backgroundResource="@drawable/demo_title_background"
         android:layout_marginTop="10dp"/>
 

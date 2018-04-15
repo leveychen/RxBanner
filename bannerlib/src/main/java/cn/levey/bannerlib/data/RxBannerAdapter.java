@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.levey.bannerlib.base.RxBannerConfig;
+import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 
@@ -84,6 +84,7 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
                         RelativeLayout.LayoutParams.MATCH_PARENT);
             image = getLoader().create(itemView.getContext());
             itemView.addView(image,lp);
+            itemView.setLongClickable(true);
         }
     }
 
@@ -107,7 +108,13 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
 
     public void addItem(String item){
         mList.add(item);
-        notifyDataSetChanged();
+        notifyItemChanged(mList.size());
+    }
+
+    public void replaceItem(int position,String item){
+        mList.remove(position);
+        mList.add(position,item);
+        notifyItemChanged(position);
     }
 
     public void deleteItem(int position){
@@ -123,9 +130,10 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
         }
     }
 
+
     private RxBannerLoaderInterface getLoader() {
         if(mLoader == null){
-            mLoader = RxBannerConfig.getInstance().getLoader();
+            mLoader = RxBannerGlobalConfig.getInstance().getLoader();
         }
         return mLoader;
     }

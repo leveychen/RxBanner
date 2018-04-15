@@ -16,7 +16,7 @@ public class RxBannerUtil {
         return (int) (parentSize * (itemPercent / 100f));
     }
 
-    public static int getOrderType(RxBannerConfig.OrderType direction){
+    public static int getOrderType(RxBannerGlobalConfig.OrderType direction){
         switch (direction){
             case ASC:
                 return 1;
@@ -26,14 +26,14 @@ public class RxBannerUtil {
         return 1;
     }
 
-    public static RxBannerConfig.OrderType getOrder(int direction){
+    public static RxBannerGlobalConfig.OrderType getOrder(int direction){
         switch (direction){
             case 1:
-                return RxBannerConfig.OrderType.ASC;
+                return RxBannerGlobalConfig.OrderType.ASC;
             case 2:
-                return RxBannerConfig.OrderType.DESC;
+                return RxBannerGlobalConfig.OrderType.DESC;
         }
-        return RxBannerConfig.OrderType.ASC;
+        return RxBannerGlobalConfig.OrderType.ASC;
     }
 
     public static int dp2px(int dp){

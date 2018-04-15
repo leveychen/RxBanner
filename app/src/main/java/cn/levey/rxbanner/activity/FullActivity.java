@@ -76,6 +76,12 @@ public class FullActivity extends AppCompatActivity {
                     public void onBannerScrollStateChanged(int state) {
 
                     }
+
+                    @Override
+                    public void onGuideFinished() {
+
+                        Toast.makeText(getApplicationContext()," GUIDE FINISHED",Toast.LENGTH_LONG).show();
+                    }
                 })
                 .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
                     @Override
