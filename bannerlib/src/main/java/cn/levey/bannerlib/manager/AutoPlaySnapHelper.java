@@ -56,7 +56,6 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             autoPlayRunnable = new Runnable() {
                 @Override
                 public void run() {
-
                     if(!((ViewPagerLayoutManager) layoutManager).isAutoPlay()){
                         pause();
                         return;
@@ -69,7 +68,6 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                     }else if(cp == layoutManager.getItemCount()){
                         cp = 0;
                     }
-                    RxBannerLogger.i(" autoPlayRunnable =  " + cp);
                     if(viewPagerLayoutManager.getRxBannerChangeListener() != null){
                         if(cp == viewPagerLayoutManager.getItemCount()) viewPagerLayoutManager.getRxBannerChangeListener().onGuideFinished();
                     }

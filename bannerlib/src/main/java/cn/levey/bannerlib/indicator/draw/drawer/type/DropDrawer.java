@@ -5,13 +5,13 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.data.type.DropAnimationValue;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 
 public class DropDrawer extends BaseDrawer {
 
-    public DropDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public DropDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
     }
 
     public void draw(
@@ -25,15 +25,15 @@ public class DropDrawer extends BaseDrawer {
         }
 
         DropAnimationValue v = (DropAnimationValue) value;
-        int unselectedColor = indicator.getUnselectedColor();
-        int selectedColor = indicator.getSelectedColor();
-        float radius = indicator.getRadius();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        float radius = indicatorConfig.getRadius();
 
         paint.setColor(unselectedColor);
         canvas.drawCircle(coordinateX, coordinateY, radius, paint);
 
         paint.setColor(selectedColor);
-        if (indicator.getOrientation() == Orientation.HORIZONTAL) {
+        if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
             canvas.drawCircle(v.getWidth(), v.getHeight(), v.getRadius(), paint);
         } else {
             canvas.drawCircle(v.getHeight(), v.getWidth(), v.getRadius(), paint);

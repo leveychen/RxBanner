@@ -5,13 +5,13 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.data.type.ThinWormAnimationValue;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 
 public class ThinWormDrawer extends WormDrawer {
 
-    public ThinWormDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public ThinWormDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
     }
 
     public void draw(
@@ -29,11 +29,11 @@ public class ThinWormDrawer extends WormDrawer {
         int rectEnd = v.getRectEnd();
         int height = v.getHeight() / 2;
 
-        int radius = indicator.getRadius();
-        int unselectedColor = indicator.getUnselectedColor();
-        int selectedColor = indicator.getSelectedColor();
+        int radius = indicatorConfig.getRadius();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int selectedColor = indicatorConfig.getSelectedColor();
 
-        if (indicator.getOrientation() == Orientation.HORIZONTAL) {
+        if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
             rect.left = rectStart;
             rect.right = rectEnd;
             rect.top = coordinateY - height;

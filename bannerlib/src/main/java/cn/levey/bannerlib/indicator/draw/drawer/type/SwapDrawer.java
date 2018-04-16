@@ -5,13 +5,13 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.data.type.SwapAnimationValue;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 
 public class SwapDrawer extends BaseDrawer {
 
-    public SwapDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public SwapDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
     }
 
     public void draw(
@@ -26,18 +26,18 @@ public class SwapDrawer extends BaseDrawer {
         }
 
         SwapAnimationValue v = (SwapAnimationValue) value;
-        int selectedColor = indicator.getSelectedColor();
-        int unselectedColor = indicator.getUnselectedColor();
-        int radius = indicator.getRadius();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int radius = indicatorConfig.getRadius();
 
-        int selectedPosition = indicator.getSelectedPosition();
-        int selectingPosition = indicator.getSelectingPosition();
-        int lastSelectedPosition = indicator.getLastSelectedPosition();
+        int selectedPosition = indicatorConfig.getSelectedPosition();
+        int selectingPosition = indicatorConfig.getSelectingPosition();
+        int lastSelectedPosition = indicatorConfig.getLastSelectedPosition();
 
         int coordinate = v.getCoordinate();
         int color = unselectedColor;
 
-        if (indicator.isInteractiveAnimation()) {
+        if (indicatorConfig.isInteractiveAnimation()) {
             if (position == selectingPosition) {
                 coordinate = v.getCoordinate();
                 color = selectedColor;
@@ -59,7 +59,7 @@ public class SwapDrawer extends BaseDrawer {
         }
 
         paint.setColor(color);
-        if (indicator.getOrientation() == Orientation.HORIZONTAL) {
+        if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
             canvas.drawCircle(coordinate, coordinateY, radius, paint);
         } else {
             canvas.drawCircle(coordinateX, coordinate, radius, paint);

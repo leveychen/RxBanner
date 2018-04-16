@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.drawer.type.*;
 
 public class Drawer {
@@ -24,21 +24,21 @@ public class Drawer {
     private int coordinateX;
     private int coordinateY;
 
-    public Drawer(@NonNull Indicator indicator) {
+    public Drawer(@NonNull IndicatorConfig indicatorConfig) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
 
-        basicDrawer = new BasicDrawer(paint, indicator);
-        colorDrawer = new ColorDrawer(paint, indicator);
-        scaleDrawer = new ScaleDrawer(paint, indicator);
-        wormDrawer = new WormDrawer(paint, indicator);
-        slideDrawer = new SlideDrawer(paint, indicator);
-        fillDrawer = new FillDrawer(paint, indicator);
-        thinWormDrawer = new ThinWormDrawer(paint, indicator);
-        dropDrawer = new DropDrawer(paint, indicator);
-        swapDrawer = new SwapDrawer(paint, indicator);
-        scaleDownDrawer = new ScaleDownDrawer(paint, indicator);
+        basicDrawer = new BasicDrawer(paint, indicatorConfig);
+        colorDrawer = new ColorDrawer(paint, indicatorConfig);
+        scaleDrawer = new ScaleDrawer(paint, indicatorConfig);
+        wormDrawer = new WormDrawer(paint, indicatorConfig);
+        slideDrawer = new SlideDrawer(paint, indicatorConfig);
+        fillDrawer = new FillDrawer(paint, indicatorConfig);
+        thinWormDrawer = new ThinWormDrawer(paint, indicatorConfig);
+        dropDrawer = new DropDrawer(paint, indicatorConfig);
+        swapDrawer = new SwapDrawer(paint, indicatorConfig);
+        scaleDownDrawer = new ScaleDownDrawer(paint, indicatorConfig);
     }
 
     public void setup(int position, int coordinateX, int coordinateY) {

@@ -234,7 +234,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             }
             final int interval = (int) layoutManager.mInterval;
             final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-            mGravityScroller.fling(0, 0, velocityX, velocityY,0, interval, 0, interval);
+            mGravityScroller.fling(0, 0, velocityX, velocityY,Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
             if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
                     && Math.abs(velocityY) > minFlingVelocity) {
                 final int currentPosition = layoutManager.getCurrentPosition();

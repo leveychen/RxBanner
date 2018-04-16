@@ -9,51 +9,50 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 
 import cn.levey.bannerlib.R;
-import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
 import cn.levey.bannerlib.indicator.animation.type.ColorAnimation;
 import cn.levey.bannerlib.indicator.animation.type.FillAnimation;
 import cn.levey.bannerlib.indicator.animation.type.ScaleAnimation;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 import cn.levey.bannerlib.indicator.draw.data.RtlMode;
-import cn.levey.bannerlib.indicator.utils.DensityUtils;
 
 public class AttributeController {
 
-    private Indicator indicator;
+    private IndicatorConfig indicatorConfig;
 
     public AttributeController() {
-        this.indicator = new Indicator();
+        this.indicatorConfig = new IndicatorConfig();
     }
 
-    public Indicator getIndicator() {
-        return indicator;
+    public IndicatorConfig getIndicatorConfig() {
+        return indicatorConfig;
     }
 
-    public Indicator init(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public IndicatorConfig init(@NonNull Context context, @Nullable AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RxBanner);
         initViewAttribute(typedArray);
         
-        indicator.setDynamicCount(true);
-        indicator.setCount(0);
-        indicator.setSelectedPosition(0);
-        indicator.setSelectingPosition(0);
-        indicator.setLastSelectedPosition(0);
+        indicatorConfig.setDynamicCount(true);
+        indicatorConfig.setCount(0);
+        indicatorConfig.setSelectedPosition(0);
+        indicatorConfig.setSelectingPosition(0);
+        indicatorConfig.setLastSelectedPosition(0);
         initColorAttribute(typedArray);
         initAnimationAttribute(typedArray);
         initSizeAttribute(typedArray);
         typedArray.recycle();
-        return indicator;
+        return indicatorConfig;
     }
 
     private void initViewAttribute(@NonNull TypedArray typedArray){
         boolean clickable = typedArray.getBoolean(R.styleable.RxBanner_rb_indicator_clickable, true);
-        indicator.setClickable(clickable);
+        indicatorConfig.setClickable(clickable);
         int rb_indicator_layout_gravity = typedArray.getInt(R.styleable.RxBanner_rb_indicator_layout_gravity, Gravity.BOTTOM | Gravity.END);
-        indicator.setGravity(rb_indicator_layout_gravity);
-        int margin = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_margin, DensityUtils.dpToPx(Indicator.DEFAULT_MARGIN_DP));
+        indicatorConfig.setGravity(rb_indicator_layout_gravity);
+        int margin = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_margin, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_MARGIN_DP));
         int marginTop = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginTop, 0);
         int marginBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginBottom, 0);
         int marginStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginStart, 0);
@@ -62,23 +61,19 @@ public class AttributeController {
         if (marginBottom == 0) marginBottom = margin;
         if (marginStart == 0) marginStart = margin;
         if (marginEnd == 0) marginEnd = margin;
-        indicator.setMargin(margin);
-        indicator.setMarginTop(marginTop);
-        indicator.setMarginBottom(marginBottom);
-        indicator.setMarginStart(marginStart);
-        indicator.setMarginEnd(marginEnd);
-
-        RxBannerLogger.i("marginBottom =  " + indicator.getMarginBottom());
-        RxBannerLogger.i("marginEnd =  " + indicator.getMarginEnd());
-
+        indicatorConfig.setMargin(margin);
+        indicatorConfig.setMarginTop(marginTop);
+        indicatorConfig.setMarginBottom(marginBottom);
+        indicatorConfig.setMarginStart(marginStart);
+        indicatorConfig.setMarginEnd(marginEnd);
     }
 
     private void initColorAttribute(@NonNull TypedArray typedArray) {
 
         int unselectedColor = typedArray.getColor(R.styleable.RxBanner_rb_indicator_unselected_color, Color.parseColor(ColorAnimation.DEFAULT_UNSELECTED_COLOR));
         int selectedColor = typedArray.getColor(R.styleable.RxBanner_rb_indicator_selected_color, Color.parseColor(ColorAnimation.DEFAULT_SELECTED_COLOR));
-        indicator.setUnselectedColor(unselectedColor);
-        indicator.setSelectedColor(selectedColor);
+        indicatorConfig.setUnselectedColor(unselectedColor);
+        indicatorConfig.setSelectedColor(selectedColor);
     }
 
     private void initAnimationAttribute(@NonNull TypedArray typedArray) {
@@ -94,10 +89,10 @@ public class AttributeController {
         int rtlIndex = typedArray.getInt(R.styleable.RxBanner_rb_indicator_rtl_mode, RtlMode.Off.ordinal());
         RtlMode rtlMode = getRtlMode(rtlIndex);
 
-        indicator.setAnimationDuration(animationDuration);
-        indicator.setInteractiveAnimation(interactiveAnimation);
-        indicator.setAnimationType(animationType);
-        indicator.setRtlMode(rtlMode);
+        indicatorConfig.setAnimationDuration(animationDuration);
+        indicatorConfig.setInteractiveAnimation(interactiveAnimation);
+        indicatorConfig.setAnimationType(animationType);
+        indicatorConfig.setRtlMode(rtlMode);
     }
 
     private void initSizeAttribute(@NonNull TypedArray typedArray) {
@@ -110,14 +105,14 @@ public class AttributeController {
             orientation = Orientation.VERTICAL;
         }
 
-        int radius = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_radius, DensityUtils.dpToPx(Indicator.DEFAULT_RADIUS_DP));
+        int radius = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_radius, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_RADIUS_DP));
         if (radius < 0) {
             radius = 0;
         }
 
 
 
-        int padding = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_padding, DensityUtils.dpToPx(Indicator.DEFAULT_PADDING_DP));
+        int padding = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_padding, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_PADDING_DP));
         if (padding < 0) {
             padding = 0;
         }
@@ -130,20 +125,20 @@ public class AttributeController {
             scaleFactor = ScaleAnimation.MAX_SCALE_FACTOR;
         }
 
-        int stroke = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_stroke_width, DensityUtils.dpToPx(FillAnimation.DEFAULT_STROKE_DP));
+        int stroke = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_stroke_width, RxBannerUtil.dp2px(FillAnimation.DEFAULT_STROKE_DP));
         if (stroke > radius) {
             stroke = radius;
         }
 
-        if (indicator.getAnimationType() != AnimationType.FILL) {
+        if (indicatorConfig.getAnimationType() != AnimationType.FILL) {
             stroke = 0;
         }
 
-        indicator.setRadius(radius);
-        indicator.setOrientation(orientation);
-        indicator.setPadding(padding);
-        indicator.setScale(scaleFactor);
-        indicator.setStroke(stroke);
+        indicatorConfig.setRadius(radius);
+        indicatorConfig.setOrientation(orientation);
+        indicatorConfig.setPadding(padding);
+        indicatorConfig.setScale(scaleFactor);
+        indicatorConfig.setStroke(stroke);
     }
 
     private AnimationType getAnimationType(int index) {

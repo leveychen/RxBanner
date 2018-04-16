@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 import cn.levey.bannerlib.indicator.utils.CoordinatesUtils;
 
@@ -15,15 +15,15 @@ public class AnimationController {
     private ValueController.UpdateListener listener;
 
     private BaseAnimation runningAnimation;
-    private Indicator indicator;
+    private IndicatorConfig indicatorConfig;
 
     private float progress;
     private boolean isInteractive;
 
-    public AnimationController(@NonNull Indicator indicator, @NonNull ValueController.UpdateListener listener) {
+    public AnimationController(@NonNull IndicatorConfig indicatorConfig, @NonNull ValueController.UpdateListener listener) {
         this.valueController = new ValueController(listener);
         this.listener = listener;
-        this.indicator = indicator;
+        this.indicatorConfig = indicatorConfig;
     }
 
     public void interactive(float progress) {
@@ -45,7 +45,7 @@ public class AnimationController {
     }
 
     private void animate() {
-        AnimationType animationType = indicator.getAnimationType();
+        AnimationType animationType = indicatorConfig.getAnimationType();
         switch (animationType) {
             case NONE:
                 listener.onValueUpdated(null);
@@ -90,9 +90,9 @@ public class AnimationController {
     }
 
     private void colorAnimation() {
-        int selectedColor = indicator.getSelectedColor();
-        int unselectedColor = indicator.getUnselectedColor();
-        long animationDuration = indicator.getAnimationDuration();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .color()
@@ -109,11 +109,11 @@ public class AnimationController {
     }
 
     private void scaleAnimation() {
-        int selectedColor = indicator.getSelectedColor();
-        int unselectedColor = indicator.getUnselectedColor();
-        int radiusPx = indicator.getRadius();
-        float scaleFactor = indicator.getScale();
-        long animationDuration = indicator.getAnimationDuration();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int radiusPx = indicatorConfig.getRadius();
+        float scaleFactor = indicatorConfig.getScale();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .scale()
@@ -130,15 +130,15 @@ public class AnimationController {
     }
 
     private void wormAnimation() {
-        int fromPosition = indicator.isInteractiveAnimation() ? indicator.getSelectedPosition() : indicator.getLastSelectedPosition();
-        int toPosition = indicator.isInteractiveAnimation() ? indicator.getSelectingPosition() : indicator.getSelectedPosition();
+        int fromPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectedPosition() : indicatorConfig.getLastSelectedPosition();
+        int toPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectingPosition() : indicatorConfig.getSelectedPosition();
 
-        int from = CoordinatesUtils.getCoordinate(indicator, fromPosition);
-        int to = CoordinatesUtils.getCoordinate(indicator, toPosition);
+        int from = CoordinatesUtils.getCoordinate(indicatorConfig, fromPosition);
+        int to = CoordinatesUtils.getCoordinate(indicatorConfig, toPosition);
         boolean isRightSide = toPosition > fromPosition;
 
-        int radiusPx = indicator.getRadius();
-        long animationDuration = indicator.getAnimationDuration();
+        int radiusPx = indicatorConfig.getRadius();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .worm()
@@ -155,12 +155,12 @@ public class AnimationController {
     }
 
     private void slideAnimation() {
-        int fromPosition = indicator.isInteractiveAnimation() ? indicator.getSelectedPosition() : indicator.getLastSelectedPosition();
-        int toPosition = indicator.isInteractiveAnimation() ? indicator.getSelectingPosition() : indicator.getSelectedPosition();
+        int fromPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectedPosition() : indicatorConfig.getLastSelectedPosition();
+        int toPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectingPosition() : indicatorConfig.getSelectedPosition();
 
-        int from = CoordinatesUtils.getCoordinate(indicator, fromPosition);
-        int to = CoordinatesUtils.getCoordinate(indicator, toPosition);
-        long animationDuration = indicator.getAnimationDuration();
+        int from = CoordinatesUtils.getCoordinate(indicatorConfig, fromPosition);
+        int to = CoordinatesUtils.getCoordinate(indicatorConfig, toPosition);
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .slide()
@@ -177,11 +177,11 @@ public class AnimationController {
     }
 
     private void fillAnimation() {
-        int selectedColor = indicator.getSelectedColor();
-        int unselectedColor = indicator.getUnselectedColor();
-        int radiusPx = indicator.getRadius();
-        int strokePx = indicator.getStroke();
-        long animationDuration = indicator.getAnimationDuration();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int radiusPx = indicatorConfig.getRadius();
+        int strokePx = indicatorConfig.getStroke();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .fill()
@@ -198,15 +198,15 @@ public class AnimationController {
     }
 
     private void thinWormAnimation() {
-        int fromPosition = indicator.isInteractiveAnimation() ? indicator.getSelectedPosition() : indicator.getLastSelectedPosition();
-        int toPosition = indicator.isInteractiveAnimation() ? indicator.getSelectingPosition() : indicator.getSelectedPosition();
+        int fromPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectedPosition() : indicatorConfig.getLastSelectedPosition();
+        int toPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectingPosition() : indicatorConfig.getSelectedPosition();
 
-        int from = CoordinatesUtils.getCoordinate(indicator, fromPosition);
-        int to = CoordinatesUtils.getCoordinate(indicator, toPosition);
+        int from = CoordinatesUtils.getCoordinate(indicatorConfig, fromPosition);
+        int to = CoordinatesUtils.getCoordinate(indicatorConfig, toPosition);
         boolean isRightSide = toPosition > fromPosition;
 
-        int radiusPx = indicator.getRadius();
-        long animationDuration = indicator.getAnimationDuration();
+        int radiusPx = indicatorConfig.getRadius();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .thinWorm()
@@ -223,21 +223,21 @@ public class AnimationController {
     }
 
     private void dropAnimation() {
-        int fromPosition = indicator.isInteractiveAnimation() ? indicator.getSelectedPosition() : indicator.getLastSelectedPosition();
-        int toPosition = indicator.isInteractiveAnimation() ? indicator.getSelectingPosition() : indicator.getSelectedPosition();
+        int fromPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectedPosition() : indicatorConfig.getLastSelectedPosition();
+        int toPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectingPosition() : indicatorConfig.getSelectedPosition();
 
-        int widthFrom = CoordinatesUtils.getCoordinate(indicator, fromPosition);
-        int widthTo = CoordinatesUtils.getCoordinate(indicator, toPosition);
+        int widthFrom = CoordinatesUtils.getCoordinate(indicatorConfig, fromPosition);
+        int widthTo = CoordinatesUtils.getCoordinate(indicatorConfig, toPosition);
 
-        int paddingTop = indicator.getPaddingTop();
-        int paddingLeft = indicator.getPaddingLeft();
-        int padding = indicator.getOrientation() == Orientation.HORIZONTAL ? paddingTop : paddingLeft;
+        int paddingTop = indicatorConfig.getPaddingTop();
+        int paddingLeft = indicatorConfig.getPaddingLeft();
+        int padding = indicatorConfig.getOrientation() == Orientation.HORIZONTAL ? paddingTop : paddingLeft;
 
-        int radius = indicator.getRadius();
+        int radius = indicatorConfig.getRadius();
         int heightFrom = radius * 3 + padding;
         int heightTo = radius + padding;
 
-        long animationDuration = indicator.getAnimationDuration();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .drop()
@@ -254,12 +254,12 @@ public class AnimationController {
     }
 
     private void swapAnimation() {
-        int fromPosition = indicator.isInteractiveAnimation() ? indicator.getSelectedPosition() : indicator.getLastSelectedPosition();
-        int toPosition = indicator.isInteractiveAnimation() ? indicator.getSelectingPosition() : indicator.getSelectedPosition();
+        int fromPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectedPosition() : indicatorConfig.getLastSelectedPosition();
+        int toPosition = indicatorConfig.isInteractiveAnimation() ? indicatorConfig.getSelectingPosition() : indicatorConfig.getSelectedPosition();
 
-        int from = CoordinatesUtils.getCoordinate(indicator, fromPosition);
-        int to = CoordinatesUtils.getCoordinate(indicator, toPosition);
-        long animationDuration = indicator.getAnimationDuration();
+        int from = CoordinatesUtils.getCoordinate(indicatorConfig, fromPosition);
+        int to = CoordinatesUtils.getCoordinate(indicatorConfig, toPosition);
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .swap()
@@ -276,11 +276,11 @@ public class AnimationController {
     }
 
     private void scaleDownAnimation() {
-        int selectedColor = indicator.getSelectedColor();
-        int unselectedColor = indicator.getUnselectedColor();
-        int radiusPx = indicator.getRadius();
-        float scaleFactor = indicator.getScale();
-        long animationDuration = indicator.getAnimationDuration();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int radiusPx = indicatorConfig.getRadius();
+        float scaleFactor = indicatorConfig.getScale();
+        long animationDuration = indicatorConfig.getAnimationDuration();
 
         BaseAnimation animation = valueController
                 .scaleDown()

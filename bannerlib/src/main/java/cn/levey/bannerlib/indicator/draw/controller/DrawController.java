@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.drawer.Drawer;
 import cn.levey.bannerlib.indicator.utils.CoordinatesUtils;
 
@@ -14,7 +14,7 @@ public class DrawController {
 
 	private Value value;
 	private Drawer drawer;
-	private Indicator indicator;
+	private IndicatorConfig indicatorConfig;
 	private ClickListener listener;
 
 	public interface ClickListener {
@@ -22,9 +22,9 @@ public class DrawController {
 		void onIndicatorClicked(int position);
 	}
 
-	public DrawController(@NonNull Indicator indicator) {
-		this.indicator = indicator;
-		this.drawer = new Drawer(indicator);
+	public DrawController(@NonNull IndicatorConfig indicatorConfig) {
+		this.indicatorConfig = indicatorConfig;
+		this.drawer = new Drawer(indicatorConfig);
 	}
 
 	public void updateValue(@Nullable Value value) {
@@ -50,7 +50,7 @@ public class DrawController {
 
 	private void onIndicatorTouched(float x, float y) {
 		if (listener != null) {
-			int position = CoordinatesUtils.getPosition(indicator, x, y);
+			int position = CoordinatesUtils.getPosition(indicatorConfig, x, y);
 			if (position >= 0) {
 				listener.onIndicatorClicked(position);
 			}
@@ -58,11 +58,11 @@ public class DrawController {
 	}
 
 	public void draw(@NonNull Canvas canvas) {
-        int count = indicator.getCount();
+        int count = indicatorConfig.getCount();
 
         for (int position = 0; position < count; position++) {
-            int coordinateX = CoordinatesUtils.getXCoordinate(indicator, position);
-            int coordinateY = CoordinatesUtils.getYCoordinate(indicator, position);
+            int coordinateX = CoordinatesUtils.getXCoordinate(indicatorConfig, position);
+            int coordinateY = CoordinatesUtils.getYCoordinate(indicatorConfig, position);
             drawIndicator(canvas, position, coordinateX, coordinateY);
         }
     }
@@ -73,10 +73,10 @@ public class DrawController {
             int coordinateX,
             int coordinateY) {
 
-        boolean interactiveAnimation = indicator.isInteractiveAnimation();
-        int selectedPosition = indicator.getSelectedPosition();
-        int selectingPosition = indicator.getSelectingPosition();
-        int lastSelectedPosition = indicator.getLastSelectedPosition();
+        boolean interactiveAnimation = indicatorConfig.isInteractiveAnimation();
+        int selectedPosition = indicatorConfig.getSelectedPosition();
+        int selectingPosition = indicatorConfig.getSelectingPosition();
+        int lastSelectedPosition = indicatorConfig.getLastSelectedPosition();
 
         boolean selectedItem = !interactiveAnimation && (position == selectedPosition || position == lastSelectedPosition);
         boolean selectingItem = interactiveAnimation && (position == selectedPosition || position == selectingPosition);
@@ -91,7 +91,7 @@ public class DrawController {
     }
 
     private void drawWithAnimation(@NonNull Canvas canvas) {
-        AnimationType animationType = indicator.getAnimationType();
+        AnimationType animationType = indicatorConfig.getAnimationType();
         switch (animationType) {
             case NONE:
                 drawer.drawBasic(canvas, true);

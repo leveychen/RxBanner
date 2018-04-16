@@ -4,19 +4,19 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class BasicDrawer extends BaseDrawer {
 
     private Paint strokePaint;
 
-    public BasicDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public BasicDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
 
         strokePaint = new Paint();
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setAntiAlias(true);
-        strokePaint.setStrokeWidth(indicator.getStroke());
+        strokePaint.setStrokeWidth(indicatorConfig.getStroke());
     }
 
     public void draw(
@@ -26,14 +26,14 @@ public class BasicDrawer extends BaseDrawer {
             int coordinateX,
             int coordinateY) {
 
-        float radius = indicator.getRadius();
-        int strokePx = indicator.getStroke();
-        float scaleFactor = indicator.getScale();
+        float radius = indicatorConfig.getRadius();
+        int strokePx = indicatorConfig.getStroke();
+        float scaleFactor = indicatorConfig.getScale();
 
-        int selectedColor = indicator.getSelectedColor();
-        int unselectedColor = indicator.getUnselectedColor();
-        int selectedPosition = indicator.getSelectedPosition();
-        AnimationType animationType = indicator.getAnimationType();
+        int selectedColor = indicatorConfig.getSelectedColor();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int selectedPosition = indicatorConfig.getSelectedPosition();
+        AnimationType animationType = indicatorConfig.getAnimationType();
 
 		if (animationType == AnimationType.SCALE && !isSelectedItem) {
 			radius *= scaleFactor;

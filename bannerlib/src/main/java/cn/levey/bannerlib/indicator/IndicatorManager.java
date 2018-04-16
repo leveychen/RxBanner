@@ -5,7 +5,7 @@ import cn.levey.bannerlib.indicator.animation.AnimationManager;
 import cn.levey.bannerlib.indicator.animation.controller.ValueController;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.draw.DrawManager;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class IndicatorManager implements ValueController.UpdateListener {
 
@@ -17,9 +17,9 @@ public class IndicatorManager implements ValueController.UpdateListener {
         void onIndicatorUpdated();
     }
 
-    IndicatorManager(@Nullable Listener listener,Indicator indicator) {
+    IndicatorManager(@Nullable Listener listener,IndicatorConfig indicatorConfig) {
         this.listener = listener;
-        this.drawManager = new DrawManager(indicator);
+        this.drawManager = new DrawManager(indicatorConfig);
         this.animationManager = new AnimationManager(drawManager.indicator(), this);
     }
 
@@ -27,7 +27,7 @@ public class IndicatorManager implements ValueController.UpdateListener {
         return animationManager;
     }
 
-    public Indicator indicator() {
+    public IndicatorConfig indicator() {
         return drawManager.indicator();
     }
 

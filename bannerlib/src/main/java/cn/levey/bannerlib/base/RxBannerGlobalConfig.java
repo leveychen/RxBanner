@@ -1,7 +1,5 @@
 package cn.levey.bannerlib.base;
 
-import android.widget.LinearLayout;
-
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerScrollStateChangedListener;
 
@@ -35,20 +33,6 @@ public class RxBannerGlobalConfig {
 
     private int timeInterval = 5000;
     private OrderType orderType = OrderType.ASC;
-    private int orientation = LinearLayout.HORIZONTAL;
-
-    public int getOrientation() {
-        return orientation;
-    }
-
-    public RxBannerGlobalConfig setOrientation(int orientation) {
-        if(orientation == LinearLayout.HORIZONTAL  || orientation == LinearLayout.VERTICAL){
-            this.orientation = orientation;
-        }else {
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + " orientation should be one of HORIZONTAL or VERTICAL");
-        }
-        return this;
-    }
 
     public int getTimeInterval() {
         return timeInterval;

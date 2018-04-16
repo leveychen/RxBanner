@@ -4,27 +4,27 @@ import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.view.View;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 
 public class MeasureController {
 
-    public Pair<Integer, Integer> measureViewSize(@NonNull Indicator indicator, int widthMeasureSpec, int heightMeasureSpec) {
+    public Pair<Integer, Integer> measureViewSize(@NonNull IndicatorConfig indicatorConfig, int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
 
         int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = View.MeasureSpec.getSize(heightMeasureSpec);
 
-        int count = indicator.getCount();
-        int radius = indicator.getRadius();
-        int stroke = indicator.getStroke();
+        int count = indicatorConfig.getCount();
+        int radius = indicatorConfig.getRadius();
+        int stroke = indicatorConfig.getStroke();
 
-        int padding = indicator.getPadding();
-        int paddingLeft = indicator.getPaddingLeft();
-        int paddingTop = indicator.getPaddingTop();
-        int paddingRight = indicator.getPaddingRight();
-        int paddingBottom = indicator.getPaddingBottom();
+        int padding = indicatorConfig.getPadding();
+        int paddingLeft = indicatorConfig.getPaddingLeft();
+        int paddingTop = indicatorConfig.getPaddingTop();
+        int paddingRight = indicatorConfig.getPaddingRight();
+        int paddingBottom = indicatorConfig.getPaddingBottom();
 
         int circleDiameterPx = radius * 2;
         int desiredWidth = 0;
@@ -33,7 +33,7 @@ public class MeasureController {
         int width;
         int height;
 
-        Orientation orientation = indicator.getOrientation();
+        Orientation orientation = indicatorConfig.getOrientation();
         if (count != 0) {
             int diameterSum = circleDiameterPx * count;
             int strokeSum = (stroke * 2) * count;
@@ -52,7 +52,7 @@ public class MeasureController {
             }
         }
 
-        if (indicator.getAnimationType() == AnimationType.DROP) {
+        if (indicatorConfig.getAnimationType() == AnimationType.DROP) {
             if (orientation == Orientation.HORIZONTAL) {
                 desiredHeight *= 2;
             } else {
@@ -96,8 +96,8 @@ public class MeasureController {
             height = 0;
         }
 
-        indicator.setWidth(width);
-        indicator.setHeight(height);
+        indicatorConfig.setWidth(width);
+        indicatorConfig.setHeight(height);
 
         return new Pair<>(width, height);
     }

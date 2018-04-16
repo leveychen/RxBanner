@@ -5,12 +5,12 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.data.type.ScaleAnimationValue;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class ScaleDrawer extends BaseDrawer {
 
-    public ScaleDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public ScaleDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
     }
 
     public void draw(
@@ -25,14 +25,14 @@ public class ScaleDrawer extends BaseDrawer {
         }
 
         ScaleAnimationValue v = (ScaleAnimationValue) value;
-        float radius = indicator.getRadius();
-        int color = indicator.getSelectedColor();
+        float radius = indicatorConfig.getRadius();
+        int color = indicatorConfig.getSelectedColor();
 
-        int selectedPosition = indicator.getSelectedPosition();
-        int selectingPosition = indicator.getSelectingPosition();
-        int lastSelectedPosition = indicator.getLastSelectedPosition();
+        int selectedPosition = indicatorConfig.getSelectedPosition();
+        int selectingPosition = indicatorConfig.getSelectingPosition();
+        int lastSelectedPosition = indicatorConfig.getLastSelectedPosition();
 
-        if (indicator.isInteractiveAnimation()) {
+        if (indicatorConfig.isInteractiveAnimation()) {
             if (position == selectingPosition) {
                 radius = v.getRadius();
                 color = v.getColor();

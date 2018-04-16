@@ -2,15 +2,15 @@ package cn.levey.bannerlib.indicator.draw.drawer.type;
 
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 class BaseDrawer {
 
     Paint paint;
-    Indicator indicator;
+    IndicatorConfig indicatorConfig;
 
-    BaseDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
+    BaseDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
         this.paint = paint;
-        this.indicator = indicator;
+        this.indicatorConfig = indicatorConfig;
     }
 }

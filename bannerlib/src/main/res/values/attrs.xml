@@ -78,7 +78,7 @@
         <attr name="rb_title_marquee" format="boolean" />
 
 
-        <!--indicator-->
+        <!--indicatorConfig-->
         <attr name="rb_indicator_orientation">
             <enum name="horizontal" value="0" />
             <enum name="vertical" value="1" />

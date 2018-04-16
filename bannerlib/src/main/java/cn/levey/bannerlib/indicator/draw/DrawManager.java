@@ -9,33 +9,33 @@ import android.view.MotionEvent;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.draw.controller.DrawController;
 import cn.levey.bannerlib.indicator.draw.controller.MeasureController;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class DrawManager {
 
-	private Indicator indicator;
+	private IndicatorConfig indicatorConfig;
 	private DrawController drawController;
 	private MeasureController measureController;
 //	private AttributeController attributeController;
 
-	public DrawManager(Indicator indicator) {
-		this.indicator = indicator;
-		this.drawController = new DrawController(indicator);
+	public DrawManager(IndicatorConfig indicatorConfig) {
+		this.indicatorConfig = indicatorConfig;
+		this.drawController = new DrawController(indicatorConfig);
 		this.measureController = new MeasureController();
-		//this.attributeController = new AttributeController(indicator);
+		//this.attributeController = new AttributeController(indicatorConfig);
 	}
 
 	@NonNull
-	public Indicator indicator() {
-		if (indicator == null) {
-			indicator = new Indicator();
+	public IndicatorConfig indicator() {
+		if (indicatorConfig == null) {
+			indicatorConfig = new IndicatorConfig();
 		}
 
-		return indicator;
+		return indicatorConfig;
 	}
 
-	public void setIndicator(Indicator indicator){
-		this.indicator = indicator;
+	public void setIndicatorConfig(IndicatorConfig indicatorConfig){
+		this.indicatorConfig = indicatorConfig;
 	}
 
 	public void setClickListener(@Nullable DrawController.ClickListener listener) {
@@ -55,7 +55,7 @@ public class DrawManager {
 	}
 
 	public Pair<Integer, Integer> measureViewSize(int widthMeasureSpec, int heightMeasureSpec) {
-		return measureController.measureViewSize(indicator, widthMeasureSpec, heightMeasureSpec);
+		return measureController.measureViewSize(indicatorConfig, widthMeasureSpec, heightMeasureSpec);
 	}
 
 //	public void initAttributes(@NonNull Context context, @Nullable AttributeSet attrs) {

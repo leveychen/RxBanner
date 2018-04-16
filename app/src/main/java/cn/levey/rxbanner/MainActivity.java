@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "FullScreen":
                         Intent full = new Intent(getApplicationContext(), FullActivity.class);
+
                         startActivity(full);
                         break;
                     case "Splash":

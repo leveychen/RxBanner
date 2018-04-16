@@ -6,15 +6,15 @@ import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.data.type.WormAnimationValue;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 
 public class WormDrawer extends BaseDrawer {
 
     public RectF rect;
 
-    public WormDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public WormDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
         rect = new RectF();
     }
 
@@ -32,11 +32,11 @@ public class WormDrawer extends BaseDrawer {
         int rectStart = v.getRectStart();
         int rectEnd = v.getRectEnd();
 
-        int radius = indicator.getRadius();
-        int unselectedColor = indicator.getUnselectedColor();
-        int selectedColor = indicator.getSelectedColor();
+        int radius = indicatorConfig.getRadius();
+        int unselectedColor = indicatorConfig.getUnselectedColor();
+        int selectedColor = indicatorConfig.getSelectedColor();
 
-        if (indicator.getOrientation() == Orientation.HORIZONTAL) {
+        if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
             rect.left = rectStart;
             rect.right = rectEnd;
             rect.top = coordinateY - radius;

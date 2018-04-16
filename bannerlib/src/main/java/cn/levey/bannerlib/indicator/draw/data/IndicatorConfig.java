@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 
-public class Indicator {
+public class IndicatorConfig {
 
     public static final int DEFAULT_COUNT = 0;
     public static final int MIN_COUNT = 1;

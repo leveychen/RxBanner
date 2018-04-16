@@ -657,6 +657,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
     private void layoutItems(RecyclerView.Recycler recycler) {
         detachAndScrapAttachedViews(recycler);
+
         positionCache.clear();
 
         final int itemCount = getItemCount();

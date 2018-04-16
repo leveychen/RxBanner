@@ -24,7 +24,7 @@ import cn.levey.bannerlib.indicator.animation.type.ColorAnimation;
 import cn.levey.bannerlib.indicator.animation.type.FillAnimation;
 import cn.levey.bannerlib.indicator.animation.type.ScaleAnimation;
 import cn.levey.bannerlib.indicator.draw.controller.DrawController;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 import cn.levey.bannerlib.indicator.draw.data.PositionSavedState;
 import cn.levey.bannerlib.indicator.draw.data.RtlMode;
@@ -78,11 +78,11 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
 
     @Override
     public Parcelable onSaveInstanceState() {
-        Indicator indicator = manager.indicator();
+        IndicatorConfig indicatorConfig = manager.indicator();
         PositionSavedState positionSavedState = new PositionSavedState(super.onSaveInstanceState());
-        positionSavedState.setSelectedPosition(indicator.getSelectedPosition());
-        positionSavedState.setSelectingPosition(indicator.getSelectingPosition());
-        positionSavedState.setLastSelectedPosition(indicator.getLastSelectedPosition());
+        positionSavedState.setSelectedPosition(indicatorConfig.getSelectedPosition());
+        positionSavedState.setSelectingPosition(indicatorConfig.getSelectingPosition());
+        positionSavedState.setLastSelectedPosition(indicatorConfig.getLastSelectedPosition());
 
         return positionSavedState;
     }
@@ -90,11 +90,11 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         if (state instanceof PositionSavedState) {
-            Indicator indicator = manager.indicator();
+            IndicatorConfig indicatorConfig = manager.indicator();
             PositionSavedState positionSavedState = (PositionSavedState) state;
-            indicator.setSelectedPosition(positionSavedState.getSelectedPosition());
-            indicator.setSelectingPosition(positionSavedState.getSelectingPosition());
-            indicator.setLastSelectedPosition(positionSavedState.getLastSelectedPosition());
+            indicatorConfig.setSelectedPosition(positionSavedState.getSelectedPosition());
+            indicatorConfig.setSelectingPosition(positionSavedState.getSelectingPosition());
+            indicatorConfig.setLastSelectedPosition(positionSavedState.getLastSelectedPosition());
             super.onRestoreInstanceState(positionSavedState.getSuperState());
 
         } else {
@@ -178,7 +178,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     }
 
     /**
-     * Set radius in dp of each circle indicator. Default value is {@link Indicator#DEFAULT_RADIUS_DP}.
+     * Set radius in dp of each circle indicator. Default value is {@link IndicatorConfig#DEFAULT_RADIUS_DP}.
      * Note: make sure you set circle Radius, not a Diameter.
      *
      * @param radiusDp radius of circle in dp.
@@ -194,7 +194,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     }
 
     /**
-     * Set radius in px of each circle indicator. Default value is {@link Indicator#DEFAULT_RADIUS_DP}.
+     * Set radius in px of each circle indicator. Default value is {@link IndicatorConfig#DEFAULT_RADIUS_DP}.
      * Note: make sure you set circle Radius, not a Diameter.
      *
      * @param radiusPx radius of circle in px.
@@ -210,14 +210,14 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
 
     /**
      * Return radius of each circle indicators in px. If custom radius is not set, return
-     * default value {@link Indicator#DEFAULT_RADIUS_DP}.
+     * default value {@link IndicatorConfig#DEFAULT_RADIUS_DP}.
      */
     public int getRadius() {
         return manager.indicator().getRadius();
     }
 
     /**
-     * Set padding in dp between each circle indicator. Default value is {@link Indicator#DEFAULT_PADDING_DP}.
+     * Set padding in dp between each circle indicator. Default value is {@link IndicatorConfig#DEFAULT_PADDING_DP}.
      *
      * @param paddingDp padding between circles in dp.
      */
@@ -232,7 +232,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     }
 
     /**
-     * Set padding in px between each circle indicator. Default value is {@link Indicator#DEFAULT_PADDING_DP}.
+     * Set padding in px between each circle indicator. Default value is {@link IndicatorConfig#DEFAULT_PADDING_DP}.
      *
      * @param paddingPx padding between circles in px.
      */
@@ -247,7 +247,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
 
     /**
      * Return padding in px between each circle indicator. If custom padding is not set,
-     * return default value {@link Indicator#DEFAULT_PADDING_DP}.
+     * return default value {@link IndicatorConfig#DEFAULT_PADDING_DP}.
      */
     public int getPadding() {
         return manager.indicator().getPadding();
@@ -491,30 +491,30 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      * @param mode instance of {@link RtlMode}
      */
     public void setRtlMode(@Nullable RtlMode mode) {
-        Indicator indicator = manager.indicator();
+        IndicatorConfig indicatorConfig = manager.indicator();
         if (mode == null) {
-            indicator.setRtlMode(RtlMode.Off);
+            indicatorConfig.setRtlMode(RtlMode.Off);
         } else {
-            indicator.setRtlMode(mode);
+            indicatorConfig.setRtlMode(mode);
         }
 
         if (recyclerView == null) {
             return;
         }
 
-        int selectedPosition = indicator.getSelectedPosition();
+        int selectedPosition = indicatorConfig.getSelectedPosition();
         int position = selectedPosition;
 
         if (isRtl()) {
-            position = (indicator.getCount() - 1) - selectedPosition;
+            position = (indicatorConfig.getCount() - 1) - selectedPosition;
 
         } else if (recyclerView != null) {
             position = layoutManager.getCurrentPosition();
         }
 
-        indicator.setLastSelectedPosition(position);
-        indicator.setSelectingPosition(position);
-        indicator.setSelectedPosition(position);
+        indicatorConfig.setLastSelectedPosition(position);
+        indicatorConfig.setSelectingPosition(position);
+        indicatorConfig.setSelectedPosition(position);
         invalidate();
     }
 
@@ -525,17 +525,17 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      * @param position position of indicator to select.
      */
     public void setSelection(int position) {
-        Indicator indicator = manager.indicator();
+        IndicatorConfig indicatorConfig = manager.indicator();
         position = adjustPosition(position);
 
-        if (position == indicator.getSelectedPosition() || position == indicator.getSelectingPosition()) {
+        if (position == indicatorConfig.getSelectedPosition() || position == indicatorConfig.getSelectingPosition()) {
             return;
         }
 
-        indicator.setInteractiveAnimation(false);
-        indicator.setLastSelectedPosition(indicator.getSelectedPosition());
-        indicator.setSelectingPosition(position);
-        indicator.setSelectedPosition(position);
+        indicatorConfig.setInteractiveAnimation(false);
+        indicatorConfig.setLastSelectedPosition(indicatorConfig.getSelectedPosition());
+        indicatorConfig.setSelectingPosition(position);
+        indicatorConfig.setSelectedPosition(position);
         manager.animate().basic();
     }
 
@@ -546,12 +546,12 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      * @param position position of indicator to select.
      */
     public void setSelected(int position) {
-        Indicator indicator = manager.indicator();
-        AnimationType animationType = indicator.getAnimationType();
-        indicator.setAnimationType(AnimationType.NONE);
+        IndicatorConfig indicatorConfig = manager.indicator();
+        AnimationType animationType = indicatorConfig.getAnimationType();
+        indicatorConfig.setAnimationType(AnimationType.NONE);
 
         setSelection(position);
-        indicator.setAnimationType(animationType);
+        indicatorConfig.setAnimationType(animationType);
     }
 
     /**
@@ -568,12 +568,12 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      * @param progress          float value of progress.
      */
     public void setProgress(int selectingPosition, float progress) {
-        Indicator indicator = manager.indicator();
-        if (!indicator.isInteractiveAnimation()) {
+        IndicatorConfig indicatorConfig = manager.indicator();
+        if (!indicatorConfig.isInteractiveAnimation()) {
             return;
         }
 
-        int count = indicator.getCount();
+        int count = indicatorConfig.getCount();
         if (count <= 0 || selectingPosition < 0) {
             selectingPosition = 0;
 
@@ -589,11 +589,11 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
         }
 
         if (progress == 1) {
-            indicator.setLastSelectedPosition(indicator.getSelectedPosition());
-            indicator.setSelectedPosition(selectingPosition);
+            indicatorConfig.setLastSelectedPosition(indicatorConfig.getSelectedPosition());
+            indicatorConfig.setSelectedPosition(selectingPosition);
         }
 
-        indicator.setSelectingPosition(selectingPosition);
+        indicatorConfig.setSelectingPosition(selectingPosition);
         manager.animate().interactive(progress);
     }
 
@@ -611,18 +611,18 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
         }
     }
 
-    public void setIndicatorConfig(Indicator indicator){
-            manager = new IndicatorManager(this,indicator);
-            manager.drawer().setIndicator(indicator);
-            indicator.setPaddingLeft(getPaddingLeft());
-            indicator.setPaddingTop(getPaddingTop());
-            indicator.setPaddingRight(getPaddingRight());
-            indicator.setPaddingBottom(getPaddingBottom());
-            isInteractionEnabled = indicator.isInteractiveAnimation();
+    public void setIndicatorConfig(IndicatorConfig indicatorConfig){
+            manager = new IndicatorManager(this, indicatorConfig);
+            manager.drawer().setIndicatorConfig(indicatorConfig);
+            indicatorConfig.setPaddingLeft(getPaddingLeft());
+            indicatorConfig.setPaddingTop(getPaddingTop());
+            indicatorConfig.setPaddingRight(getPaddingRight());
+            indicatorConfig.setPaddingBottom(getPaddingBottom());
+            isInteractionEnabled = indicatorConfig.isInteractiveAnimation();
 
     }
 
-    public Indicator getConfig(){
+    public IndicatorConfig getConfig(){
         if(manager != null && manager.drawer() != null){
             return manager.drawer().indicator();
         }else {
@@ -680,19 +680,10 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     }
 
     private void updateVisibility() {
-//        if (!manager.indicator().isAutoVisibility()) {
-//            return;
-//        }
-
         int count = manager.indicator().getCount();
-
-        RxBannerLogger.i(" updateVisibility = " + count);
-
-        if ( count > Indicator.MIN_COUNT) {
-            RxBannerLogger.i(" updateVisibility =VISIBLE");
+        if ( count > IndicatorConfig.MIN_COUNT) {
             setVisibility(VISIBLE);
         } else{
-            RxBannerLogger.i(" updateVisibility =GONE");
             setVisibility(View.GONE);
         }
         requestLayout();
@@ -700,19 +691,16 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
 
     private int getRecyclerViewCount() {
         if (recyclerView != null && recyclerView.getAdapter() != null) {
-            RxBannerLogger.i(" getRecyclerViewCount 1 = " + recyclerView.getAdapter().getItemCount());
             return recyclerView.getAdapter().getItemCount();
         } else {
-
-            RxBannerLogger.i(" getRecyclerViewCount 2 = " + manager.indicator().getCount());
             return manager.indicator().getCount();
         }
     }
 
     private void onPageSelect(int position) {
-        Indicator indicator = manager.indicator();
+        IndicatorConfig indicatorConfig = manager.indicator();
         boolean canSelectIndicator = isViewMeasured();
-        int count = indicator.getCount();
+        int count = indicatorConfig.getCount();
 
         if (canSelectIndicator) {
             if (isRtl()) {
@@ -723,16 +711,16 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     }
 
 	private void onPageScroll(int position, float positionOffset) {
-        Indicator indicator = manager.indicator();
-        AnimationType animationType = indicator.getAnimationType();
-        boolean interactiveAnimation = indicator.isInteractiveAnimation();
+        IndicatorConfig indicatorConfig = manager.indicator();
+        AnimationType animationType = indicatorConfig.getAnimationType();
+        boolean interactiveAnimation = indicatorConfig.isInteractiveAnimation();
         boolean canSelectIndicator = isViewMeasured() && interactiveAnimation && animationType != AnimationType.NONE;
 
         if (!canSelectIndicator) {
             return;
         }
 
-        Pair<Integer, Float> progressPair = CoordinatesUtils.getProgress(indicator, position, positionOffset, isRtl());
+        Pair<Integer, Float> progressPair = CoordinatesUtils.getProgress(indicatorConfig, position, positionOffset, isRtl());
         int selectingPosition = progressPair.first;
         float selectingProgress = progressPair.second;
         setProgress(selectingPosition, selectingProgress);
@@ -759,8 +747,8 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
 
 
     private int adjustPosition(int position){
-        Indicator indicator = manager.indicator();
-        int count = indicator.getCount();
+        IndicatorConfig indicatorConfig = manager.indicator();
+        int count = indicatorConfig.getCount();
         int lastPosition = count - 1;
 
         if (position < 0) {

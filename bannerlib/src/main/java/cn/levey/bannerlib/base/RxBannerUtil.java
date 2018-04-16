@@ -44,7 +44,7 @@ public class RxBannerUtil {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp,Resources.getSystem().getDisplayMetrics());
     }
 
-    public static int px2Dp(float px) {
+    public static int px2dp(float px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, Resources.getSystem().getDisplayMetrics());
     }
 }

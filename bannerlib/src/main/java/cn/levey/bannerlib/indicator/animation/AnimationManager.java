@@ -3,14 +3,14 @@ package cn.levey.bannerlib.indicator.animation;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.controller.AnimationController;
 import cn.levey.bannerlib.indicator.animation.controller.ValueController;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class AnimationManager {
 
     private AnimationController animationController;
 
-    public AnimationManager(@NonNull Indicator indicator, @NonNull ValueController.UpdateListener listener) {
-        this.animationController = new AnimationController(indicator, listener);
+    public AnimationManager(@NonNull IndicatorConfig indicatorConfig, @NonNull ValueController.UpdateListener listener) {
+        this.animationController = new AnimationController(indicatorConfig, listener);
     }
 
     public void basic() {

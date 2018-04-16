@@ -5,14 +5,14 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import cn.levey.bannerlib.indicator.animation.data.Value;
 import cn.levey.bannerlib.indicator.animation.data.type.FillAnimationValue;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class FillDrawer extends BaseDrawer {
 
     private Paint strokePaint;
 
-    public FillDrawer(@NonNull Paint paint, @NonNull Indicator indicator) {
-        super(paint, indicator);
+    public FillDrawer(@NonNull Paint paint, @NonNull IndicatorConfig indicatorConfig) {
+        super(paint, indicatorConfig);
 
         strokePaint = new Paint();
         strokePaint.setStyle(Paint.Style.STROKE);
@@ -31,15 +31,15 @@ public class FillDrawer extends BaseDrawer {
         }
 
         FillAnimationValue v = (FillAnimationValue) value;
-        int color = indicator.getUnselectedColor();
-        float radius = indicator.getRadius();
-        int stroke = indicator.getStroke();
+        int color = indicatorConfig.getUnselectedColor();
+        float radius = indicatorConfig.getRadius();
+        int stroke = indicatorConfig.getStroke();
 
-        int selectedPosition = indicator.getSelectedPosition();
-        int selectingPosition = indicator.getSelectingPosition();
-        int lastSelectedPosition = indicator.getLastSelectedPosition();
+        int selectedPosition = indicatorConfig.getSelectedPosition();
+        int selectingPosition = indicatorConfig.getSelectingPosition();
+        int lastSelectedPosition = indicatorConfig.getLastSelectedPosition();
 
-        if (indicator.isInteractiveAnimation()) {
+        if (indicatorConfig.isInteractiveAnimation()) {
             if (position == selectingPosition) {
                 color = v.getColor();
                 radius = v.getRadius();
@@ -65,8 +65,8 @@ public class FillDrawer extends BaseDrawer {
         }
 
         strokePaint.setColor(color);
-        strokePaint.setStrokeWidth(indicator.getStroke());
-        canvas.drawCircle(coordinateX, coordinateY, indicator.getRadius(), strokePaint);
+        strokePaint.setStrokeWidth(indicatorConfig.getStroke());
+        canvas.drawCircle(coordinateX, coordinateY, indicatorConfig.getRadius(), strokePaint);
 
         strokePaint.setStrokeWidth(stroke);
         canvas.drawCircle(coordinateX, coordinateY, radius, strokePaint);

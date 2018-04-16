@@ -4,67 +4,67 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
-import cn.levey.bannerlib.indicator.draw.data.Indicator;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.indicator.draw.data.Orientation;
 
 public class CoordinatesUtils {
 
 	@SuppressWarnings("UnnecessaryLocalVariable")
-	public static int getCoordinate(@Nullable Indicator indicator, int position) {
-		if (indicator == null) {
+	public static int getCoordinate(@Nullable IndicatorConfig indicatorConfig, int position) {
+		if (indicatorConfig == null) {
 			return 0;
 		}
 
-		if (indicator.getOrientation() == Orientation.HORIZONTAL) {
-			return getXCoordinate(indicator, position);
+		if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
+			return getXCoordinate(indicatorConfig, position);
 		} else {
-			return getYCoordinate(indicator, position);
+			return getYCoordinate(indicatorConfig, position);
 		}
 	}
 
 	@SuppressWarnings("UnnecessaryLocalVariable")
-	public static int getXCoordinate(@Nullable Indicator indicator, int position) {
-		if (indicator == null) {
+	public static int getXCoordinate(@Nullable IndicatorConfig indicatorConfig, int position) {
+		if (indicatorConfig == null) {
 			return 0;
 		}
 
 		int coordinate;
-		if (indicator.getOrientation() == Orientation.HORIZONTAL) {
-			coordinate = getHorizontalCoordinate(indicator, position);
+		if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
+			coordinate = getHorizontalCoordinate(indicatorConfig, position);
 		} else {
-			coordinate = getVerticalCoordinate(indicator);
+			coordinate = getVerticalCoordinate(indicatorConfig);
 		}
 
-		coordinate += indicator.getPaddingLeft();
+		coordinate += indicatorConfig.getPaddingLeft();
 		return coordinate;
 	}
 
-	public static int getYCoordinate(@Nullable Indicator indicator, int position) {
-		if (indicator == null) {
+	public static int getYCoordinate(@Nullable IndicatorConfig indicatorConfig, int position) {
+		if (indicatorConfig == null) {
 			return 0;
 		}
 
 		int coordinate;
-		if (indicator.getOrientation() == Orientation.HORIZONTAL) {
-			coordinate = getVerticalCoordinate(indicator);
+		if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
+			coordinate = getVerticalCoordinate(indicatorConfig);
 		} else {
-			coordinate = getHorizontalCoordinate(indicator, position);
+			coordinate = getHorizontalCoordinate(indicatorConfig, position);
 		}
 
-		coordinate += indicator.getPaddingTop();
+		coordinate += indicatorConfig.getPaddingTop();
 		return coordinate;
 	}
 
 	@SuppressWarnings("SuspiciousNameCombination")
-	public static int getPosition(@Nullable Indicator indicator, float x, float y) {
-		if (indicator == null) {
+	public static int getPosition(@Nullable IndicatorConfig indicatorConfig, float x, float y) {
+		if (indicatorConfig == null) {
 			return -1;
 		}
 
 		float lengthCoordinate;
 		float heightCoordinate;
 
-		if (indicator.getOrientation() == Orientation.HORIZONTAL) {
+		if (indicatorConfig.getOrientation() == Orientation.HORIZONTAL) {
 			lengthCoordinate = x;
 			heightCoordinate = y;
 		} else {
@@ -72,16 +72,16 @@ public class CoordinatesUtils {
 			heightCoordinate = x;
 		}
 
-		return getFitPosition(indicator, lengthCoordinate, heightCoordinate);
+		return getFitPosition(indicatorConfig, lengthCoordinate, heightCoordinate);
 	}
 
-	private static int getFitPosition(@NonNull Indicator indicator, float lengthCoordinate, float heightCoordinate) {
-		int count = indicator.getCount();
-		int radius = indicator.getRadius();
-		int stroke = indicator.getStroke();
-		int padding = indicator.getPadding();
+	private static int getFitPosition(@NonNull IndicatorConfig indicatorConfig, float lengthCoordinate, float heightCoordinate) {
+		int count = indicatorConfig.getCount();
+		int radius = indicatorConfig.getRadius();
+		int stroke = indicatorConfig.getStroke();
+		int padding = indicatorConfig.getPadding();
 
-		int height = indicator.getOrientation() == Orientation.HORIZONTAL ? indicator.getHeight() : indicator.getWidth();
+		int height = indicatorConfig.getOrientation() == Orientation.HORIZONTAL ? indicatorConfig.getHeight() : indicatorConfig.getWidth();
 		int length = 0;
 
 		for (int i = 0; i < count; i++) {
@@ -102,11 +102,11 @@ public class CoordinatesUtils {
 		return -1;
 	}
 
-	private static int getHorizontalCoordinate(@NonNull Indicator indicator, int position) {
-		int count = indicator.getCount();
-		int radius = indicator.getRadius();
-		int stroke = indicator.getStroke();
-		int padding = indicator.getPadding();
+	private static int getHorizontalCoordinate(@NonNull IndicatorConfig indicatorConfig, int position) {
+		int count = indicatorConfig.getCount();
+		int radius = indicatorConfig.getRadius();
+		int stroke = indicatorConfig.getStroke();
+		int padding = indicatorConfig.getPadding();
 
 		int coordinate = 0;
 		for (int i = 0; i < count; i++) {
@@ -119,18 +119,18 @@ public class CoordinatesUtils {
 			coordinate += radius + padding + (stroke / 2);
 		}
 
-		if (indicator.getAnimationType() == AnimationType.DROP) {
+		if (indicatorConfig.getAnimationType() == AnimationType.DROP) {
 			coordinate += radius * 2;
 		}
 
 		return coordinate;
 	}
 
-	private static int getVerticalCoordinate(@NonNull Indicator indicator) {
-		int radius = indicator.getRadius();
+	private static int getVerticalCoordinate(@NonNull IndicatorConfig indicatorConfig) {
+		int radius = indicatorConfig.getRadius();
 		int coordinate;
 
-		if (indicator.getAnimationType() == AnimationType.DROP) {
+		if (indicatorConfig.getAnimationType() == AnimationType.DROP) {
 			coordinate = radius * 3;
 		} else {
 			coordinate = radius;
@@ -139,9 +139,9 @@ public class CoordinatesUtils {
 		return coordinate;
 	}
 
-	public static Pair<Integer, Float> getProgress(@NonNull Indicator indicator, int position, float positionOffset, boolean isRtl) {
-		int count = indicator.getCount();
-		int selectedPosition = indicator.getSelectedPosition();
+	public static Pair<Integer, Float> getProgress(@NonNull IndicatorConfig indicatorConfig, int position, float positionOffset, boolean isRtl) {
+		int count = indicatorConfig.getCount();
+		int selectedPosition = indicatorConfig.getSelectedPosition();
 
 		if (isRtl) {
 			position = (count - 1) - position;
@@ -165,7 +165,7 @@ public class CoordinatesUtils {
 
 		if (isRightOverScrolled || isLeftOverScrolled) {
 			selectedPosition = position;
-			indicator.setSelectedPosition(selectedPosition);
+			indicatorConfig.setSelectedPosition(selectedPosition);
 		}
 
 		boolean slideToRightSide = selectedPosition == position && positionOffset != 0;
