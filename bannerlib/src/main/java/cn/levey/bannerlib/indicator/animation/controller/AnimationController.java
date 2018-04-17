@@ -230,7 +230,7 @@ public class AnimationController {
         int widthTo = CoordinatesUtils.getCoordinate(indicatorConfig, toPosition);
 
         int paddingTop = indicatorConfig.getPaddingTop();
-        int paddingLeft = indicatorConfig.getPaddingLeft();
+        int paddingLeft = indicatorConfig.getPaddingStart();
         int padding = indicatorConfig.getOrientation() == Orientation.HORIZONTAL ? paddingTop : paddingLeft;
 
         int radius = indicatorConfig.getRadius();

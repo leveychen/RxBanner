@@ -28,7 +28,6 @@
             android:theme="@style/AppTheme.FullScreen"/>
         <activity
             android:name=".activity.FullActivity"
-            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.FullScreen"/>
     </application>
 

@@ -57,10 +57,10 @@ public class AttributeController {
         int marginBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginBottom, 0);
         int marginStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginStart, 0);
         int marginEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginEnd, 0);
-        if (marginTop == 0) marginTop = margin;
-        if (marginBottom == 0) marginBottom = margin;
-        if (marginStart == 0) marginStart = margin;
-        if (marginEnd == 0) marginEnd = margin;
+        if(marginTop == 0) marginTop = margin;
+        if(marginBottom == 0) marginBottom = margin;
+        if(marginStart == 0) marginStart = margin;
+        if(marginEnd == 0) marginEnd = margin;
         indicatorConfig.setMargin(margin);
         indicatorConfig.setMarginTop(marginTop);
         indicatorConfig.setMarginBottom(marginBottom);
@@ -105,14 +105,14 @@ public class AttributeController {
             orientation = Orientation.VERTICAL;
         }
 
-        int radius = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_radius, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_RADIUS_DP));
+        int radius = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_radius, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_RADIUS_DP));
         if (radius < 0) {
             radius = 0;
         }
 
 
 
-        int padding = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_padding, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_PADDING_DP));
+        int padding =  typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_padding, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_PADDING_DP));
         if (padding < 0) {
             padding = 0;
         }
@@ -125,7 +125,7 @@ public class AttributeController {
             scaleFactor = ScaleAnimation.MAX_SCALE_FACTOR;
         }
 
-        int stroke = (int) typedArray.getDimension(R.styleable.RxBanner_rb_indicator_stroke_width, RxBannerUtil.dp2px(FillAnimation.DEFAULT_STROKE_DP));
+        int stroke =  typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_stroke_width, RxBannerUtil.dp2px(FillAnimation.DEFAULT_STROKE_DP));
         if (stroke > radius) {
             stroke = radius;
         }

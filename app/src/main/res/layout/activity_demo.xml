@@ -56,23 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_marginTop="10dp"
-            banner:rb_itemPercent="60"
-            banner:rb_itemScale="0.95"
-            banner:rb_itemSpace="1dp"
-            banner:rb_orderType="asc"
-            banner:rb_autoPlay="false"
-            banner:rb_orientation="horizontal"
-            banner:rb_timeInterval="3000"
-            banner:rb_title_color="#FFFFFF"
-            banner:rb_title_marquee="true"
-            banner:rb_viewPaperMode="true"
-            banner:rb_title_gravity="start"
-            banner:rb_title_padding="5dp"
-            banner:rb_indicator_selected_color="@color/colorPrimary"
-            banner:rb_indicator_unselected_color="@color/colorAccent"
-            banner:rb_indicator_orientation="horizontal"
-            banner:rb_indicator_animationType="thinWorm"
-            banner:rb_indicator_interactiveAnimation="false"/>
+            banner:rb_title_width="match_parent"/>
 
         <LinearLayout
             android:layout_width="match_parent"

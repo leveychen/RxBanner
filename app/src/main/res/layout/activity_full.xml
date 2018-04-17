@@ -25,7 +25,7 @@
             banner:rb_title_layout_gravity="bottom"
             banner:rb_title_visible="false"
             banner:rb_indicator_layout_gravity="center_horizontal|bottom"
-            banner:rb_indicator_radius="12dp"
+            banner:rb_indicator_radius="6px"
             banner:rb_indicator_orientation="horizontal"
             banner:rb_indicator_animationType="swap"
             banner:rb_indicator_interactiveAnimation="false"/>

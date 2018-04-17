@@ -252,7 +252,9 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
+                if(layoutManager.getRxBannerIndicatorChangeListener() != null)
                 layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerTitleChangeListener() != null)
                 layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 return true;
             }

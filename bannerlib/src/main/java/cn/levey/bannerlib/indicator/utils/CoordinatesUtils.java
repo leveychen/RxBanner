@@ -35,7 +35,7 @@ public class CoordinatesUtils {
 			coordinate = getVerticalCoordinate(indicatorConfig);
 		}
 
-		coordinate += indicatorConfig.getPaddingLeft();
+		coordinate += indicatorConfig.getPaddingStart();
 		return coordinate;
 	}
 

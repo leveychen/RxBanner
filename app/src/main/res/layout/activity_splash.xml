@@ -14,6 +14,7 @@
             banner:rb_autoPlay="false"
             banner:rb_indicator_layout_gravity="center_horizontal|bottom"
             banner:rb_indicator_selected_color="@color/colorAccent"
+            banner:rb_indicator_radius="6dp"
             banner:rb_indicator_unselected_color="@color/colorPrimary"/>
 
     </LinearLayout>

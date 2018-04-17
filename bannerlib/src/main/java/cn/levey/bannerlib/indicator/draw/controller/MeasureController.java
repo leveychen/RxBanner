@@ -21,9 +21,9 @@ public class MeasureController {
         int stroke = indicatorConfig.getStroke();
 
         int padding = indicatorConfig.getPadding();
-        int paddingLeft = indicatorConfig.getPaddingLeft();
+        int paddingLeft = indicatorConfig.getPaddingStart();
         int paddingTop = indicatorConfig.getPaddingTop();
-        int paddingRight = indicatorConfig.getPaddingRight();
+        int paddingRight = indicatorConfig.getPaddingEnd();
         int paddingBottom = indicatorConfig.getPaddingBottom();
 
         int circleDiameterPx = radius * 2;

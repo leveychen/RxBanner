@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
@@ -29,7 +30,6 @@ import cn.levey.bannerlib.indicator.draw.data.Orientation;
 import cn.levey.bannerlib.indicator.draw.data.PositionSavedState;
 import cn.levey.bannerlib.indicator.draw.data.RtlMode;
 import cn.levey.bannerlib.indicator.utils.CoordinatesUtils;
-import cn.levey.bannerlib.indicator.utils.DensityUtils;
 import cn.levey.bannerlib.indicator.utils.IdUtils;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
@@ -188,7 +188,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
             radiusDp = 0;
         }
 
-        int radiusPx = DensityUtils.dpToPx(radiusDp);
+        int radiusPx = RxBannerUtil.dp2px(radiusDp);
         manager.indicator().setRadius(radiusPx);
         invalidate();
     }
@@ -226,7 +226,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
             paddingDp = 0;
         }
 
-        int paddingPx = DensityUtils.dpToPx(paddingDp);
+        int paddingPx = RxBannerUtil.dp2px(paddingDp);
         manager.indicator().setPadding(paddingPx);
         invalidate();
     }
@@ -312,7 +312,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      */
 
     public void setStrokeWidth(int strokeDp) {
-        int strokePx = DensityUtils.dpToPx(strokeDp);
+        int strokePx = RxBannerUtil.dp2px(strokeDp);
         int radiusPx = manager.indicator().getRadius();
 
         if (strokePx < 0) {
@@ -614,9 +614,9 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
     public void setIndicatorConfig(IndicatorConfig indicatorConfig){
             manager = new IndicatorManager(this, indicatorConfig);
             manager.drawer().setIndicatorConfig(indicatorConfig);
-            indicatorConfig.setPaddingLeft(getPaddingLeft());
+            indicatorConfig.setPaddingStart(getPaddingLeft());
             indicatorConfig.setPaddingTop(getPaddingTop());
-            indicatorConfig.setPaddingRight(getPaddingRight());
+            indicatorConfig.setPaddingEnd(getPaddingRight());
             indicatorConfig.setPaddingBottom(getPaddingBottom());
             isInteractionEnabled = indicatorConfig.isInteractiveAnimation();
 

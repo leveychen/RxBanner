@@ -17,12 +17,6 @@ public class RxBannerLogger {
         }
     }
 
-    public static void w(String s){
-        if(RxBannerGlobalConfig.getInstance().isDebug()) {
-            Log.w(LOGGER_TAG, s);
-        }
-    }
-
     public static void e(String s){
         if(RxBannerGlobalConfig.getInstance().isDebug()) {
             Log.e(LOGGER_TAG, s);

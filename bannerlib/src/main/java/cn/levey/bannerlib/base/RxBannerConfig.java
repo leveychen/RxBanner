@@ -1,5 +1,6 @@
 package cn.levey.bannerlib.base;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -21,35 +22,35 @@ public class RxBannerConfig {
     private int orientation = LinearLayout.HORIZONTAL;
     private boolean viewPaperMode = true;
 
-    private int title_gravity = Gravity.START ;
-    private int title_layout_gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-    private boolean title_visible = true;
-    private int title_margin = 0;
-    private int title_marginTop = 0;
-    private int title_marginBottom = 0;
-    private int title_marginStart = 0;
-    private int title_marginEnd = 0;
-    private int title_padding = RxBannerUtil.dp2px(3);
-    private int title_paddingTop = 0;
-    private int title_paddingBottom = 0;
-    private int title_paddingStart = 0;
-    private int title_paddingEnd = 0;
-    private int title_width = ViewGroup.LayoutParams.MATCH_PARENT;
-    private int title_height = ViewGroup.LayoutParams.WRAP_CONTENT;
-    private int title_size = RxBannerUtil.sp2px(14);
-    private int title_color = Color.WHITE;
-    private int title_backgroundColor = RxBannerUtil.DEFAULT_BG_COLOR;
-    private int title_backgroundResource = Integer.MAX_VALUE;
-    private boolean title_marquee = true;
-    private boolean indicator_visible = true;
+    private int titleGravity = Gravity.START ;
+    private int titleLayoutGravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+    private boolean titleVisible = true;
+    private int titleMargin = 0;
+    private int titleMarginTop = 0;
+    private int titleMarginBottom = 0;
+    private int titleMarginStart = 0;
+    private int titleMarginEnd = 0;
+    private int titlePadding = RxBannerUtil.dp2px(3);
+    private int titlePaddingTop = 0;
+    private int titlePaddingBottom = 0;
+    private int titlePaddingStart = 0;
+    private int titlePaddingEnd = 0;
+    private int titleWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+    private int titleHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private int titleSize = RxBannerUtil.sp2px(14);
+    private int titleColor = Color.WHITE;
+    private int titleBackgroundColor = RxBannerUtil.DEFAULT_BG_COLOR;
+    private int titleBackgroundResource = Integer.MAX_VALUE;
+    private boolean titleMarquee = true;
+    private boolean indicatorVisible = true;
     private IndicatorConfig indicatorConfigConfig = new IndicatorConfig();
 
-    public boolean isIndicator_visible() {
-        return indicator_visible;
+    public boolean isIndicatorVisible() {
+        return indicatorVisible;
     }
 
-    public void setIndicator_visible(boolean indicator_visible) {
-        this.indicator_visible = indicator_visible;
+    public void setIndicatorVisible(boolean indicatorVisible) {
+        this.indicatorVisible = indicatorVisible;
     }
 
 
@@ -130,9 +131,6 @@ public class RxBannerConfig {
         return itemSpace;
     }
 
-    public void setItemSpace(int itemSpace) {
-        this.itemSpace = itemSpace;
-    }
 
     public RxBannerGlobalConfig.OrderType getOrderType() {
         return orderType;
@@ -158,164 +156,245 @@ public class RxBannerConfig {
         this.viewPaperMode = viewPaperMode;
     }
 
-    public int getTitle_gravity() {
-        return title_gravity;
+    public int getTitleGravity() {
+        return titleGravity;
     }
 
-    public void setTitle_gravity(int title_gravity) {
-        this.title_gravity = title_gravity;
+    public void setTitleGravity(int titleGravity) {
+        this.titleGravity = titleGravity;
     }
 
-    public int getTitle_layout_gravity() {
-        return title_layout_gravity;
+    public int getTitleLayoutGravity() {
+        return titleLayoutGravity;
     }
 
-    public void setTitle_layout_gravity(int title_layout_gravity) {
-        this.title_layout_gravity = title_layout_gravity;
+    public void setTitleLayoutGravity(int titleLayoutGravity) {
+        this.titleLayoutGravity = titleLayoutGravity;
     }
 
-    public boolean isTitle_visible() {
-        return title_visible;
+    public boolean isTitleVisible() {
+        return titleVisible;
     }
 
-    public void setTitle_visible(boolean title_visible) {
-        this.title_visible = title_visible;
+    public void setTitleVisible(boolean titleVisible) {
+        this.titleVisible = titleVisible;
     }
 
-    public int getTitle_margin() {
-        return title_margin;
+    public int getTitleMargin() {
+        return titleMargin;
     }
 
-    public void setTitle_margin(int title_margin) {
-        this.title_margin = title_margin;
+
+    public int getTitleMarginTop() {
+        return titleMarginTop > 0 ? titleMarginTop : getTitleMargin();
     }
 
-    public int getTitle_marginTop() {
-        return title_marginTop;
+
+    public int getTitleMarginBottom() {
+        return titleMarginBottom > 0 ? titleMarginBottom : getTitleMargin();
     }
 
-    public void setTitle_marginTop(int title_marginTop) {
-        this.title_marginTop = title_marginTop;
+
+    public int getTitleMarginStart() {
+        return titleMarginStart > 0 ? titleMarginStart : getTitleMargin();
     }
 
-    public int getTitle_marginBottom() {
-        return title_marginBottom;
+
+    public int getTitleMarginEnd() {
+        return titleMarginEnd > 0 ? titleMarginEnd : getTitleMargin();
     }
 
-    public void setTitle_marginBottom(int title_marginBottom) {
-        this.title_marginBottom = title_marginBottom;
+    public int getTitlePadding() {
+        return titlePadding;
     }
 
-    public int getTitle_marginStart() {
-        return title_marginStart;
+
+    public int getTitlePaddingTop() {
+        return titlePaddingTop > 0 ? titlePaddingTop : getTitlePadding();
     }
 
-    public void setTitle_marginStart(int title_marginStart) {
-        this.title_marginStart = title_marginStart;
+
+    public int getTitlePaddingBottom() {
+        return titlePaddingBottom > 0 ? titlePaddingBottom : getTitlePadding();
     }
 
-    public int getTitle_marginEnd() {
-        return title_marginEnd;
+
+    public int getTitlePaddingStart() {
+        return titlePaddingStart > 0 ? titlePaddingStart : getTitlePadding();
     }
 
-    public void setTitle_marginEnd(int title_marginEnd) {
-        this.title_marginEnd = title_marginEnd;
+
+
+    public int getTitlePaddingEnd() {
+        return titlePaddingEnd > 0 ? titlePaddingEnd : getTitlePadding();
     }
 
-    public int getTitle_padding() {
-        return title_padding;
+
+    public int getTitleWidth() {
+        return titleWidth;
     }
 
-    public void setTitle_padding(int title_padding) {
-        this.title_padding = title_padding;
+
+
+    public int getTitleHeight() {
+        return titleHeight;
     }
 
-    public int getTitle_paddingTop() {
-        return title_paddingTop;
+
+    public int getTitleSize() {
+        return titleSize;
     }
 
-    public void setTitle_paddingTop(int title_paddingTop) {
-        this.title_paddingTop = title_paddingTop;
+
+    public int getTitleColor() {
+        return titleColor;
     }
 
-    public int getTitle_paddingBottom() {
-        return title_paddingBottom;
+    public void setTitleColor(int titleColor) {
+        this.titleColor = titleColor;
+    }
+    public void setTitleColorResource(Context context,int resColorId) {
+        this.titleColor = context.getResources().getColor(resColorId);
     }
 
-    public void setTitle_paddingBottom(int title_paddingBottom) {
-        this.title_paddingBottom = title_paddingBottom;
+    public int getTitleBackgroundColor() {
+        return titleBackgroundColor;
     }
 
-    public int getTitle_paddingStart() {
-        return title_paddingStart;
+    public void setTitleBackgroundColor(int titleBackgroundColor) {
+        this.titleBackgroundColor = titleBackgroundColor;
     }
 
-    public void setTitle_paddingStart(int title_paddingStart) {
-        this.title_paddingStart = title_paddingStart;
+    public int getTitleBackgroundResource() {
+        return titleBackgroundResource;
     }
 
-    public int getTitle_paddingEnd() {
-        return title_paddingEnd;
+    public void setTitleBackgroundResource(int titleBackgroundResource) {
+        this.titleBackgroundResource = titleBackgroundResource;
     }
 
-    public void setTitle_paddingEnd(int title_paddingEnd) {
-        this.title_paddingEnd = title_paddingEnd;
+    public boolean isTitleMarquee() {
+        return titleMarquee;
     }
 
-    public int getTitle_width() {
-        return title_width;
+    public void setTitleMarquee(boolean titleMarquee) {
+        this.titleMarquee = titleMarquee;
     }
 
-    public void setTitle_width(int title_width) {
-        this.title_width = title_width;
+    public void setItemSpacePx(int itemSpacePx) {
+        this.itemSpace = itemSpacePx;
     }
 
-    public int getTitle_height() {
-        return title_height;
+    public void setTitleMarginPx(int titleMarginPx) {
+        this.titleMargin = titleMarginPx;
     }
 
-    public void setTitle_height(int title_height) {
-        this.title_height = title_height;
+    public void setTitleMarginTopPx(int titleMarginTopPx) {
+        this.titleMarginTop = titleMarginTopPx;
     }
 
-    public int getTitle_size() {
-        return title_size;
+    public void setTitleMarginBottomPx(int titleMarginBottomPx) {
+        this.titleMarginBottom = titleMarginBottomPx;
     }
 
-    public void setTitle_size(int title_size) {
-        this.title_size = title_size;
+    public void setTitleMarginStartPx(int titleMarginStartPx) {
+        this.titleMarginStart = titleMarginStartPx;
     }
 
-    public int getTitle_color() {
-        return title_color;
+    public void setTitleMarginEndPx(int titleMarginEndPx) {
+        this.titleMarginEnd = titleMarginEndPx;
     }
 
-    public void setTitle_color(int title_color) {
-        this.title_color = title_color;
+    public void setTitlePaddingPx(int titlePaddingPx) {
+        this.titlePadding = titlePaddingPx;
     }
 
-    public int getTitle_backgroundColor() {
-        return title_backgroundColor;
+    public void setTitlePaddingTopPx(int titlePaddingTopPx) {
+        this.titlePaddingTop = titlePaddingTopPx;
     }
 
-    public void setTitle_backgroundColor(int title_backgroundColor) {
-        this.title_backgroundColor = title_backgroundColor;
+    public void setTitlePaddingBottomPx(int titlePaddingBottomPx) {
+        this.titlePaddingBottom = titlePaddingBottomPx;
     }
 
-    public int getTitle_backgroundResource() {
-        return title_backgroundResource;
+    public void setTitlePaddingStartPx(int titlePaddingStartPx) {
+        this.titlePaddingStart = titlePaddingStartPx;
     }
 
-    public void setTitle_backgroundResource(int title_backgroundResource) {
-        this.title_backgroundResource = title_backgroundResource;
+    public void setTitlePaddingEndPx(int titlePaddingEndPx) {
+        this.titlePaddingEnd = titlePaddingEndPx;
     }
 
-    public boolean isTitle_marquee() {
-        return title_marquee;
+    public void setTitleWidthPx(int titleWidthPx) {
+        this.titleWidth = titleWidthPx;
     }
 
-    public void setTitle_marquee(boolean title_marquee) {
-        this.title_marquee = title_marquee;
+    public void setTitleHeightPx(int titleHeightPx) {
+        this.titleHeight = titleHeightPx;
+    }
+
+    public void setTitleSizePx(int titleSizePx) {
+        this.titleSize = titleSizePx;
+    }
+
+
+
+    //
+
+    public void setItemSpaceDp(int itemSpaceDp) {
+        this.itemSpace = RxBannerUtil.dp2px(itemSpaceDp);
+    }
+
+    public void setTitleMarginDp(int titleMarginDp) {
+        this.titleMargin = RxBannerUtil.dp2px(titleMarginDp);
+    }
+
+    public void setTitleMarginTopDp(int titleMarginTopDp) {
+        this.titleMarginTop = RxBannerUtil.dp2px(titleMarginTopDp);
+    }
+
+    public void setTitleMarginBottomDp(int titleMarginBottomDp) {
+        this.titleMarginBottom = RxBannerUtil.dp2px(titleMarginBottomDp);
+    }
+
+    public void setTitleMarginStartDp(int titleMarginStartDp) {
+        this.titleMarginStart = RxBannerUtil.dp2px(titleMarginStartDp);
+    }
+
+    public void setTitleMarginEndDp(int titleMarginEndDp) {
+        this.titleMarginEnd = RxBannerUtil.dp2px(titleMarginEndDp);
+    }
+
+    public void setTitlePaddingDp(int titlePaddingDp) {
+        this.titlePadding = RxBannerUtil.dp2px(titlePaddingDp);
+    }
+
+    public void setTitlePaddingTopDp(int titlePaddingTopDp) {
+        this.titlePaddingTop = RxBannerUtil.dp2px(titlePaddingTopDp);
+    }
+
+    public void setTitlePaddingBottomDp(int titlePaddingBottomDp) {
+        this.titlePaddingBottom = RxBannerUtil.dp2px(titlePaddingBottomDp);
+    }
+
+    public void setTitlePaddingStartDp(int titlePaddingStartDp) {
+        this.titlePaddingStart = RxBannerUtil.dp2px(titlePaddingStartDp);
+    }
+
+    public void setTitlePaddingEndDp(int titlePaddingEndDp) {
+        this.titlePaddingEnd = RxBannerUtil.dp2px(titlePaddingEndDp);
+    }
+
+    public void setTitleWidthDp(int titleWidthDp) {
+        this.titleWidth = titleWidthDp > 0 ? RxBannerUtil.dp2px(titleWidthDp) : titleWidthDp;
+    }
+
+    public void setTitleHeightDp(int titleHeightDp) {
+        this.titleHeight = titleHeightDp > 0 ? RxBannerUtil.dp2px(titleHeightDp) : titleHeightDp;
+    }
+
+    public void setTitleSizeSp(int titleSizeSp) {
+        this.titleSize = RxBannerUtil.sp2px(titleSizeSp);
     }
 
 }

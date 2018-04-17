@@ -1,7 +1,9 @@
 package cn.levey.bannerlib.indicator.draw.data;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 
 public class IndicatorConfig {
@@ -10,8 +12,8 @@ public class IndicatorConfig {
     public static final int MIN_COUNT = 1;
     public static final int COUNT_NONE = -1;
 
-    public static final int DEFAULT_RADIUS_DP = 5;
-    public static final int DEFAULT_MARGIN_DP = 8;
+    public static final int DEFAULT_RADIUS_DP = 6;
+    public static final int DEFAULT_MARGIN_DP = 6;
     public static final int DEFAULT_PADDING_DP = 3;
 
     private int height;
@@ -19,9 +21,9 @@ public class IndicatorConfig {
     private int radius;
 
     private int padding;
-    private int paddingLeft;
+    private int paddingStart;
     private int paddingTop;
-    private int paddingRight;
+    private int paddingEnd;
     private int paddingBottom;
 
     private int gravity;
@@ -59,73 +61,46 @@ public class IndicatorConfig {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
 
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
+
 
     public int getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
 
     public int getPadding() {
         return padding;
     }
 
-    public void setPadding(int padding) {
-        this.padding = padding;
-    }
 
-    public int getPaddingLeft() {
-        return paddingLeft;
-    }
-
-    public void setPaddingLeft(int paddingLeft) {
-        this.paddingLeft = paddingLeft;
+    public int getPaddingStart() {
+        return paddingStart;
     }
 
     public int getPaddingTop() {
         return paddingTop;
     }
 
-    public void setPaddingTop(int paddingTop) {
-        this.paddingTop = paddingTop;
+
+    public int getPaddingEnd() {
+        return paddingEnd;
     }
 
-    public int getPaddingRight() {
-        return paddingRight;
-    }
-
-    public void setPaddingRight(int paddingRight) {
-        this.paddingRight = paddingRight;
-    }
 
     public int getPaddingBottom() {
         return paddingBottom;
     }
 
-    public void setPaddingBottom(int paddingBottom) {
-        this.paddingBottom = paddingBottom;
-    }
 
     public int getStroke() {
         return stroke;
     }
 
-    public void setStroke(int stroke) {
-        this.stroke = stroke;
-    }
 
     public float getScale() {
         return scale;
@@ -143,12 +118,20 @@ public class IndicatorConfig {
         this.unselectedColor = unselectedColor;
     }
 
+    public void setUnselectedColorResource(Context context,int unselectedColorResId) {
+        this.unselectedColor = context.getResources().getColor(unselectedColorResId);
+    }
+
     public int getSelectedColor() {
         return selectedColor;
     }
 
     public void setSelectedColor(int selectedColor) {
         this.selectedColor = selectedColor;
+    }
+
+    public void setSelectedColorResource(Context context,int selectedColorResId) {
+        this.selectedColor = context.getResources().getColor(selectedColorResId);
     }
 
     public boolean isInteractiveAnimation() {
@@ -280,39 +263,83 @@ public class IndicatorConfig {
         return margin;
     }
 
-    public void setMargin(int margin) {
-        this.margin = margin;
-    }
 
     public int getMarginTop() {
         return marginTop;
+    }
+
+
+
+    public int getMarginBottom() {
+        return marginBottom;
+    }
+
+
+
+    public int getMarginStart() {
+        return marginStart;
+    }
+
+
+
+    public int getMarginEnd() {
+        return marginEnd;
+    }
+
+
+    public void setPaddingTop(int paddingTop) {
+        this.paddingTop = paddingTop;
+    }
+
+    public void setPaddingEnd(int paddingEnd) {
+        this.paddingEnd = paddingEnd;
+    }
+
+    public void setPaddingBottom(int paddingBottom) {
+        this.paddingBottom = paddingBottom;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
     }
 
     public void setMarginTop(int marginTop) {
         this.marginTop = marginTop;
     }
 
-    public int getMarginBottom() {
-        return marginBottom;
-    }
-
     public void setMarginBottom(int marginBottom) {
         this.marginBottom = marginBottom;
-    }
-
-    public int getMarginStart() {
-        return marginStart;
     }
 
     public void setMarginStart(int marginStart) {
         this.marginStart = marginStart;
     }
 
-    public int getMarginEnd() {
-        return marginEnd;
-    }
-
     public void setMarginEnd(int marginEnd) {
         this.marginEnd = marginEnd;
+    }
+
+    public void setStroke(int stroke) {
+        this.stroke = stroke;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
+    }
+
+    public void setPaddingStart(int paddingStart) {
+        this.paddingStart = paddingStart;
     }
 }
