@@ -1,17 +1,21 @@
 # RxBanner
 [![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)    [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)       [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-一个灵活可制制定的基于 Recyclerview 的轮播图
+一个灵活可制定的基于 Recyclerview 的轮播图控件,支持自动轮播,无限循环。
+同时可关闭无限循环变成 `引导页` ，带有引导完成接口回调,详见demo
 
-[ENGLISH](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_CN.md)
 
+[English](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_ZH.md)
+
+## Demo
 
 
 ## 预览
-![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqaqqlrawxg30bo06tb2b.gif)&nbsp;&nbsp;&nbsp;&nbsp;
-![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqat74eq9yg30bo06t4qq.gif)
+![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqaqqlrawxg30bo06tb2b.gif)&nbsp;&nbsp;&nbsp;&nbsp;![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqat74eq9yg30bo06t4qq.gif)
 
-## 引入
+
+
+## 引用
 ### 1.添加 jitpack
 ```xml
     allprojects {
@@ -22,7 +26,7 @@
     }
 ```
 
-### 2.导入引用      [![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
+### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
     implementation 'com.github.leveychen:RxBanner:x.x.x'
@@ -30,8 +34,8 @@
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
 ## 用法
-### 示例
-#### `Layout`
+#### `layout`
+see `Attributes`
 ````xml
     <cn.levey.bannerlib.RxBanner
         android:id="@+id/rx_banner"
@@ -39,35 +43,63 @@
         android:layout_height="160dp"/>
 ````
 
-#### `Java Code`
+#### `java`
 ````java
     banner = findViewById(R.id.rx_banner);
     banner
-        .setLoader(new ImageLoader())
-        .setDatas(imageUrls, titles)
+        .setLoader(new ImageLoader())               // see `image loader`
+        .setConfig(config)                          // see `config`
+        .setDatas(iamgesUrls, titles)
         .start();
 ````
 
-在 `start()` 之前必须设置好 image loader 和 setDatas
-
-#### 各种 image loader 栗子
+#### 一些 `image loader` 的栗子
 
 [Fresco](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/FrescoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [Glide](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/GlideLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [Picasso](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/PicassoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [UniversalImageLoader](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/UniversalImageLoader.java)
-### 各类监听器
+
+可以愉快的玩耍了,下面是一些可选内容
+
+#### `配置信息`
+自定义配置信息，所有参数设置均和 `xml` 布局里一致，优先级高于 `xml` 布局文件
 ````java
-    .setOnBannerClickListener(new RxBannerClickListener())
-    .setOnBannerChangeListener(new RxBannerChangeListener())
-    .setOnBannerTitleClickListener(new RxBannerTitleClickListener())
+    RxBannerConfig config = banner.getConfig();
+    config.set(value);
+    ...
+    banner.setConfig(config);
+    banner.start();
 ````
 
-### 自定义指示器
-如果觉得自带的指示器效果不好，自己找一个指示器设置好监听然后丢进去
+自定义配置信息必须在 `start()` 之前设置
+
+#### `监听器`
+````java
+    点击图片时的回调
+    banner.setOnBannerClickListener(new RxBannerClickListener())
+        onItemClick(int position, Object data)
+        onItemLongClick(int position, Object data)
+
+    //点击标题时的回调
+    banner.setOnBannerTitleClickListener(new RxBannerTitleClickListener())
+        onTitleClick(int position);
+
+    //图片切换时的回调
+    banner.setOnBannerChangeListener(new RxBannerChangeListener())
+        onBannerSelected(int position)
+        onBannerScrollStateChanged(int state)
+        onGuideFinished()   //引导页完成回调，引导页必须设置 `rb_infinite = false`,
+                            //同时 `autoPlay = false` 体验更好
+                            //在滑动到最后一张图片时，再继续滑动可触发该回调
+````
+
+
+#### `自定义指示器`
+如果自带的指示器效果不满意，这里也可以自定义指示器,比如 &nbsp;&nbsp; MagicIndicator &nbsp;&nbsp; CircleIndicator
 ````java
     banner.setCustomIndicator(indicator)
-    .setOnBannerChangeListener(new RxBannerChangeListener() {
+    banner.setOnBannerChangeListener(new RxBannerChangeListener() {
                         @Override
                         public void onBannerSelected(int position) {
                             indicator.setSelection(position)
@@ -80,8 +112,15 @@
                     })
 ````
 
+#### `lifecycle`
+更好的 在 Activity 、 Fragment 和其他 view 中管理生命周期
+````java
+    banner.onResume()
+    banner.onPause()
+    banner.onDestroy() // 非必需, onDetachedFromWindow 里面已经处理
+````
 
-## 全局设置
+## Global Settings
 ````java
     RxBannerConfig
         .getInstance()
@@ -94,13 +133,6 @@
 
 ````
 
-## 生命周期
-更好的 在 Activity 、 Fragment 和其他 view 中管理生命周期
-````code
-    banner.onResume()
-    banner.onPause()
-    banner.onDestroy() // 非必需, onDetachedFromWindow 里面已经处理
-````
 
 
 ## 属性
@@ -108,6 +140,7 @@
 ### Banner
 |属性|格式|初始值|描述
 |---|---|---|---|
+|rb_autoPlay|boolean|true|以 `rb_timeInterval` 的间隔自动播放
 |rb_infinite|boolean|true|是否无限循环,关闭无限循环就是 `引导页` ,了解一下
 |rb_timeInterval|integer (`millisecond`)|5000| 200毫秒以上
 |rb_orientation|horizontal / vertical|horizontal| /

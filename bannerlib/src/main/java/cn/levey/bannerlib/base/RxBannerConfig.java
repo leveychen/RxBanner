@@ -6,9 +6,11 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import java.io.Serializable;
+
 import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
-public class RxBannerConfig {
+public class RxBannerConfig implements Serializable {
     private boolean autoPlay = true;
     private boolean infinite = true;
     private float itemScale = 1.0f;
@@ -21,7 +23,6 @@ public class RxBannerConfig {
     private RxBannerGlobalConfig.OrderType orderType = RxBannerGlobalConfig.getInstance().getOrderType();
     private int orientation = LinearLayout.HORIZONTAL;
     private boolean viewPaperMode = true;
-
     private int titleGravity = Gravity.START ;
     private int titleLayoutGravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
     private boolean titleVisible = true;
@@ -52,8 +53,6 @@ public class RxBannerConfig {
     public void setIndicatorVisible(boolean indicatorVisible) {
         this.indicatorVisible = indicatorVisible;
     }
-
-
 
     public IndicatorConfig getIndicatorConfigConfig() {
         return indicatorConfigConfig;

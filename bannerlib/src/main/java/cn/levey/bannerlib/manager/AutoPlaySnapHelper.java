@@ -64,8 +64,22 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                     final int currentPosition = viewPagerLayoutManager.getCurrentPosition();
                     int cp = orderType == RxBannerGlobalConfig.OrderType.ASC ? currentPosition + 1 : currentPosition - 1;
                     if(cp == -1) {
+                        if(!((ViewPagerLayoutManager) layoutManager).isInfinite()) {
+                            if(viewPagerLayoutManager.getRxBannerChangeListener() != null){
+                                if(cp == viewPagerLayoutManager.getItemCount()) viewPagerLayoutManager.getRxBannerChangeListener().onGuideFinished();
+                            }
+                            pause();
+                            return;
+                        }
                         cp = layoutManager.getItemCount()  - 1;
                     }else if(cp == layoutManager.getItemCount()){
+                        if(!((ViewPagerLayoutManager) layoutManager).isInfinite()) {
+                            if(viewPagerLayoutManager.getRxBannerChangeListener() != null){
+                                if(cp == viewPagerLayoutManager.getItemCount()) viewPagerLayoutManager.getRxBannerChangeListener().onGuideFinished();
+                            }
+                            pause();
+                            return;
+                        }
                         cp = 0;
                     }
                     if(viewPagerLayoutManager.getRxBannerChangeListener() != null){

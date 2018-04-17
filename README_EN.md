@@ -3,7 +3,7 @@
 
 Flexible banner base on RecyclerView
 
-[ENGLISH](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_CN.md)
+[English](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_ZH.md)
 
 
 
@@ -34,8 +34,8 @@ Flexible banner base on RecyclerView
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
 ## Usage
-### sample
-#### `Layout`
+#### `layout`
+see `Attributes`
 ````xml
     <cn.levey.bannerlib.RxBanner
         android:id="@+id/rx_banner"
@@ -43,35 +43,58 @@ Flexible banner base on RecyclerView
         android:layout_height="160dp"/>
 ````
 
-#### `Java Code`
+#### `java`
 ````java
     banner = findViewById(R.id.rx_banner);
     banner
-        .setLoader(new ImageLoader())
-        .setDatas(imageUrls, titles)
+        .setLoader(new ImageLoader())               // see `image loader`
+        .setConfig(config)                          // see `config`
+        .setDatas(iamgesUrls, titles)
         .start();
 ````
 
-you `MUST` set a image loader and datas before start
 
-#### image loader sample
+
+#### `image loader`
 
 [Fresco](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/FrescoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [Glide](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/GlideLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [Picasso](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/PicassoLoader.java)&nbsp;&nbsp;&nbsp;&nbsp;
 [UniversalImageLoader](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/UniversalImageLoader.java)
-### listener
+
+
+#### `config`
+custom your config, the priority is higher than the `xml`
 ````java
-    .setOnBannerClickListener(new RxBannerClickListener())
-    .setOnBannerChangeListener(new RxBannerChangeListener())
-    .setOnBannerTitleClickListener(new RxBannerTitleClickListener())
+    RxBannerConfig config = banner.getConfig();
+    config.set(value);
+    ...
+    banner.setConfig(config);
+    banner.start();
+````
+
+you `MUST` set `config`  before `start()`
+
+#### `listener` - optional
+````java
+    banner.setOnBannerClickListener(new RxBannerClickListener())
+        onItemClick(int position, Object data)
+        onItemLongClick(int position, Object data)
+
+    banner.setOnBannerTitleClickListener(new RxBannerTitleClickListener())
+        onTitleClick(int position);
+
+    banner.setOnBannerChangeListener(new RxBannerChangeListener())
+        onBannerSelected(int position)
+        onBannerScrollStateChanged(int state)
+        onGuideFinished()
 ````
 
 
-### custom indicator
+#### `custom indicator` - optional
 ````java
     banner.setCustomIndicator(indicator)
-    .setOnBannerChangeListener(new RxBannerChangeListener() {
+    banner.setOnBannerChangeListener(new RxBannerChangeListener() {
                         @Override
                         public void onBannerSelected(int position) {
                             indicator.setSelection(position)
@@ -82,6 +105,14 @@ you `MUST` set a image loader and datas before start
 
                         }
                     })
+````
+
+#### `lifecycle`
+lifecycle for Activity or Fragment and other views
+````java
+    banner.onResume()
+    banner.onPause()
+    banner.onDestroy() // not necessary, onDetachedFromWindow handled it.
 ````
 
 ## Global Settings
@@ -97,13 +128,7 @@ you `MUST` set a image loader and datas before start
 
 ````
 
-## Lifecycle
-lifecycle for Activity or Fragment and other views
-````java
-    banner.onResume()
-    banner.onPause()
-    banner.onDestroy() // not necessary, onDetachedFromWindow handled it.
-````
+
 
 
 ## Attributes
@@ -111,7 +136,8 @@ All the `rb_` attributes here are specific for RxBanner
 ### Banner
 |Attributes|format|default|description
 |---|---|---|---|
-|rb_infinite|boolean|true|infinite loop
+|rb_autoPlay|boolean|true|auto play with `rb_timeInterval` delay
+|rb_infinite|boolean|true|infinite loop, if `false` will call `onGuideFinished`
 |rb_timeInterval|integer (`millisecond`)|5000| for better performance, `rb_timeInterval` should be greater than 200 millisecond
 |rb_orientation|horizontal / vertical|horizontal|layout orientation
 |rb_itemPercent|integer|100| item width or height percentage

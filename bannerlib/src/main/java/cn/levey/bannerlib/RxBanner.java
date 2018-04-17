@@ -81,15 +81,18 @@ public class RxBanner extends FrameLayout {
     public RxBanner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        initView(context, attrs);
+        initInnerView(context, attrs);
     }
 
-    protected void initView(Context context, AttributeSet attrs) {
+    protected void initInnerView(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RxBanner);
         config.setOrientation(typedArray.getInt(R.styleable.RxBanner_rb_orientation, config.getOrientation()));
         config.setViewPaperMode(typedArray.getBoolean(R.styleable.RxBanner_rb_viewPaperMode, config.isViewPaperMode()));
         config.setInfinite(typedArray.getBoolean(R.styleable.RxBanner_rb_infinite, config.isInfinite()));
+
+        RxBannerLogger.i(" is Infinite = " + config.isInfinite());
         config.setAutoPlay( typedArray.getBoolean(R.styleable.RxBanner_rb_autoPlay, config.isAutoPlay()));
+        RxBannerLogger.i(" is autoPlay = " + config.isAutoPlay());
         config.setItemPercent(typedArray.getInt(R.styleable.RxBanner_rb_itemPercent, config.getItemPercent()));
         config.setItemSpacePx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_itemSpace, config.getItemSpace()));
         config.setItemScale(typedArray.getFloat(R.styleable.RxBanner_rb_itemScale, config.getItemScale()));
@@ -105,18 +108,16 @@ public class RxBanner extends FrameLayout {
         config.setCenterAlpha(typedArray.getFloat(R.styleable.RxBanner_rb_centerAlpha, config.getCenterAlpha()));
         config.setSideAlpha(typedArray.getFloat(R.styleable.RxBanner_rb_sideAlpha, config.getSideAlpha()));
         config.setOrderType(RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_rb_orderType, RxBannerUtil.getOrderType(config.getOrderType()))));
-        //title
-
+        //init title
         initTitleConfig(typedArray);
-        //IndicatorConfig
+        //init indicator
         initIndicatorConfig(typedArray,attrs);
         typedArray.recycle();
-        initView();
+        initInnerView();
     }
 
     private void initTitleConfig(TypedArray typedArray){
         config.setTitleVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_title_visible, config.isTitleVisible()));
-
         if (config.isTitleVisible()) {
             config.setTitleGravity(typedArray.getInt(R.styleable.RxBanner_rb_title_gravity, config.getTitleGravity()));
             config.setTitleLayoutGravity(typedArray.getInt(R.styleable.RxBanner_rb_title_layout_gravity, config.getTitleLayoutGravity()));
@@ -166,15 +167,13 @@ public class RxBanner extends FrameLayout {
 
     protected void initIndicatorConfig(TypedArray typedArray,AttributeSet attrs){
         config.setIndicatorVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_indicator_visible, config.isIndicatorVisible()));
-
-        RxBannerLogger.i(" initTitleConfig222 = " + config.isIndicatorVisible());
         if (config.isIndicatorVisible()) {
             AttributeController attributeController = new AttributeController();
             config.setIndicatorConfigConfig(attributeController.init(mContext, attrs));
         }
     }
 
-    protected void initView() {
+    protected void initInnerView() {
         mBannerRv = new AutoPlayRecyclerView(mContext);
         mBannerRv.setItemAnimator(null);
         LayoutParams layoutParams = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -240,8 +239,6 @@ public class RxBanner extends FrameLayout {
             }
             mBannerRv.setAdapter(mAdapter);
         }
-
-
         if (onTitleClickListener != null && mTitleTv != null) {
             mTitleTv.setOnClickListener(new OnClickListener() {
                 @Override
@@ -252,9 +249,6 @@ public class RxBanner extends FrameLayout {
                 }
             });
         }
-
-
-        RxBannerLogger.i(" initTitleConfig666 = " + config.isIndicatorVisible());
         if (config.isIndicatorVisible()) {
             if (mIndicatorView != null) {
                 mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
@@ -280,7 +274,7 @@ public class RxBanner extends FrameLayout {
                         indicator.getConfig().getMarginBottom());
                 indicator.setLayoutParams(indicatorLp);
                 mIndicatorView = indicator;
-                mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
+                mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_DEFAULT);
                 addView(mIndicatorView);
             }
         }
@@ -432,9 +426,7 @@ public class RxBanner extends FrameLayout {
             mBannerRv.start();
             RxBannerLogger.i("start success");
         } else if (!isAutoPlay()) {
-            RxBannerLogger.i("can not start, auto play = false");
-        } else {
-            RxBannerLogger.i("please call start() to start banner");
+            RxBannerLogger.i("can not auto play, autoPlay = false");
         }
     }
 
@@ -504,16 +496,20 @@ public class RxBanner extends FrameLayout {
     }
 
     public void setCurrentPosition(int position) {
-
         if (mBannerRv != null && mAdapter != null && mLayoutManager != null && !mAdapter.getDatas().isEmpty()) {
             if(mLayoutManager.isInfinite()) {
                 if(position == mUrls.size()) position = 0;
                 if (position == -1) position = mUrls.size() - 1;
             }else {
+                if(position < 0 || position > mUrls.size() - 1){
+                    if(config.isAutoPlay()){
+                        pause();
+                    }
+                    return;
+                }
                 if(position == mUrls.size()) position = 0;
-                if(position == -1 ) position = 0;
+              //  if(position == -1 ) position = 0;
             }
-            RxBannerLogger.i("save Position = " + position);
             mBannerRv.smoothScrollToPosition(position);
             if(mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof  RxBannerIndicator)
                 ((RxBannerIndicator) mIndicatorView).setSelection(position);

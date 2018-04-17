@@ -18,7 +18,6 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
-import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.FakeData;
@@ -88,14 +87,14 @@ public class DemoActivity extends AppCompatActivity {
 
     //    config.setTitleWidthPx(ViewGroup.LayoutParams.WRAP_CONTENT);
         banner.setLoader(new FrescoLoader());
-        RxBannerConfig config = banner.getConfig();
-        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
-        config.getIndicatorConfigConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
-        config.setAutoPlay(false);
-        config.setInfinite(true);
-        banner.setConfig(config);
-        banner.setDatas(list, titles)
-//                .setDatas(list)  // no title
+//        RxBannerConfig config = banner.getConfig();
+//        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
+//        config.getIndicatorConfigConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
+//        config.setAutoPlay(false);
+//        config.setInfinite(true);
+//        banner.setConfig(config);
+//        banner.setDatas(list, titles)
+////                .setDatas(list)  // no title
 //                .setOnBannerClickListener(new RxBannerClickListener() {
 //
 //                    @Override
@@ -112,12 +111,16 @@ public class DemoActivity extends AppCompatActivity {
 //                .setOnBannerChangeListener(new RxBannerChangeListener() {
 //                    @Override
 //                    public void onBannerSelected(int position) {
-//                        RxBannerLogger.i("onBannerSelected = " + position);
 //                    }
 //
 //                    @Override
 //                    public void onBannerScrollStateChanged(int state) {
 //
+//                    }
+//
+//                    @Override
+//                    public void onGuideFinished() {
+//                        Toast.makeText(getApplicationContext(), "GUIDE FINISHED", Toast.LENGTH_SHORT).show();
 //                    }
 //                })
 //                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
@@ -126,7 +129,7 @@ public class DemoActivity extends AppCompatActivity {
 //                        Toast.makeText(getApplicationContext(), "TITLE : " + position, Toast.LENGTH_SHORT).show();
 //                    }
 //                })
-                .start();
+//                .start();
 
 
         if (banner.isAutoPlay()) {
@@ -183,7 +186,6 @@ public class DemoActivity extends AppCompatActivity {
                 if(fuliPage % 3 == 0) size = 2;
                 if(fuliPage % 5 == 0) size = 1;
                 final String pageUrl = "http://gank.io/api/data/福利/" + size + "/" + fuliPage++;
-                RxBannerLogger.i(" UPAGE = " + pageUrl);
                 OkGo.<String>get(pageUrl).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -197,10 +199,8 @@ public class DemoActivity extends AppCompatActivity {
                             list.add(gank.getResults().get(i).getUrl());
                             titles.add("福利 " + (i + 1));
 
-                            RxBannerLogger.i("UUU = " + gank.getResults().get(i).getUrl());
                         }
 
-                        RxBannerLogger.i("LS = " + list.size() + " TS = " + titles.size());
                         banner.setDatas(list,titles);
                         dialog.dismiss();
                     }
@@ -210,22 +210,22 @@ public class DemoActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        banner.onPause();
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        banner.onPause();
+    }
 
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        banner.onDestroy();
-//    }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        banner.onResume();
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        banner.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        banner.onResume();
+    }
 }

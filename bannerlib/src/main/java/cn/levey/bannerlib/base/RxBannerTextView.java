@@ -10,7 +10,6 @@ import java.util.List;
 public class RxBannerTextView extends android.support.v7.widget.AppCompatTextView{
 
     private List<String> mTitles = new ArrayList<>();
-
     private boolean isFocused = false;
 
     public RxBannerTextView(Context context) {
@@ -48,7 +47,6 @@ public class RxBannerTextView extends android.support.v7.widget.AppCompatTextVie
             setVisibility(GONE);
         }
     }
-
     public void addDatas(List<String> titles){
         if(titles !=null && !titles.isEmpty()) {
             this.mTitles.addAll(titles);

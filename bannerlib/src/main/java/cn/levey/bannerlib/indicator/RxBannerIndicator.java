@@ -16,7 +16,6 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
@@ -451,8 +450,7 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
      * @param pager instance of {@link ViewPager} to work with
      */
     public void setRecyclerView(@Nullable AutoPlayRecyclerView pager) {
-        RxBannerLogger.i(" setRecyclerView " + manager.drawer().indicator().getCount());
-        releaseViewPager();
+        releaseView();
         if (pager == null) {
             return;
         }
@@ -467,16 +465,13 @@ public class RxBannerIndicator extends View implements RxBannerIndicatorChangeLi
             int selectedPosition = (count - 1) - layoutManager.getCurrentPosition();
             manager.indicator().setSelectedPosition(selectedPosition);
         }
-
-        RxBannerLogger.i(" setRecyclerView count " +count);
-
         setCount(count);
     }
 
     /**
      * Release {@link ViewPager} and stop handling events of {@link ViewPager.OnPageChangeListener}.
      */
-    public void releaseViewPager() {
+    public void releaseView() {
         if (recyclerView != null) {
             recyclerView = null;
         }

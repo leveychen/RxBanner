@@ -12,7 +12,6 @@ import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
 
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
@@ -531,8 +530,6 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
     @Override
     public void onAdapterChanged(RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
-
-        RxBannerLogger.i(" onAdapterChanged = ");
         removeAllViews();
         mOffset = 0;
     }
