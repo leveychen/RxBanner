@@ -7,15 +7,11 @@ import android.util.AttributeSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
-import cn.levey.bannerlib.manager.ViewPagerLayoutManager;
-
-public class RxBannerTextView extends android.support.v7.widget.AppCompatTextView implements RxBannerTitleChangeListener{
+public class RxBannerTextView extends android.support.v7.widget.AppCompatTextView{
 
     private List<String> mTitles = new ArrayList<>();
 
     private boolean isFocused = false;
-    private int lastPosition = -1;
 
     public RxBannerTextView(Context context) {
         super(context);
@@ -36,11 +32,6 @@ public class RxBannerTextView extends android.support.v7.widget.AppCompatTextVie
 
     public void setFocused(boolean focused) {
         isFocused = focused;
-    }
-
-    @Override
-    public void onBannerSelected(int position) {
-        set(position);
     }
 
     public List<String> getTitleDatas() {
@@ -69,8 +60,6 @@ public class RxBannerTextView extends android.support.v7.widget.AppCompatTextVie
     }
 
     protected void set(int position){
-        if(lastPosition == position) return;
-        lastPosition = position;
         try {
             setText(mTitles.get(position));
             setVisibility(VISIBLE);
@@ -79,7 +68,7 @@ public class RxBannerTextView extends android.support.v7.widget.AppCompatTextVie
         }
     }
 
-    public void setLayoutManager(ViewPagerLayoutManager layoutManager){
-        if(layoutManager != null) layoutManager.setRxBannerTitleChangeListener(this);
+    public void removeData(int position){
+        mTitles.remove(position);
     }
 }

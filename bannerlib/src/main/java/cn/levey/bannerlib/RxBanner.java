@@ -28,6 +28,7 @@ import cn.levey.bannerlib.data.RxBannerAdapter;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
+import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.bannerlib.indicator.RxBannerIndicator;
 import cn.levey.bannerlib.indicator.draw.controller.AttributeController;
@@ -50,6 +51,7 @@ public class RxBanner extends FrameLayout {
     private ScaleLayoutManager mLayoutManager;
     private List<Object> mUrls = new ArrayList<>();
     private RxBannerClickListener onBannerClickListener;
+    private RxBannerChangeListener rxBannerChangeListener;
     private RxBannerLoaderInterface mLoader;
     private RxBannerTitleClickListener onTitleClickListener;
     private RecyclerView.ItemAnimator itemAnimator;
@@ -178,7 +180,6 @@ public class RxBanner extends FrameLayout {
 
     protected void createTitle(){
         mTitleTv = new RxBannerTextView(mContext);
-        mTitleTv.setLayoutManager(mLayoutManager);
         LayoutParams titleLayoutParams = new LayoutParams(config.getTitleWidth(), config.getTitleHeight());
         titleLayoutParams.setMargins(config.getTitleMarginStart(), config.getTitleMarginTop(), config.getTitleMarginEnd(), config.getTitleMarginBottom());
         titleLayoutParams.gravity = config.getTitleLayoutGravity();
@@ -206,6 +207,7 @@ public class RxBanner extends FrameLayout {
         if (mLayoutManager != null && onBannerChangeListener != null) {
             mLayoutManager.setRxBannerChangeListener(onBannerChangeListener);
         }
+        this.rxBannerChangeListener = onBannerChangeListener;
         return this;
     }
 
@@ -259,7 +261,6 @@ public class RxBanner extends FrameLayout {
                     indicator.setClickListener(new DrawController.ClickListener() {
                         @Override
                         public void onIndicatorClicked(int position) {
-                            indicator.setSelection(position);
                             setCurrentPosition(position);
                         }
                     });
@@ -317,6 +318,7 @@ public class RxBanner extends FrameLayout {
 //            initStart();
 //        }
         if (urls != null && !urls.isEmpty()) {
+
             this.mUrls.clear();
             this.mUrls.addAll(urls);
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null) {
@@ -340,7 +342,25 @@ public class RxBanner extends FrameLayout {
     public void addDatas(List<?> urls) {
         if (urls != null && !urls.isEmpty()) {
             this.mUrls.addAll(urls);
-            if(mAdapter != null) mAdapter.notifyDataSetChanged();
+            if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
+                mAdapter.setDatas(mUrls);
+                setCurrentPosition(mLayoutManager.getCurrentPosition());
+            }
+        }
+    }
+
+    public void removeData(int position){
+        if(position < mUrls.size()) {
+            mUrls.remove(position);
+            if(mTitleTv != null) mTitleTv.removeData(position);
+        }
+        if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
+            mAdapter.setDatas(mUrls);
+            if(position == mUrls.size() - 1){
+                setCurrentPosition(0);
+            }else {
+                setCurrentPosition(mLayoutManager.getCurrentPosition());
+            }
         }
     }
 
@@ -384,6 +404,13 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemMoveSpeed(config.getItemMoveSpeed());
         mLayoutManager.setCenterAlpha(config.getCenterAlpha());
         mLayoutManager.setSideAlpha(config.getSideAlpha());
+        if(rxBannerChangeListener != null) mLayoutManager.setRxBannerChangeListener(rxBannerChangeListener);
+        mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
+            @Override
+            public void onBannerSelected(int position) {
+                if(mTitleTv != null) mTitleTv.setSelection(position);
+            }
+        });
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
         if (config.isTitleVisible() && mTitleTv == null) {
             createTitle();
@@ -469,8 +496,16 @@ public class RxBanner extends FrameLayout {
     }
 
     public void setCurrentPosition(int position) {
+
         if (mBannerRv != null && mAdapter != null && mLayoutManager != null && !mAdapter.getDatas().isEmpty()) {
-            if(position == mUrls.size()) position = 0;
+            if(mLayoutManager.isInfinite()) {
+                if(position == mUrls.size()) position = 0;
+                if (position == -1) position = mUrls.size() - 1;
+            }else {
+                if(position == mUrls.size()) position = 0;
+                if(position == -1 ) position = 0;
+            }
+            RxBannerLogger.i("save Position = " + position);
             mBannerRv.smoothScrollToPosition(position);
             if(mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof  RxBannerIndicator)
                 ((RxBannerIndicator) mIndicatorView).setSelection(position);

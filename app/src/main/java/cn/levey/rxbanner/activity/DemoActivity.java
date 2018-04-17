@@ -92,7 +92,7 @@ public class DemoActivity extends AppCompatActivity {
         config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
         config.getIndicatorConfigConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
         config.setAutoPlay(false);
-        config.setInfinite(false);
+        config.setInfinite(true);
         banner.setConfig(config);
         banner.setDatas(list, titles)
 //                .setDatas(list)  // no title
@@ -180,9 +180,8 @@ public class DemoActivity extends AppCompatActivity {
 
                  int size = (int)Math.round(Math.random()*10 + 1);
 
-                if(fuliPage % 3 == 0) size = 1;
-
-                if(fuliPage == 1) size = 1;
+                if(fuliPage % 3 == 0) size = 2;
+                if(fuliPage % 5 == 0) size = 1;
                 final String pageUrl = "http://gank.io/api/data/福利/" + size + "/" + fuliPage++;
                 RxBannerLogger.i(" UPAGE = " + pageUrl);
                 OkGo.<String>get(pageUrl).execute(new StringCallback() {
@@ -196,7 +195,7 @@ public class DemoActivity extends AppCompatActivity {
 
                         for (int i = 0; i < gank.getResults().size(); i++) {
                             list.add(gank.getResults().get(i).getUrl());
-                            titles.add("福利 " + i);
+                            titles.add("福利 " + (i + 1));
 
                             RxBannerLogger.i("UUU = " + gank.getResults().get(i).getUrl());
                         }

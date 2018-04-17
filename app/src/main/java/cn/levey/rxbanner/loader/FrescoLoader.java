@@ -36,11 +36,13 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
 
 //        set controller
         item.setController(getController((String)path));
-        RxBannerLogger.i(" path = " + path);
+        RxBannerLogger.i(" FrescoLoader show = " + path);
     }
 
     @Override
     public SimpleDraweeView create(Context context) {
+
+        RxBannerLogger.i(" FrescoLoader create = ");
 //        set hierarchy
         SimpleDraweeView sdv = new SimpleDraweeView(context);
         sdv.setHierarchy(getRoundHierarchy(context));

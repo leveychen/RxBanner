@@ -175,9 +175,17 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             if (!layoutManager.isInfinite() &&
                     (layoutManager.mOffset == layoutManager.getMaxOffset()
                             || layoutManager.mOffset == layoutManager.getMinOffset())) {
-                if(layoutManager.getRxBannerChangeListener() != null) {
-                    final int currentPosition = layoutManager.getCurrentPosition();
-                    if (currentPosition == layoutManager.getItemCount() - 1) {
+                final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
+                mGravityScroller.fling(0, 0, velocityX, velocityY,
+                        Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
+                        && Math.abs(velocityY) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
+                        layoutManager.getRxBannerChangeListener().onGuideFinished();
+                    }
+                }else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
+                        && Math.abs(velocityX) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
                         layoutManager.getRxBannerChangeListener().onGuideFinished();
                     }
                 }
@@ -196,8 +204,10 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                         currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
-                layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-                layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerIndicatorChangeListener() != null)
+                    layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerTitleChangeListener() != null)
+                    layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity) {
@@ -207,8 +217,10 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
-                layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-                layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerIndicatorChangeListener() != null)
+                    layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerTitleChangeListener() != null)
+                    layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 return true;
             }
         } else {
@@ -224,9 +236,17 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             if (!layoutManager.isInfinite() &&
                     (layoutManager.mOffset == layoutManager.getMaxOffset()
                             || layoutManager.mOffset == layoutManager.getMinOffset())) {
-                if(layoutManager.getRxBannerChangeListener() != null) {
-                    final int currentPosition = layoutManager.getCurrentPosition();
-                    if (currentPosition == layoutManager.getItemCount() - 1) {
+                final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
+                mGravityScroller.fling(0, 0, velocityX, velocityY,
+                        Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
+                        && Math.abs(velocityY) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
+                        layoutManager.getRxBannerChangeListener().onGuideFinished();
+                    }
+                }else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
+                        && Math.abs(velocityX) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
                         layoutManager.getRxBannerChangeListener().onGuideFinished();
                     }
                 }
@@ -242,8 +262,10 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
-                layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-                layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerIndicatorChangeListener() != null)
+                    layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+                if(layoutManager.getRxBannerTitleChangeListener() != null)
+                    layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity) {

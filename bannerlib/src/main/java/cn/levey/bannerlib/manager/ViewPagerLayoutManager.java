@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
@@ -26,7 +28,7 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
-    public static final int DETERMINE_BY_MAX_AND_MIN = -1;
+    public static final int DETERMINE_BY_MAX_AND_MIN = 1;
 
     public static final int HORIZONTAL = OrientationHelper.HORIZONTAL;
 
@@ -184,7 +186,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         super(context);
         setOrientation(orientation);
         setReverseLayout(reverseLayout);
-      //  setAutoMeasureEnabled(true);
+        setAutoMeasureEnabled(true);
         setItemPrefetchEnabled(false);
     }
 
@@ -408,6 +410,8 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
             mOffset = 0;
             return;
         }
+        RxBannerLogger.i("onLayoutChildren = " + new Date().toString());
+        recycler.clear();
 
         ensureLayoutState();
         resolveShouldLayoutReverse();
@@ -529,9 +533,13 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
     @Override
     public void onAdapterChanged(RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
+
+        RxBannerLogger.i(" onAdapterChanged = ");
         removeAllViews();
         mOffset = 0;
     }
+
+
 
     @Override
     public void scrollToPosition(int position) {
