@@ -107,8 +107,6 @@ public class RxBanner extends FrameLayout {
         config.setOrderType(RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_rb_orderType, RxBannerUtil.getOrderType(config.getOrderType()))));
         //title
 
-        RxBannerLogger.i(" initTitleConfig 111 = " + config.isTitleVisible());
-        RxBannerLogger.i(" initTitleConfig 999 = ");
         initTitleConfig(typedArray);
         //IndicatorConfig
         initIndicatorConfig(typedArray,attrs);
@@ -119,7 +117,6 @@ public class RxBanner extends FrameLayout {
     private void initTitleConfig(TypedArray typedArray){
         config.setTitleVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_title_visible, config.isTitleVisible()));
 
-        RxBannerLogger.i(" initTitleConfig222 = " + config.isTitleVisible());
         if (config.isTitleVisible()) {
             config.setTitleGravity(typedArray.getInt(R.styleable.RxBanner_rb_title_gravity, config.getTitleGravity()));
             config.setTitleLayoutGravity(typedArray.getInt(R.styleable.RxBanner_rb_title_layout_gravity, config.getTitleLayoutGravity()));
@@ -168,7 +165,9 @@ public class RxBanner extends FrameLayout {
     }
 
     protected void initIndicatorConfig(TypedArray typedArray,AttributeSet attrs){
-        config.setIndicatorVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_title_marquee, config.isIndicatorVisible()));
+        config.setIndicatorVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_indicator_visible, config.isIndicatorVisible()));
+
+        RxBannerLogger.i(" initTitleConfig222 = " + config.isIndicatorVisible());
         if (config.isIndicatorVisible()) {
             AttributeController attributeController = new AttributeController();
             config.setIndicatorConfigConfig(attributeController.init(mContext, attrs));
@@ -254,6 +253,8 @@ public class RxBanner extends FrameLayout {
             });
         }
 
+
+        RxBannerLogger.i(" initTitleConfig666 = " + config.isIndicatorVisible());
         if (config.isIndicatorVisible()) {
             if (mIndicatorView != null) {
                 mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
