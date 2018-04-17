@@ -20,7 +20,7 @@ import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.rxbanner.activity.DemoActivity;
 import cn.levey.rxbanner.activity.FragmentActivity;
 import cn.levey.rxbanner.activity.FullActivity;
-import cn.levey.rxbanner.activity.SplashActivity;
+import cn.levey.rxbanner.activity.GuideActivity;
 import cn.levey.rxbanner.fake.Sys;
 
 
@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
                         startActivity(full);
                         break;
-                    case "Splash":
-                        Intent splash = new Intent(getApplicationContext(), SplashActivity.class);
+                    case "Guide":
+                        Intent splash = new Intent(getApplicationContext(), GuideActivity.class);
                         startActivity(splash);
                         break;
                 }

@@ -24,7 +24,7 @@ import cn.levey.rxbanner.loader.FrescoLoader;
  * e-mail: m@levey.cn
  */
 
-public class SplashActivity extends AppCompatActivity {
+public class GuideActivity extends AppCompatActivity {
 
     @BindView(R.id.rx_banner)
     RxBanner banner;
@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
         //添加图片资源
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_NUM));
@@ -67,6 +67,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onGuideFinished() {
                         RxBannerLogger.i(" onGuideFinished ");
+                        Toast.makeText(getApplicationContext(), "Guide Finished" , Toast.LENGTH_SHORT).show();
                         finish();
 
                     }

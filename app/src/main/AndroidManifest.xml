@@ -24,10 +24,11 @@
         <activity android:name=".activity.DemoActivity"/>
         <activity android:name=".activity.FragmentActivity"/>
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.GuideActivity"
             android:theme="@style/AppTheme.FullScreen"/>
         <activity
             android:name=".activity.FullActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.FullScreen"/>
     </application>
 

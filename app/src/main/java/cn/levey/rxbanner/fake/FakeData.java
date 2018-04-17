@@ -15,8 +15,8 @@ public class FakeData {
             "http://ww1.sinaimg.cn/large/0060lm7Tly1fpz8mrse94j31hc0u0dml.jpg",
             "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8mrvksij31hc0u046c.jpg",
             "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8ms6p4bj31hc0u0nbl.jpg",
-//            "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8ms7nvwj31hb0u0475.jpg",
-//            "http://ww1.sinaimg.cn/large/0060lm7Tly1fpz8mt5uh6j31hc0u0nia.jpg"
+            "http://ww2.sinaimg.cn/large/0060lm7Tly1fpz8ms7nvwj31hb0u0475.jpg",
+            "http://ww1.sinaimg.cn/large/0060lm7Tly1fpz8mt5uh6j31hc0u0nia.jpg"
     };
 
     public static final String[] FAKE_IMAGES_02 = {
@@ -41,10 +41,10 @@ public class FakeData {
             "http://wx2.sinaimg.cn/mw690/0060lm7Tly1fqav85lis5j30u01hcq3p.jpg?id=3",
             "http://wx2.sinaimg.cn/mw690/0060lm7Tly1fqav85l0pcj30u01hct9g.jpg?id=4",
             "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85m4vpj30u01hcaat.jpg?id=5",
-            "http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqav85lcnsj30u01hcmxy.jpg?id=6",
-            "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85vjy1j30u01hcgmc.jpg?id=7",
-            "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85x8h1j30u01hcdgn.jpg?id=8",
-            "http://wx4.sinaimg.cn/mw690/0060lm7Tly1fqav85zp5sj30u01hcq3q.jpg?id=9",
-            "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85xr4dj30u01hcwfd.jpg?id=10",
+//            "http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqav85lcnsj30u01hcmxy.jpg?id=6",
+//            "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85vjy1j30u01hcgmc.jpg?id=7",
+//            "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85x8h1j30u01hcdgn.jpg?id=8",
+//            "http://wx4.sinaimg.cn/mw690/0060lm7Tly1fqav85zp5sj30u01hcq3q.jpg?id=9",
+//            "http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqav85xr4dj30u01hcwfd.jpg?id=10",
     };
 }

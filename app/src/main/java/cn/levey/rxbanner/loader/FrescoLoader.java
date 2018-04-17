@@ -13,7 +13,6 @@ import com.facebook.imagepipeline.common.RotationOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.rxbanner.R;
 
@@ -36,13 +35,12 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
 
 //        set controller
         item.setController(getController((String)path));
-        RxBannerLogger.i(" FrescoLoader show = " + path);
     }
 
     @Override
     public SimpleDraweeView create(Context context) {
 
-        RxBannerLogger.i(" FrescoLoader create = ");
+
 //        set hierarchy
         SimpleDraweeView sdv = new SimpleDraweeView(context);
         sdv.setHierarchy(getRoundHierarchy(context));

@@ -10,25 +10,13 @@
             android:id="@+id/rx_banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            banner:rb_orderType="asc"
             banner:rb_orientation="horizontal"
-            banner:rb_timeInterval="1000"
             banner:rb_title_color="#FFFFFF"
-            banner:rb_title_marquee="true"
+            banner:rb_infinite="false"
+            banner:rb_autoPlay="false"
             banner:rb_viewPaperMode="true"
-            banner:rb_itemPercent="80"
-            banner:rb_itemScale="0.8"
-            banner:rb_itemSpace="-30dp"
-            banner:rb_title_gravity="start"
-            banner:rb_title_padding="5dp"
-            banner:rb_title_size="22sp"
-            banner:rb_title_layout_gravity="bottom"
             banner:rb_title_visible="false"
-            banner:rb_indicator_layout_gravity="center_horizontal|bottom"
-            banner:rb_indicator_radius="6px"
-            banner:rb_indicator_orientation="horizontal"
-            banner:rb_indicator_animationType="swap"
-            banner:rb_indicator_interactiveAnimation="false"/>
+            banner:rb_indicator_visible="false"/>
 
     </LinearLayout>
 

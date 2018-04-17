@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.levey.bannerlib.base.RxBannerGlobalConfig;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 
@@ -59,8 +58,6 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(@NonNull final RxBannerHolder holder, @SuppressLint("RecyclerView") final int position) {
-
-        RxBannerLogger.i(" onBindViewHolder " + mList.get(position));
         getLoader().show(mContext,mList.get(position),holder.image);
         if(rxBannerClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +100,6 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
 
     public void addDatas(List<Object> list){
         if(list != null && !list.isEmpty()){
-            RxBannerLogger.i(" adapter add = " + list.size());
             mList.addAll(list);
             notifyDataSetChanged();
         }

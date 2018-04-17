@@ -12,11 +12,13 @@
             android:layout_height="match_parent"
             banner:rb_infinite="false"
             banner:rb_autoPlay="false"
-            banner:rb_orientation="vertical"
+            banner:rb_timeInterval="500"
+            banner:rb_orientation="horizontal"
+            banner:rb_indicator_orientation="horizontal"
             banner:rb_indicator_layout_gravity="center_horizontal|bottom"
             banner:rb_indicator_selected_color="@color/colorAccent"
-            banner:rb_indicator_radius="6dp"
-            banner:rb_indicator_unselected_color="@color/colorPrimary"/>
+            banner:rb_indicator_radius="8dp"
+            banner:rb_indicator_unselected_color="@color/white"/>
     </LinearLayout>
 
 

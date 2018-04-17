@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
@@ -410,7 +409,6 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
             mOffset = 0;
             return;
         }
-        RxBannerLogger.i("onLayoutChildren = " + new Date().toString());
         recycler.clear();
 
         ensureLayoutState();
