@@ -1,4 +1,4 @@
-package cn.levey.rxbanner.fragment;
+package cn.levey.rxbanner.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -17,10 +17,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.base.RxBannerLogger;
-import cn.levey.rxbanner.activity.DemoActivity;
-import cn.levey.rxbanner.activity.FragmentActivity;
-import cn.levey.rxbanner.activity.FullActivity;
-import cn.levey.rxbanner.activity.GuideActivity;
+import cn.levey.rxbanner.view.DemoActivity;
+import cn.levey.rxbanner.view.FragmentActivity;
+import cn.levey.rxbanner.view.GuideActivity;
 import cn.levey.rxbanner.fake.Sys;
 
 
@@ -44,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence[] gravityItems;
     private SparseArray<Integer[]> indicesArray = new SparseArray<>();
 
+
+    /**
+     *
+     * 此处代码与 RxBanner 无关，请直接跳转去看
+     * @see DemoActivity
+     * @see GuideActivity
+     *
+     *对应布局查看
+     * @link activity_demo.xml
+     * @link activity_guide.xml
+     *
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,12 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         scroll.putExtra(DemoActivity.NEED_SCROLL_VIEW, true);
                         startActivity(scroll);
                         break;
-                    case "FullScreen":
-                        Intent full = new Intent(getApplicationContext(), FullActivity.class);
-
-                        startActivity(full);
-                        break;
-                    case "Guide":
+                    case "Guide/引导页":
                         Intent splash = new Intent(getApplicationContext(), GuideActivity.class);
                         startActivity(splash);
                         break;

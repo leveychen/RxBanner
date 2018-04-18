@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rx_banner_app_name">bannerLib</string>
+    <string name="rb_empty_view_string">暂无图片</string>
+</resources>

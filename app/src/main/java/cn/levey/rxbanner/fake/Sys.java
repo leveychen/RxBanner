@@ -1,6 +1,8 @@
 package cn.levey.rxbanner.fake;
 
+import android.content.Context;
 import android.view.Gravity;
+import android.widget.Toast;
 
 /**
  * Created by Levey on 2018/4/11 14:10.
@@ -9,13 +11,14 @@ import android.view.Gravity;
 public class Sys {
 
 
-//    <item>center</item>
-//    <item>top</item>
-//    <item>bottom</item>
-//    <item>start</item>
-//    <item>end</item>
-//    <item>center_horizontal</item>
-//    <item>center_vertical</item>
+
+    public static final String BANNER_DATA = "BANNER_DATA";
+
+
+    public static void toast(Context context, String s){
+        Toast.makeText(context, s , Toast.LENGTH_LONG).show();
+    }
+
 
     public static int getGravity(Integer[] which){
         int value = Gravity.START;

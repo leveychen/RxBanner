@@ -126,6 +126,9 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
             mList.clear();
             mList.addAll(list);
             notifyDataSetChanged();
+        }else {
+            mList.clear();
+            notifyDataSetChanged();
         }
     }
 

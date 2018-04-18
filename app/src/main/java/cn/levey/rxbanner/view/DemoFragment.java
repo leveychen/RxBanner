@@ -1,4 +1,4 @@
-package cn.levey.rxbanner.fragment;
+package cn.levey.rxbanner.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,13 +40,8 @@ public class DemoFragment extends Fragment {
         if(getArguments() != null) {
             fragmentId = getArguments().getInt(FRAGMENT_ID, 1);
         }
-        View view = null;
-        if(fragmentId == 1){
-            view = inflater.inflate(R.layout.fragment_view_01, container, false);
-        }
-        if(fragmentId ==2){
-            view = inflater.inflate(R.layout.fragment_view_02, container, false);
-        }
+        View view = inflater.inflate(R.layout.fragment_view, container, false);
+
         if(view == null){
             throw new NullPointerException("just demo");
         }
@@ -68,17 +63,15 @@ public class DemoFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        bannerView.onDestroy();
-//        unbinder.unbind();
-//
-//    }
-
     @Override
     public void onPause() {
         super.onPause();
         bannerView.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bannerView.onResume();
     }
 }

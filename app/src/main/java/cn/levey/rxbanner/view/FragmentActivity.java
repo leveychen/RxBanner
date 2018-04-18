@@ -1,4 +1,4 @@
-package cn.levey.rxbanner.activity;
+package cn.levey.rxbanner.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +11,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.rxbanner.R;
-import cn.levey.rxbanner.fragment.DemoFragment;
-import cn.levey.rxbanner.fragment.FragAdapter;
+import cn.levey.rxbanner.adapter.FragAdapter;
 
 
 /**
@@ -29,7 +28,7 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment_demo);
+        setContentView(R.layout.activity_fragment);
         ButterKnife.bind(this);
         setTitle("Fragment - RxBanner");
 

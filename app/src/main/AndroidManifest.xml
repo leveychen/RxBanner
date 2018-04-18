@@ -21,14 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DemoActivity"/>
-        <activity android:name=".activity.FragmentActivity"/>
+        <activity android:name=".view.DemoActivity"/>
+        <activity android:name=".view.FragmentActivity"/>
         <activity
-            android:name=".activity.GuideActivity"
-            android:theme="@style/AppTheme.FullScreen"/>
-        <activity
-            android:name=".activity.FullActivity"
-            android:screenOrientation="landscape"
+            android:name=".view.GuideActivity"
             android:theme="@style/AppTheme.FullScreen"/>
     </application>
 

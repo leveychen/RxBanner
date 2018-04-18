@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 import cn.levey.bannerlib.base.RxBannerConfig;
 import cn.levey.bannerlib.base.RxBannerConstants;
+import cn.levey.bannerlib.base.RxBannerEmptyView;
 import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerTextView;
@@ -44,7 +46,7 @@ import cn.levey.bannerlib.manager.ScaleLayoutManager;
 public class RxBanner extends FrameLayout {
 
     private Context mContext;
-    private int parentWidth, parentHeight;
+    private int parentWidth = 0, parentHeight = 0;
     private RxBannerAdapter mAdapter;
     private AutoPlayRecyclerView mBannerRv;
     private RxBannerTextView mTitleTv;
@@ -57,6 +59,7 @@ public class RxBanner extends FrameLayout {
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
     private View mIndicatorView;
+    private RxBannerEmptyView emptyView;
 
     private RxBannerConfig config = new RxBannerConfig();
 
@@ -86,37 +89,30 @@ public class RxBanner extends FrameLayout {
 
     protected void initInnerView(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RxBanner);
+        config.setAspectRatio(typedArray.getFloat(R.styleable.RxBanner_rb_aspectRatio, config.getAspectRatio()));
         config.setOrientation(typedArray.getInt(R.styleable.RxBanner_rb_orientation, config.getOrientation()));
         config.setViewPaperMode(typedArray.getBoolean(R.styleable.RxBanner_rb_viewPaperMode, config.isViewPaperMode()));
         config.setInfinite(typedArray.getBoolean(R.styleable.RxBanner_rb_infinite, config.isInfinite()));
-
-        RxBannerLogger.i(" is Infinite = " + config.isInfinite());
-        config.setAutoPlay( typedArray.getBoolean(R.styleable.RxBanner_rb_autoPlay, config.isAutoPlay()));
-        RxBannerLogger.i(" is autoPlay = " + config.isAutoPlay());
+        config.setAutoPlay(typedArray.getBoolean(R.styleable.RxBanner_rb_autoPlay, config.isAutoPlay()));
         config.setItemPercent(typedArray.getInt(R.styleable.RxBanner_rb_itemPercent, config.getItemPercent()));
         config.setItemSpacePx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_itemSpace, config.getItemSpace()));
         config.setItemScale(typedArray.getFloat(R.styleable.RxBanner_rb_itemScale, config.getItemScale()));
         config.setItemMoveSpeed(typedArray.getFloat(R.styleable.RxBanner_rb_itemMoveSpeed, config.getItemMoveSpeed()));
-        if (config.getItemPercent() <= 0)
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": itemPercent should be greater than 0");
-        if (config.getItemMoveSpeed() <= 0)
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": itemMoveSpeed should be greater than 0");
-        final int timeInterval = typedArray.getInt(R.styleable.RxBanner_rb_timeInterval, RxBannerGlobalConfig.getInstance().getTimeInterval());
-        if (timeInterval < 200)
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": for better performance, timeInterval should be greater than 200 millisecond");
-        config.setTimeInterval(timeInterval);
+        config.setEmptyViewText(typedArray.getString(R.styleable.RxBanner_rb_emptyViewText));
+        config.setEmptyViewResource(typedArray.getResourceId(R.styleable.RxBanner_rb_emptyViewResource, config.getEmptyViewResource()));
+        config.setTimeInterval(typedArray.getInt(R.styleable.RxBanner_rb_timeInterval, RxBannerGlobalConfig.getInstance().getTimeInterval()));
         config.setCenterAlpha(typedArray.getFloat(R.styleable.RxBanner_rb_centerAlpha, config.getCenterAlpha()));
         config.setSideAlpha(typedArray.getFloat(R.styleable.RxBanner_rb_sideAlpha, config.getSideAlpha()));
         config.setOrderType(RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_rb_orderType, RxBannerUtil.getOrderType(config.getOrderType()))));
         //init title
         initTitleConfig(typedArray);
         //init indicator
-        initIndicatorConfig(typedArray,attrs);
+        initIndicatorConfig(typedArray, attrs);
         typedArray.recycle();
         initInnerView();
     }
 
-    private void initTitleConfig(TypedArray typedArray){
+    private void initTitleConfig(TypedArray typedArray) {
         config.setTitleVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_title_visible, config.isTitleVisible()));
         if (config.isTitleVisible()) {
             config.setTitleGravity(typedArray.getInt(R.styleable.RxBanner_rb_title_gravity, config.getTitleGravity()));
@@ -126,23 +122,23 @@ public class RxBanner extends FrameLayout {
             int titleMarginBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_marginBottom, config.getTitleMarginBottom());
             int titleMarginStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_marginStart, config.getTitleMarginStart());
             int titleMarginEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_marginEnd, config.getTitleMarginEnd());
-            if(titleMarginTop == 0) titleMarginTop = config.getTitleMargin();
-            if(titleMarginBottom == 0) titleMarginBottom = config.getTitleMargin();
-            if(titleMarginStart == 0) titleMarginStart = config.getTitleMargin();
-            if(titleMarginEnd == 0) titleMarginEnd = config.getTitleMargin();
+            if (titleMarginTop == 0) titleMarginTop = config.getTitleMargin();
+            if (titleMarginBottom == 0) titleMarginBottom = config.getTitleMargin();
+            if (titleMarginStart == 0) titleMarginStart = config.getTitleMargin();
+            if (titleMarginEnd == 0) titleMarginEnd = config.getTitleMargin();
             config.setTitleMarginTopPx(titleMarginTop);
             config.setTitleMarginBottomPx(titleMarginBottom);
             config.setTitleMarginStartPx(titleMarginStart);
             config.setTitleMarginEndPx(titleMarginEnd);
-            config.setTitlePaddingPx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_padding,config.getTitlePadding()));
+            config.setTitlePaddingPx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_padding, config.getTitlePadding()));
             int titlePaddingTop = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_paddingTop, config.getTitlePaddingTop());
             int titlePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_paddingBottom, config.getTitlePaddingBottom());
             int titlePaddingStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_paddingStart, config.getTitlePaddingStart());
             int titlePaddingEnd = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_paddingEnd, config.getTitlePaddingEnd());
-            if(titlePaddingTop == 0) titlePaddingTop = config.getTitlePadding();
-            if(titlePaddingBottom == 0) titlePaddingBottom = config.getTitlePadding();
-            if(titlePaddingStart == 0) titlePaddingStart = config.getTitlePadding();
-            if(titlePaddingEnd == 0) titlePaddingEnd = config.getTitlePadding();
+            if (titlePaddingTop == 0) titlePaddingTop = config.getTitlePadding();
+            if (titlePaddingBottom == 0) titlePaddingBottom = config.getTitlePadding();
+            if (titlePaddingStart == 0) titlePaddingStart = config.getTitlePadding();
+            if (titlePaddingEnd == 0) titlePaddingEnd = config.getTitlePadding();
             config.setTitlePaddingTopPx(titlePaddingTop);
             config.setTitlePaddingBottomPx(titlePaddingBottom);
             config.setTitlePaddingStartPx(titlePaddingStart);
@@ -153,7 +149,7 @@ public class RxBanner extends FrameLayout {
                 config.setTitleWidthPx(typedArray.getInt(R.styleable.RxBanner_rb_title_width, config.getTitleWidth()));
             }
             try {
-                config.setTitleHeightPx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_height,config.getTitleHeight()));
+                config.setTitleHeightPx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_title_height, config.getTitleHeight()));
             } catch (Exception e) {
                 config.setTitleHeightPx(typedArray.getInt(R.styleable.RxBanner_rb_title_height, config.getTitleHeight()));
             }
@@ -165,7 +161,7 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    protected void initIndicatorConfig(TypedArray typedArray,AttributeSet attrs){
+    protected void initIndicatorConfig(TypedArray typedArray, AttributeSet attrs) {
         config.setIndicatorVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_indicator_visible, config.isIndicatorVisible()));
         if (config.isIndicatorVisible()) {
             AttributeController attributeController = new AttributeController();
@@ -181,7 +177,7 @@ public class RxBanner extends FrameLayout {
         addView(mBannerRv, layoutParams);
     }
 
-    protected void createTitle(){
+    protected void createTitle() {
         mTitleTv = new RxBannerTextView(mContext);
         LayoutParams titleLayoutParams = new LayoutParams(config.getTitleWidth(), config.getTitleHeight());
         titleLayoutParams.setMargins(config.getTitleMarginStart(), config.getTitleMarginTop(), config.getTitleMarginEnd(), config.getTitleMarginBottom());
@@ -234,7 +230,7 @@ public class RxBanner extends FrameLayout {
             if (config.getIndicatorConfigConfig() != null) {
                 config.getIndicatorConfigConfig().setCount(mUrls.size());
             }
-            if(onBannerClickListener != null) {
+            if (onBannerClickListener != null) {
                 mAdapter.setRxBannerClickListener(onBannerClickListener);
             }
             mBannerRv.setAdapter(mAdapter);
@@ -279,20 +275,48 @@ public class RxBanner extends FrameLayout {
             }
         }
 
-        if(mTitleTv != null ) mTitleTv.setSelection(0);
+        if (mTitleTv != null) mTitleTv.setSelection(0);
         setLongClickable(true);
-
+        checkEmpty();
     }
 
-    public View getCustomIndicator(){
-        if(mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)){
+    protected void checkEmpty() {
+        if (mUrls.isEmpty()) {
+            showEmptyView(VISIBLE);
+        } else {
+            showEmptyView(GONE);
+        }
+    }
+
+    protected void showEmptyView(int visible) {
+        if (emptyView == null) {
+            if (visible == VISIBLE) {
+                emptyView = new RxBannerEmptyView(mContext);
+                if (config.getEmptyViewResource() != 0) {
+                    emptyView.setImageResId(config.getEmptyViewResource());
+                } else {
+                    emptyView.setText(config.getEmptyViewText());
+                }
+                emptyView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                emptyView.setLayoutParams(layoutParam);
+                emptyView.setVisibility(visible);
+                addView(emptyView);
+            }
+        } else {
+            emptyView.setVisibility(visible);
+        }
+    }
+
+    public View getCustomIndicator() {
+        if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)) {
             return mIndicatorView;
         }
         throw new NullPointerException("please set a custom indicator view before get it");
     }
 
-    public RxBannerIndicator getDefaultIndicator(){
-        if(mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)){
+    public RxBannerIndicator getDefaultIndicator() {
+        if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)) {
             return (RxBannerIndicator) mIndicatorView;
         }
         throw new NullPointerException("please check rb_indicator_viable attribute in xml");
@@ -310,22 +334,31 @@ public class RxBanner extends FrameLayout {
     @SuppressWarnings("unchecked")
     public RxBanner setDatas(List<?> urls) {
         setInnerDatas(urls);
+        setTitles(null);
         return this;
     }
 
-    protected void setInnerDatas(List<?> urls){
+    protected void setInnerDatas(List<?> urls) {
 //        if(mLayoutManager == null){
 //            initStart();
 //        }
         if (urls != null && !urls.isEmpty()) {
-
             this.mUrls.clear();
             this.mUrls.addAll(urls);
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null) {
                 mAdapter.setDatas(mUrls);
                 setCurrentPosition(0);
             }
+        } else {
+            pause();
+            this.mUrls.clear();
+            if (mAdapter != null) {
+                mAdapter.setDatas(mUrls);
+
+            }
         }
+        checkEmpty();
+
     }
 
     public RxBanner setDatas(List<?> urls, List<String> titles) {
@@ -349,27 +382,29 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    public void removeData(int position){
-        if(position < mUrls.size()) {
+    public void removeData(int position) {
+        if (position < mUrls.size()) {
             mUrls.remove(position);
-            if(mTitleTv != null) mTitleTv.removeData(position);
+            if (mTitleTv != null) mTitleTv.removeData(position);
         }
         if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
             mAdapter.setDatas(mUrls);
-            if(position == mUrls.size() - 1){
+            if (position == mUrls.size() - 1) {
                 setCurrentPosition(0);
-            }else {
+            } else {
                 setCurrentPosition(mLayoutManager.getCurrentPosition());
             }
         }
+        checkEmpty();
     }
 
 
     protected void setTitles(List<String> titles) {
-        if(mTitleTv == null && config.isTitleVisible()){
+        if (mTitleTv == null && config.isTitleVisible()) {
             createTitle();
+
         }
-        if(mTitleTv != null) {
+        if (mTitleTv != null) {
             mTitleTv.setDatas(titles);
         }
     }
@@ -391,13 +426,21 @@ public class RxBanner extends FrameLayout {
     }
 
     protected void addTitles(List<String> titles) {
-        if(mTitleTv == null) throw new NullPointerException(" titleView no init, please call setDatas(urls, titles) first");
-        if(titles != null && !titles.isEmpty()){
+        if (mTitleTv == null)
+            throw new NullPointerException(" titleView no init, please call setDatas(urls, titles) first");
+        if (titles != null && !titles.isEmpty()) {
             mTitleTv.addDatas(titles);
         }
     }
 
-    protected void initLayoutManager (){
+    protected void initLayoutManager() {
+        if (config.getAspectRatio() > 0 && parentWidth > 0) {
+            parentHeight = (int) (parentWidth / config.getAspectRatio());
+            LinearLayout.LayoutParams parent = new LinearLayout.LayoutParams(parentWidth, parentHeight);
+            setLayoutParams(parent);
+            requestLayout();
+
+        }
         mLayoutManager = new ScaleLayoutManager.Builder(mContext, config.getItemSpace()).build();
         mLayoutManager.setOrientation(config.getOrientation());
         mLayoutManager.setItemScale(config.getItemScale());
@@ -406,11 +449,12 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemMoveSpeed(config.getItemMoveSpeed());
         mLayoutManager.setCenterAlpha(config.getCenterAlpha());
         mLayoutManager.setSideAlpha(config.getSideAlpha());
-        if(rxBannerChangeListener != null) mLayoutManager.setRxBannerChangeListener(rxBannerChangeListener);
+        if (rxBannerChangeListener != null)
+            mLayoutManager.setRxBannerChangeListener(rxBannerChangeListener);
         mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
             @Override
             public void onBannerSelected(int position) {
-                if(mTitleTv != null) mTitleTv.setSelection(position);
+                if (mTitleTv != null) mTitleTv.setSelection(position);
             }
         });
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
@@ -437,7 +481,7 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    public void  forceStart(){
+    public void forceStart() {
         config.setAutoPlay(true);
         start();
     }
@@ -446,7 +490,7 @@ public class RxBanner extends FrameLayout {
     //已在 onDetachedFromWindow 实现回收资源，也可根据需求自行调用完成销毁
     public void onDestroy() {
         pause();
-        if(mUrls !=null) mUrls = null;
+        if (mUrls != null) mUrls = null;
         if (mAdapter != null) mAdapter = null;
         if (mTitleTv != null) mTitleTv = null;
         if (mBannerRv != null) {
@@ -497,23 +541,23 @@ public class RxBanner extends FrameLayout {
 
     public void setCurrentPosition(int position) {
         if (mBannerRv != null && mAdapter != null && mLayoutManager != null && !mAdapter.getDatas().isEmpty()) {
-            if(mLayoutManager.isInfinite()) {
-                if(position == mUrls.size()) position = 0;
+            if (mLayoutManager.isInfinite()) {
+                if (position == mUrls.size()) position = 0;
                 if (position == -1) position = mUrls.size() - 1;
-            }else {
-                if(position < 0 || position > mUrls.size() - 1){
-                    if(config.isAutoPlay()){
+            } else {
+                if (position < 0 || position > mUrls.size() - 1) {
+                    if (config.isAutoPlay()) {
                         pause();
                     }
                     return;
                 }
-                if(position == mUrls.size()) position = 0;
-              //  if(position == -1 ) position = 0;
+                if (position == mUrls.size()) position = 0;
+                //  if(position == -1 ) position = 0;
             }
             mBannerRv.smoothScrollToPosition(position);
-            if(mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof  RxBannerIndicator)
+            if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerIndicator)
                 ((RxBannerIndicator) mIndicatorView).setSelection(position);
-            if(mTitleTv != null) mTitleTv.setSelection(position);
+            if (mTitleTv != null) mTitleTv.setSelection(position);
             if (config.isAutoPlay() && mBannerRv.isRunning()) {
                 mBannerRv.pause();
                 mBannerRv.start();
@@ -580,8 +624,9 @@ public class RxBanner extends FrameLayout {
                 if (v.getWidth() != 0 && v.getHeight() != 0) {
                     if (parentWidth == 0 || parentWidth == -1) parentWidth = v.getWidth();
                     if (parentHeight == 0 || parentHeight == -1) parentHeight = v.getHeight();
-                    if (parentWidth != 0 && parentWidth != -1 && parentHeight != 0 && parentHeight != -1 && needStart)
+                    if (parentWidth != 0 && parentWidth != -1 && parentHeight != 0 && parentHeight != -1 && needStart) {
                         initStart();
+                    }
                 }
             }
         });

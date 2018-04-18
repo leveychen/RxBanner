@@ -142,6 +142,7 @@ see `Attributes`
 |---|---|---|---|
 |rb_autoPlay|boolean|true|以 `rb_timeInterval` 的间隔自动播放
 |rb_infinite|boolean|true|是否无限循环,关闭无限循环就是 `引导页` ,了解一下
+|rb_aspectRatio|float|/| 宽高比，数值必须大于0，拿16:9为例就是1.7778，高度等于宽度则为1，同时 `android:layout_height` 不能为 `wrap_content` 或者 `match_parent`。需要随便定义一个数值， 比如 `1dp`。当 `orientation = vertical` 且在`ScrollView`中时，高度不推荐大于父容器，否则可能滑动被拦截，导致且在`ScrollView`中时无法滑动
 |rb_timeInterval|integer (`millisecond`)|5000| 200毫秒以上
 |rb_orientation|horizontal / vertical|horizontal| /
 |rb_itemPercent|integer|100| 宽度或者高度的百分比，取决于 `rb_orientation` 方向
@@ -152,6 +153,8 @@ see `Attributes`
 |rb_itemMoveSpeed|float|1|滑动速度
 |rb_orderType|asc / desc|asc| 升序或者降序排列
 |rb_viewPaperMode|boolean|true|跟 `ViewPaper` 一样，一次滑动一页
+|rb_emptyViewText|string|'暂无图片'| 当图片为空且 'rb_emptyViewResource' 没有定义时
+|rb_emptyViewResource|reference| / | 当图片为空时显示
 
 
 

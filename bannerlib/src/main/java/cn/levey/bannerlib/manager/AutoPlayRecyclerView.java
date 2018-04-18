@@ -2,9 +2,14 @@ package cn.levey.bannerlib.manager;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewParent;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import cn.levey.bannerlib.base.RxBannerGlobalConfig;
 
@@ -53,11 +58,14 @@ public class AutoPlayRecyclerView extends RecyclerView {
                     break;
             }
         }
-        //当父布局有ViewPaper时，拦截父容器的事件，防止滑动冲突
-//        ViewParent parent = this;
-//        while(((parent = parent.getParent()) instanceof ViewPager)) {
-//            parent.requestDisallowInterceptTouchEvent(true);
-//        }
+        //当父布局有ViewPaper , ScrollView , NestedScrollView时，拦截父容器的事件，防止纵向的滑动冲突
+
+        if(((ViewPagerLayoutManager)getLayoutManager()).getOrientation() == LinearLayout.VERTICAL) {
+            ViewParent parent = this;
+            while ((parent = parent.getParent()) instanceof ViewPager || (parent = parent.getParent()) instanceof ScrollView || (parent = parent.getParent()) instanceof NestedScrollView) {
+                parent.requestDisallowInterceptTouchEvent(true);
+            }
+        }
         return super.dispatchTouchEvent(ev);
     }
 

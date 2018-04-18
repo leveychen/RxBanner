@@ -138,6 +138,7 @@ All the `rb_` attributes here are specific for RxBanner
 |---|---|---|---|
 |rb_autoPlay|boolean|true|auto play with `rb_timeInterval` delay
 |rb_infinite|boolean|true|infinite loop, if `false` will call `onGuideFinished`
+|rb_aspectRatio|float|/| should be greater than 0, `android:layout_height` NOT be `wrap_content` or `match_parent`. recommend `1dp`
 |rb_timeInterval|integer (`millisecond`)|5000| for better performance, `rb_timeInterval` should be greater than 200 millisecond
 |rb_orientation|horizontal / vertical|horizontal|layout orientation
 |rb_itemPercent|integer|100| item width or height percentage
@@ -148,6 +149,8 @@ All the `rb_` attributes here are specific for RxBanner
 |rb_itemMoveSpeed|float|1|fling speed
 |rb_orderType|asc / desc|asc| /
 |rb_viewPaperMode|boolean|true| one fling one paper like `ViewPaper`
+|rb_emptyViewText|string|'No Banner'| display when data is empty and 'rb_emptyViewResource' not define
+|rb_emptyViewResource|reference| / | display when data is empty
 
 
 

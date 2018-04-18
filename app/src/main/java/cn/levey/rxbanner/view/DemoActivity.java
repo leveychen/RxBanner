@@ -1,11 +1,13 @@
-package cn.levey.rxbanner.activity;
+package cn.levey.rxbanner.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
 import com.lzy.okgo.OkGo;
@@ -48,8 +50,8 @@ public class DemoActivity extends AppCompatActivity {
     LinearLayout view02;
     @BindView(R.id.btn_network)
     Button btnNetwork;
-    private int fuliPage = 1;
-    private ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
+    private int mPage = 1;
+    private ArrayList<String> images = new ArrayList<>(Arrays.asList(FakeData.FAKE_IMAGES_02));
     private ArrayList<String> titles = new ArrayList<>();
     private DemoActivity activity;
 
@@ -69,13 +71,13 @@ public class DemoActivity extends AppCompatActivity {
         //添加图片资源
 
 
-//        ArrayList<Integer> list = new ArrayList<>();
-//        list.add(R.mipmap.ic_launcher);
-//        list.add(R.mipmap.ic_launcher);
-//        list.add(R.mipmap.ic_launcher);
-//        list.add(R.mipmap.ic_launcher);
+//        ArrayList<Integer> images = new ArrayList<>();
+//        images.add(R.mipmap.ic_launcher);
+//        images.add(R.mipmap.ic_launcher);
+//        images.add(R.mipmap.ic_launcher);
+//        images.add(R.mipmap.ic_launcher);
 
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < images.size(); i++) {
             titles.add("banner title " + (i + 1));
         }
 //        banner.setLoader(new UniversalImageLoader())
@@ -88,13 +90,13 @@ public class DemoActivity extends AppCompatActivity {
     //    config.setTitleWidthPx(ViewGroup.LayoutParams.WRAP_CONTENT);
         banner.setLoader(new FrescoLoader());
 //        RxBannerConfig config = banner.getConfig();
-//        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
-//        config.getIndicatorConfigConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
-//        config.setAutoPlay(false);
-//        config.setInfinite(true);
+////        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
+////        config.getIndicatorConfigConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
+////        config.setAutoPlay(false);
+////        config.setInfinite(true);
 //        banner.setConfig(config);
-//        banner.setDatas(list, titles)
-////                .setDatas(list)  // no title
+//        banner.setDatas(images, titles)
+//                .setDatas(images)  // no title
 //                .setOnBannerClickListener(new RxBannerClickListener() {
 //
 //                    @Override
@@ -121,12 +123,6 @@ public class DemoActivity extends AppCompatActivity {
 //                    @Override
 //                    public void onGuideFinished() {
 //                        Toast.makeText(getApplicationContext(), "GUIDE FINISHED", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
-//                    @Override
-//                    public void onTitleClick(int position) {
-//                        Toast.makeText(getApplicationContext(), "TITLE : " + position, Toast.LENGTH_SHORT).show();
 //                    }
 //                })
 //                .start();
@@ -176,6 +172,13 @@ public class DemoActivity extends AppCompatActivity {
                         .title("正在获取Banner")
                         .cancelable(false)
                         .content("请稍候...")
+                        .positiveText("取消")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                OkGo.getInstance().cancelAll();
+                            }
+                        })
                         .progress(true,0)
                         .build();
 
@@ -183,29 +186,22 @@ public class DemoActivity extends AppCompatActivity {
 
                  int size = (int)Math.round(Math.random()*10 + 1);
 
-                if(fuliPage % 3 == 0) size = 2;
-                if(fuliPage % 5 == 0) size = 1;
-                final String pageUrl = "http://gank.io/api/data/福利/" + size + "/" + fuliPage++;
+                final String pageUrl = "http://gank.io/api/data/福利/" + size + "/" + mPage++;
                 OkGo.<String>get(pageUrl).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         GankBean gank = JSON.parseObject(response.body(),GankBean.class);
-                        list.clear();
+                        images.clear();
                         titles.clear();
-
-
-
                         for (int i = 0; i < gank.getResults().size(); i++) {
-                            list.add(gank.getResults().get(i).getUrl());
-                            titles.add("福利 " + (i + 1));
-
+                            images.add(gank.getResults().get(i).getUrl());
+                            titles.add("Image ID =  " + (i + 1));
                         }
-
-                        banner.setDatas(list,titles);
+                        banner.setDatas(images,titles);
                         dialog.dismiss();
                     }
                 });
-                if(fuliPage > 10) fuliPage = 1;
+                if(mPage > 10) mPage = 1;
             }
         });
     }

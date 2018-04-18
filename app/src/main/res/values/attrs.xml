@@ -4,8 +4,7 @@
         <item>Activity</item>
         <item>Fragment</item>
         <item>ScrollView</item>
-        <item>FullScreen</item>
-        <item>Guide</item>
+        <item>Guide/引导页</item>
     </string-array>
 
     <string-array name="gravity_items">

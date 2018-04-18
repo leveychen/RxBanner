@@ -1,3 +1,4 @@
 <resources>
-    <string name="rx_banner_app_name">bannerLib</string>
+    <string name="rx_banner_app_name" translatable="false">bannerLib</string>
+    <string name="rb_empty_view_string">No Banner</string>
 </resources>

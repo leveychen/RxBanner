@@ -11,6 +11,7 @@ import java.io.Serializable;
 import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class RxBannerConfig implements Serializable {
+    private float aspectRatio = -1f;
     private boolean autoPlay = true;
     private boolean infinite = true;
     private float itemScale = 1.0f;
@@ -45,6 +46,34 @@ public class RxBannerConfig implements Serializable {
     private boolean titleMarquee = true;
     private boolean indicatorVisible = true;
     private IndicatorConfig indicatorConfigConfig = new IndicatorConfig();
+    private int emptyViewResource = 0;
+    private String emptyViewText = "";
+
+    public float getAspectRatio() {
+        return aspectRatio;
+    }
+
+    public void setAspectRatio(float aspectRatio) {
+        if (aspectRatio <= 0 && aspectRatio != -1f)
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": aspectRatio should be greater than 0");
+        this.aspectRatio = aspectRatio;
+    }
+
+    public int getEmptyViewResource() {
+        return emptyViewResource;
+    }
+
+    public void setEmptyViewResource(int resourceId) {
+        this.emptyViewResource = resourceId;
+    }
+
+    public String getEmptyViewText() {
+        return emptyViewText;
+    }
+
+    public void setEmptyViewText(String str) {
+        this.emptyViewText = str;
+    }
 
     public boolean isIndicatorVisible() {
         return indicatorVisible;
@@ -91,6 +120,8 @@ public class RxBannerConfig implements Serializable {
     }
 
     public void setTimeInterval(int timeInterval) {
+        if (timeInterval < 200)
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": for better performance, timeInterval should be greater than 200 millisecond");
         this.timeInterval = timeInterval;
     }
 
@@ -99,6 +130,8 @@ public class RxBannerConfig implements Serializable {
     }
 
     public void setItemPercent(int itemPercent) {
+        if (itemPercent <= 0)
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": itemPercent should be greater than 0");
         this.itemPercent = itemPercent;
     }
 
@@ -107,6 +140,8 @@ public class RxBannerConfig implements Serializable {
     }
 
     public void setItemMoveSpeed(float itemMoveSpeed) {
+        if (itemMoveSpeed <= 0)
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": itemMoveSpeed should be greater than 0");
         this.itemMoveSpeed = itemMoveSpeed;
     }
 
