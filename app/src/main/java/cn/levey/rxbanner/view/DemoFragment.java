@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -46,18 +43,9 @@ public class DemoFragment extends Fragment {
             throw new NullPointerException("just demo");
         }
         unbinder = ButterKnife.bind(this, view);
-        ArrayList<String> list = new ArrayList<>();
-        switch (fragmentId) {
-            case 1:
-                list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_01));
-                break;
-            case 2:
-                list.addAll(Arrays.asList(FakeData.FAKE_IMAGES_02));
-                break;
-        }
         bannerView
                 .setLoader(new FrescoLoader())
-                .setDatas(list)
+                .setDatas(FakeData.FAKE_DATA())
                 .start();
         tvFragmentId.setText("Fragment " + fragmentId);
         return view;

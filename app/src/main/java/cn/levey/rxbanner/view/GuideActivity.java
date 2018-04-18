@@ -43,7 +43,7 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_NUM));
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_GUIDE));
         banner.setLoader(new PicassoLoader())
                 .setDatas(list)
                 .setOnBannerChangeListener(new RxBannerChangeListener() {

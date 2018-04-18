@@ -53,9 +53,9 @@ public class RxBanner extends FrameLayout {
     private ScaleLayoutManager mLayoutManager;
     private List<Object> mUrls = new ArrayList<>();
     private RxBannerClickListener onBannerClickListener;
-    private RxBannerChangeListener rxBannerChangeListener;
+    private RxBannerChangeListener onBannerChangeListener;
     private RxBannerLoaderInterface mLoader;
-    private RxBannerTitleClickListener onTitleClickListener;
+    private RxBannerTitleClickListener onBannerTitleClickListener;
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
     private View mIndicatorView;
@@ -206,7 +206,7 @@ public class RxBanner extends FrameLayout {
         if (mLayoutManager != null && onBannerChangeListener != null) {
             mLayoutManager.setRxBannerChangeListener(onBannerChangeListener);
         }
-        this.rxBannerChangeListener = onBannerChangeListener;
+        this.onBannerChangeListener = onBannerChangeListener;
         return this;
     }
 
@@ -235,12 +235,12 @@ public class RxBanner extends FrameLayout {
             }
             mBannerRv.setAdapter(mAdapter);
         }
-        if (onTitleClickListener != null && mTitleTv != null) {
+        if (onBannerTitleClickListener != null && mTitleTv != null) {
             mTitleTv.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mLayoutManager != null) {
-                        onTitleClickListener.onTitleClick(mLayoutManager.getCurrentPosition());
+                        onBannerTitleClickListener.onTitleClick(mLayoutManager.getCurrentPosition());
                     }
                 }
             });
@@ -421,7 +421,7 @@ public class RxBanner extends FrameLayout {
                 }
             });
         }
-        this.onTitleClickListener = onTitleClickListener;
+        this.onBannerTitleClickListener = onTitleClickListener;
         return this;
     }
 
@@ -449,8 +449,8 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemMoveSpeed(config.getItemMoveSpeed());
         mLayoutManager.setCenterAlpha(config.getCenterAlpha());
         mLayoutManager.setSideAlpha(config.getSideAlpha());
-        if (rxBannerChangeListener != null)
-            mLayoutManager.setRxBannerChangeListener(rxBannerChangeListener);
+        if (onBannerChangeListener != null)
+            mLayoutManager.setRxBannerChangeListener(onBannerChangeListener);
         mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
             @Override
             public void onBannerSelected(int position) {
@@ -493,6 +493,9 @@ public class RxBanner extends FrameLayout {
         if (mUrls != null) mUrls = null;
         if (mAdapter != null) mAdapter = null;
         if (mTitleTv != null) mTitleTv = null;
+        if(onBannerClickListener != null) onBannerClickListener = null;
+        if(onBannerChangeListener != null) onBannerChangeListener = null;
+        if(onBannerTitleClickListener != null) onBannerTitleClickListener = null;
         if (mBannerRv != null) {
             mBannerRv.removeAllViews();
             mBannerRv.destroyDrawingCache();

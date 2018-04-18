@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.levey.bannerlib.base.RxBannerGlobalConfig;
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 
@@ -74,6 +75,8 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
                 }
             });
         }
+
+        RxBannerLogger.i(" GV = " + holder.image.getWidth() + " / " + holder.image.getHeight());
     }
 
     class RxBannerHolder extends RecyclerView.ViewHolder{

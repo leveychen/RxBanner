@@ -10,12 +10,12 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.common.RotationOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
-import cn.levey.rxbanner.R;
 
 /**
  * Created by Levey on 2018/4/2 17:42.
@@ -50,8 +50,10 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
 
 
     private DraweeController getController(String url) {
+        ResizeOptions resizeOptions = new ResizeOptions(400,400*16/9);
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(url))
                 .setRotationOptions(RotationOptions.autoRotateAtRenderTime())
+                .setResizeOptions(resizeOptions)
                 .build();
         return Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(url))
@@ -68,8 +70,7 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
         //roundingParams.setRoundAsCircle(true);
         builder.setRoundingParams(roundingParams);
         return builder
-                .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
-                .setRetryImage(R.mipmap.ic_launcher)
+                .setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP)
                 .build();
     }
 }
