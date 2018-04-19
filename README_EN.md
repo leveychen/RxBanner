@@ -5,7 +5,9 @@ Flexible banner base on RecyclerView
 
 [English](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_ZH.md)
 
+## Demo Apk
 
+fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.0_demo.apk](https://fir.im/rxbanner)
 
 
 ## Preview
@@ -29,7 +31,7 @@ Flexible banner base on RecyclerView
 ### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:x.x.x'
+    implementation 'com.github.leveychen:RxBanner:1.0.0'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -73,7 +75,7 @@ custom your config, the priority is higher than the `xml`
     banner.start();
 ````
 
-you `MUST` set `config`  before `start()`
+you `MUST` set `config`  before `setDatas()` and `start()`
 
 #### `listener` - optional
 ````java
@@ -82,7 +84,7 @@ you `MUST` set `config`  before `start()`
         onItemLongClick(int position, Object data)
 
     banner.setOnBannerTitleClickListener(new RxBannerTitleClickListener())
-        onTitleClick(int position);
+        onTitleClick(int position, String title)
 
     banner.setOnBannerChangeListener(new RxBannerChangeListener())
         onBannerSelected(int position)
@@ -138,6 +140,7 @@ All the `rb_` attributes here are specific for RxBanner
 |---|---|---|---|
 |rb_autoPlay|boolean|true|auto play with `rb_timeInterval` delay
 |rb_infinite|boolean|true|infinite loop, if `false` will call `onGuideFinished`
+|rb_canSwipe|boolean|true| can swipe manually or not
 |rb_aspectRatio|float|/| should be greater than 0, `android:layout_height` NOT be `wrap_content` or `match_parent`. recommend `1dp`
 |rb_timeInterval|integer (`millisecond`)|5000| for better performance, `rb_timeInterval` should be greater than 200 millisecond
 |rb_orientation|horizontal / vertical|horizontal|layout orientation

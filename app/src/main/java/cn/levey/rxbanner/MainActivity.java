@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     Switch indicatorVisible;
     @BindView(R.id.banner_image)
     Button bannerImage;
+    @BindView(R.id.canSwipe)
+    Switch canSwipe;
 
 
     private MainActivity activity;
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         .input("" + config.getCornersRadius(), "" + config.getCornersRadius(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                 config.setCornersRadius(Float.parseFloat(input.toString()));
+                                config.setCornersRadius(Float.parseFloat(input.toString()));
                             }
                         })
                         .checkBoxPrompt("isRoundAsCircle", config.isRoundAsCircle(), new CompoundButton.OnCheckedChangeListener() {
@@ -185,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 //banner
                 config.setAutoPlay(autoPlay.isChecked());
                 config.setInfinite(infinite.isChecked());
+                config.setCanSwipe(canSwipe.isChecked());
 
                 //title
                 config.setTitleVisible(titleVisible.isChecked());

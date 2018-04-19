@@ -17,7 +17,7 @@ public class RxBannerConfig implements Serializable {
     
 
     private float aspectRatio = -1f;
-    private boolean swipeManually = true;
+    private boolean canSwipe = true;
     private boolean autoPlay = true;
     private boolean infinite = true;
     private float itemScale = 1.0f;
@@ -55,12 +55,12 @@ public class RxBannerConfig implements Serializable {
     private int emptyViewResource = 0;
     private String emptyViewText = "";
 
-    public boolean isSwipeManually() {
-        return swipeManually;
+    public boolean isCanSwipe() {
+        return canSwipe;
     }
 
-    public void setSwipeManually(boolean swipeManually) {
-        this.swipeManually = swipeManually;
+    public void setCanSwipe(boolean canSwipe) {
+        this.canSwipe = canSwipe;
     }
 
     public float getAspectRatio() {

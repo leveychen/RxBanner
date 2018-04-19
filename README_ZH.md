@@ -7,7 +7,9 @@
 
 [English](https://github.com/leveychen/RxBanner/blob/master/README.md)&nbsp;&nbsp;&nbsp;[中文文档](https://github.com/leveychen/RxBanner/blob/master/README_ZH.md)
 
-## Demo
+## Demo Apk
+
+fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.0_demo.apk](https://fir.im/rxbanner)
 
 
 ## 预览
@@ -29,7 +31,7 @@
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:x.x.x'
+    implementation 'com.github.leveychen:RxBanner:1.0.0'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -52,6 +54,8 @@ see `Attributes`
         .setDatas(iamgesUrls, titles)
         .start();
 ````
+
+setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 
 #### 一些 `image loader` 的栗子
 
@@ -83,7 +87,7 @@ see `Attributes`
 
     //点击标题时的回调
     banner.setOnBannerTitleClickListener(new RxBannerTitleClickListener())
-        onTitleClick(int position);
+        onTitleClick(int position, String title);
 
     //图片切换时的回调
     banner.setOnBannerChangeListener(new RxBannerChangeListener())
@@ -112,7 +116,7 @@ see `Attributes`
                     })
 ````
 
-#### `lifecycle`
+#### `生命周期`
 更好的 在 Activity 、 Fragment 和其他 view 中管理生命周期
 ````java
     banner.onResume()
@@ -120,7 +124,7 @@ see `Attributes`
     banner.onDestroy() // 非必需, onDetachedFromWindow 里面已经处理
 ````
 
-## Global Settings
+## 全局设置
 ````java
     RxBannerConfig
         .getInstance()
@@ -142,6 +146,7 @@ see `Attributes`
 |---|---|---|---|
 |rb_autoPlay|boolean|true|以 `rb_timeInterval` 的间隔自动播放
 |rb_infinite|boolean|true|是否无限循环,关闭无限循环就是 `引导页` ,了解一下
+|rb_canSwipe|boolean|true|是否允许手动滑动，此设置与自动轮播无关
 |rb_aspectRatio|float|/| 宽高比，数值必须大于0，拿16:9为例就是1.7778，高度等于宽度则为1，同时 `android:layout_height` 不能为 `wrap_content` 或者 `match_parent`。需要随便定义一个数值， 比如 `1dp`。当 `orientation = vertical` 且在`ScrollView`中时，高度不推荐大于父容器，否则可能滑动被拦截，导致且在`ScrollView`中时无法滑动
 |rb_timeInterval|integer (`millisecond`)|5000| 200毫秒以上
 |rb_orientation|horizontal / vertical|horizontal| /

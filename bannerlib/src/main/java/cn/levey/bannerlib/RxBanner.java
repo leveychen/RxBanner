@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.levey.bannerlib.base.RxBannerConstants;
@@ -93,7 +92,7 @@ public class RxBanner extends FrameLayout {
     protected void initInnerView(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RxBanner);
         config.setAspectRatio(typedArray.getFloat(R.styleable.RxBanner_rb_aspectRatio, config.getAspectRatio()));
-        config.setSwipeManually(typedArray.getBoolean(R.styleable.RxBanner_rb_swipeManually, config.isSwipeManually()));
+        config.setCanSwipe(typedArray.getBoolean(R.styleable.RxBanner_rb_canSwipe, config.isCanSwipe()));
         config.setOrientation(typedArray.getInt(R.styleable.RxBanner_rb_orientation, config.getOrientation()));
         config.setViewPaperMode(typedArray.getBoolean(R.styleable.RxBanner_rb_viewPaperMode, config.isViewPaperMode()));
         config.setInfinite(typedArray.getBoolean(R.styleable.RxBanner_rb_infinite, config.isInfinite()));
@@ -182,7 +181,7 @@ public class RxBanner extends FrameLayout {
     }
 
     protected void initSwipeDisableView(){
-        if(!config.isSwipeManually()){
+        if(!config.isCanSwipe()){
             if(swpeDisableView  != null) return;
             swpeDisableView  = new View(mContext);
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -211,7 +210,7 @@ public class RxBanner extends FrameLayout {
     }
 
     public RxBanner setSwipeManually(boolean swipeManually){
-        config.setSwipeManually(swipeManually);
+        config.setCanSwipe(swipeManually);
         if(swpeDisableView != null){
             if(swipeManually){
                 swpeDisableView.setVisibility(GONE);
@@ -256,7 +255,6 @@ public class RxBanner extends FrameLayout {
 
     protected void createTitle() {
 
-        RxBannerLogger.i("  createTitle " + new Date());
         mTitleView = new RxBannerTitle(mContext);
         LayoutParams titleLayoutParams = new LayoutParams(config.getTitleWidth(), config.getTitleHeight());
         titleLayoutParams.setMargins(config.getTitleMarginStart(), config.getTitleMarginTop(), config.getTitleMarginEnd(), config.getTitleMarginBottom());
