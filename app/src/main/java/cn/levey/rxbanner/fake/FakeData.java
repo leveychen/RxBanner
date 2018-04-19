@@ -14,7 +14,7 @@ public class FakeData {
 
     public static List<String> FAKE_DATA(){
         List<String> list = new ArrayList<>();
-        final int size = (int)Math.round(Math.random()*15 + 1);
+        final int size = (int)Math.round(Math.random()* 10 + 1);
         int[] rd = getRandom(FAKE_IMAGES.length - 1);
         for (int i = 0; i < size; i++) {
             list.add(FAKE_IMAGES[rd[i]]);

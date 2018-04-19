@@ -45,7 +45,7 @@ public class GuideActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_GUIDE));
         banner.setLoader(new PicassoLoader())
-                .setDatas(list)
+                .setDatas(list) // no title
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
 
                     @Override

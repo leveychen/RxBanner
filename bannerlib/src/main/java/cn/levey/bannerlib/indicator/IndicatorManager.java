@@ -13,11 +13,11 @@ public class IndicatorManager implements ValueController.UpdateListener {
     private AnimationManager animationManager;
     private Listener listener;
 
-    interface Listener {
+    public interface Listener {
         void onIndicatorUpdated();
     }
 
-    IndicatorManager(@Nullable Listener listener,IndicatorConfig indicatorConfig) {
+    public IndicatorManager(@Nullable Listener listener,IndicatorConfig indicatorConfig) {
         this.listener = listener;
         this.drawManager = new DrawManager(indicatorConfig);
         this.animationManager = new AnimationManager(drawManager.indicator(), this);

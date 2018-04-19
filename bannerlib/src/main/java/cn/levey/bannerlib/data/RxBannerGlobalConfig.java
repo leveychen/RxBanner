@@ -1,4 +1,4 @@
-package cn.levey.bannerlib.base;
+package cn.levey.bannerlib.data;
 
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerScrollStateChangedListener;

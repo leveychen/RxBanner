@@ -23,7 +23,6 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation project(':bannerlib')
 //    implementation 'com.github.leveychen:RxBanner:1.0.0-pre3'
-    implementation 'com.lzy.net:okgo:3.0.4'
     //noinspection GradleDependency
     implementation 'com.alibaba:fastjson:1.1.68.android'
     implementation 'com.github.bumptech.glide:glide:4.6.1'

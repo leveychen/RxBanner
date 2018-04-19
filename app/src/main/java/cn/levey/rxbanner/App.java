@@ -7,7 +7,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
 
-import cn.levey.bannerlib.base.RxBannerGlobalConfig;
+import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 
 /**
  * Created by Levey on 2018/4/2 17:38.

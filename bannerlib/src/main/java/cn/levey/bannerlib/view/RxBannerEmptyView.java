@@ -1,4 +1,4 @@
-package cn.levey.bannerlib.base;
+package cn.levey.bannerlib.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

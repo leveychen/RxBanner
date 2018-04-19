@@ -398,7 +398,6 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         } else {
             recyclerView.smoothScrollBy(offsetPosition, 0, mSmoothScrollInterpolator);
         }
-
     }
 
     @Override

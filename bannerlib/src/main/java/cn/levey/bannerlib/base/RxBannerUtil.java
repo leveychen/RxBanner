@@ -3,6 +3,8 @@ package cn.levey.bannerlib.base;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
+import cn.levey.bannerlib.data.RxBannerGlobalConfig;
+
 /**
  * Created by Levey on 2018/4/9 10:57.
  * e-mail: m@levey.cn

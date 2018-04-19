@@ -1,61 +1,71 @@
 package cn.levey.bannerlib.indicator.draw.data;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
+import java.io.Serializable;
+
+import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
+import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
+import cn.levey.bannerlib.indicator.animation.type.ColorAnimation;
+import cn.levey.bannerlib.indicator.animation.type.FillAnimation;
+import cn.levey.bannerlib.indicator.animation.type.ScaleAnimation;
 
-public class IndicatorConfig {
+public class IndicatorConfig implements Serializable{
 
     public static final int DEFAULT_COUNT = 0;
     public static final int MIN_COUNT = 1;
     public static final int COUNT_NONE = -1;
 
-    public static final int DEFAULT_RADIUS_DP = 6;
-    public static final int DEFAULT_MARGIN_DP = 6;
+    public static final int DEFAULT_RADIUS_DP = 5;
+    public static final int DEFAULT_MARGIN_DP = 3;
     public static final int DEFAULT_PADDING_DP = 3;
 
-    private int height;
-    private int width;
-    private int radius;
+    private int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private int width = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private int radius = RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_RADIUS_DP);
 
-    private int padding;
-    private int paddingStart;
-    private int paddingTop;
-    private int paddingEnd;
-    private int paddingBottom;
+    private int padding  = RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_PADDING_DP);
+    private int paddingStart = 0;
+    private int paddingTop = 0;
+    private int paddingEnd = 0;
+    private int paddingBottom = 0;
 
-    private int gravity;
-    private int margin;
-    private int marginTop;
-    private int marginBottom;
-    private int marginStart;
-    private int marginEnd;
+    private int gravity = Gravity.BOTTOM | Gravity.END;
+    private int margin = RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_MARGIN_DP);
+    private int marginTop = 0;
+    private int marginBottom = 0;
+    private int marginStart = 0;
+    private int marginEnd = 0;
 
-    private int stroke; //For "Fill" animation only
-    private float scale; //For "Scale" animation only
+    private int stroke = RxBannerUtil.dp2px(FillAnimation.DEFAULT_STROKE_DP); //For "Fill" animation only
+    private float scale = ScaleAnimation.DEFAULT_SCALE_FACTOR; //For "Scale" animation only
 
-    private int unselectedColor;
-    private int selectedColor;
+    private int unselectedColor = Color.parseColor(ColorAnimation.DEFAULT_UNSELECTED_COLOR);
+    private int selectedColor =  Color.parseColor(ColorAnimation.DEFAULT_SELECTED_COLOR);
 
-    private boolean interactiveAnimation;
+    private boolean interactiveAnimation = false;
     private boolean autoVisibility = false;
-    private boolean dynamicCount;
-    private boolean clickable;
+    private boolean dynamicCount = true;
+    private boolean clickable = true;
 
-    private long animationDuration;
+    private long animationDuration = BaseAnimation.DEFAULT_ANIMATION_TIME;
     private int count = DEFAULT_COUNT;
 
-    private int selectedPosition;
-    private int selectingPosition;
-    private int lastSelectedPosition;
+    private int selectedPosition = 0;
+    private int selectingPosition = 0;
+    private int lastSelectedPosition = 0;
 
     private int recyclerViewId = View.NO_ID;
 
-    private Orientation orientation;
-    private AnimationType animationType;
-    private RtlMode rtlMode;
+    private Orientation orientation = Orientation.HORIZONTAL;
+    private AnimationType animationType = AnimationType.NONE;
+    private RtlMode rtlMode = RtlMode.Auto;
 
     public int getHeight() {
         return height;
@@ -79,21 +89,21 @@ public class IndicatorConfig {
 
 
     public int getPaddingStart() {
-        return paddingStart;
+        return paddingStart > 0 ? paddingStart : getPadding();
     }
 
     public int getPaddingTop() {
-        return paddingTop;
+        return paddingTop > 0 ? paddingTop : getPadding();
     }
 
 
     public int getPaddingEnd() {
-        return paddingEnd;
+        return paddingEnd > 0 ? paddingEnd : getPadding();
     }
 
 
     public int getPaddingBottom() {
-        return paddingBottom;
+        return paddingBottom > 0 ? paddingBottom : getPadding();
     }
 
 
@@ -265,25 +275,25 @@ public class IndicatorConfig {
 
 
     public int getMarginTop() {
-        return marginTop;
+        return marginTop > 0 ? marginTop : getMargin();
     }
 
 
 
     public int getMarginBottom() {
-        return marginBottom;
+        return marginBottom  > 0 ? marginBottom : getMargin();
     }
 
 
 
     public int getMarginStart() {
-        return marginStart;
+        return marginStart> 0 ? marginStart : getMargin();
     }
 
 
 
     public int getMarginEnd() {
-        return marginEnd;
+        return marginEnd> 0 ? marginEnd : getMargin();
     }
 
 

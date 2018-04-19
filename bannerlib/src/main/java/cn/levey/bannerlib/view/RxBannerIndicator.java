@@ -1,4 +1,4 @@
-package cn.levey.bannerlib.indicator;
+package cn.levey.bannerlib.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -18,6 +18,7 @@ import android.view.View;
 
 import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
+import cn.levey.bannerlib.indicator.IndicatorManager;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
 import cn.levey.bannerlib.indicator.animation.type.ColorAnimation;

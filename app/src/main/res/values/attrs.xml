@@ -16,4 +16,27 @@
         <item>center_horizontal</item>
         <item>center_vertical</item>
     </string-array>
+
+    <string-array name="indicator_animationType">
+        <item>none</item>
+        <item>color</item>
+        <item>scale</item>
+        <item>worm</item>
+        <item>slide</item>
+        <item>fill</item>
+        <item>thinWorm</item>
+        <item>drop</item>
+        <item>swap</item>
+        <item>scale_down</item>
+    </string-array>
+
+    <string-array name="rb_orderType">
+        <item>asc</item>
+        <item>desc</item>
+    </string-array>
+    <string-array name="rb_orientation">
+        <item>horizontal</item>
+        <item>vertical</item>
+    </string-array>
+
 </resources>

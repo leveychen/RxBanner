@@ -7,7 +7,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
 
         <LinearLayout
@@ -15,22 +17,126 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Banner"
+                    android:layout_marginRight="20dp"/>
+                <Switch
+                    android:id="@+id/autoPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="autoPlay "
+                    android:tag=""
+                    android:checked="true"
+                    android:layout_margin="5dp"/>
+                <Switch
+                    android:id="@+id/infinite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="infinite "
+                    android:tag=""
+                    android:checked="true"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/banner_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Image: "
+                android:tag="Image: "
+                android:textAllCaps="false"
+                android:layout_margin="2dp"/>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:layout_marginRight="20dp"/>
+                <Switch
+                    android:id="@+id/title_visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="titleVisible "
+                    android:tag=""
+                    android:checked="true"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
+
+
+
+            <Button
                 android:id="@+id/title_gravity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="titleGravity: start"
                 android:tag="titleGravity: "
-                android:background="@drawable/text_view_bg"
+                android:textAllCaps="false"
                 android:layout_margin="2dp"/>
 
-            <TextView
+            <Button
                 android:id="@+id/title_layout_gravity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="titleLayoutGravity: bottom | center_horizontal"
                 android:tag="titleLayoutGravity: "
-                android:background="@drawable/text_view_bg"
+                android:textAllCaps="false"
+                android:layout_margin="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Indicator"
+                    android:layout_marginRight="20dp"/>
+                <Switch
+                    android:id="@+id/indicator_visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="indicatorVisible "
+                    android:tag=""
+                    android:checked="true"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/indicator_layout_gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="indicatorLayoutGravity: bottom | end"
+                android:tag="indicatorLayoutGravity: "
+                android:textAllCaps="false"
                 android:layout_margin="2dp"/>
 
 

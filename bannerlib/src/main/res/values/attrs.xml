@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="RxBanner">
         <attr name="rb_aspectRatio" format="float"/>
+        <attr name="rb_swipeManually" format="boolean"/>
         <attr name="rb_autoPlay" format="boolean"/>
         <attr name="rb_infinite" format="boolean"/>
         <attr name="rb_itemScale" format="float" />
@@ -13,6 +14,7 @@
         <attr name="rb_itemSpace" format="dimension" />
         <attr name="rb_emptyViewText" format="string" />
         <attr name="rb_emptyViewResource" format="reference" />
+        <attr name="rb_title_indicator_layout" format="reference" />
         <attr name="rb_orderType" format="enum">
             <enum name="asc" value="1" />
             <enum name="desc" value="2" />

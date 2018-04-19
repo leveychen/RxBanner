@@ -2,6 +2,8 @@ package cn.levey.bannerlib.base;
 
 import android.util.Log;
 
+import cn.levey.bannerlib.data.RxBannerGlobalConfig;
+
 /**
  * Created by Levey on 2018/4/3 10:32.
  * e-mail: m@levey.cn

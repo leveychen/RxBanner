@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -12,8 +13,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.impl.RxBannerChangeListener;
+import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.rxbanner.R;
+import cn.levey.rxbanner.fake.DemoConfig;
 import cn.levey.rxbanner.fake.FakeData;
+import cn.levey.rxbanner.fake.Sys;
 import cn.levey.rxbanner.loader.FrescoLoader;
 
 
@@ -40,7 +46,6 @@ public class DemoActivity extends AppCompatActivity {
     LinearLayout view02;
     @BindView(R.id.btn_network)
     Button btnNetwork;
-    private int mPage = 1;
     private ArrayList<String> images = new ArrayList<>(FakeData.FAKE_DATA());
     private ArrayList<String> titles = new ArrayList<>();
 
@@ -56,6 +61,14 @@ public class DemoActivity extends AppCompatActivity {
             setTitle("ScrollView - RxBanner");
         }
 
+        DemoConfig config;
+        try {
+            config = (DemoConfig) getIntent().getSerializableExtra(Sys.BANNER_DATA);
+        } catch (Exception e) {
+            config = new DemoConfig();
+        }
+
+
         //添加图片资源
 
 
@@ -66,13 +79,14 @@ public class DemoActivity extends AppCompatActivity {
 //        images.add(R.mipmap.ic_launcher);
 
         for (int i = 0; i < images.size(); i++) {
+            RxBannerLogger.i(" TTTTTTTT = " + i);
             titles.add("banner title " + (i + 1));
         }
 //        banner.setLoader(new UniversalImageLoader())
 //        banner.setLoader(new PicassoLoader())
 //        banner.setLoader(new GlideLoader())
 
-        banner.setLoader(new FrescoLoader());
+        banner.setLoader(new FrescoLoader(config.getCornersRadius(),config.isRoundAsCircle()));
 
 
 //        RxBannerConfig config = banner.getConfig();
@@ -83,38 +97,48 @@ public class DemoActivity extends AppCompatActivity {
 //        banner.setConfig(config);
 
 
-        banner.setDatas(images, titles);
+        RxBannerLogger.i(" G = " + config.getTitleGravity());
+        banner
+                .setConfig(config)
+                .setDatas(images, titles)
 
-//                .setDatas(images)  // no title
-//                .setOnBannerClickListener(new RxBannerClickListener() {
-//
-//                    @Override
-//                    public void onItemClick(int position, Object data) {
-//                        Toast.makeText(getApplicationContext(), "Click : " + position, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onItemLongClick(int position, Object data) {
-//                        Toast.makeText(getApplicationContext(), "LONG : " + position, Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//
-//                .setOnBannerChangeListener(new RxBannerChangeListener() {
-//                    @Override
-//                    public void onBannerSelected(int position) {
-//                    }
-//
-//                    @Override
-//                    public void onBannerScrollStateChanged(int state) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onGuideFinished() {
-//                        Toast.makeText(getApplicationContext(), "GUIDE FINISHED", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .start();
+//               .setDatas(images)  // no title
+                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
+                    @Override
+                    public void onTitleClick(int position, String title) {
+                        Toast.makeText(getApplicationContext(), "TITLE : " + position + " / " + title, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setOnBannerClickListener(new RxBannerClickListener() {
+
+                    @Override
+                    public void onItemClick(int position, Object data) {
+                        Toast.makeText(getApplicationContext(), "Click : " + position, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position, Object data) {
+                        Toast.makeText(getApplicationContext(), "LONG : " + position, Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+                .setOnBannerChangeListener(new RxBannerChangeListener() {
+                    @Override
+                    public void onBannerSelected(int position) {
+
+                    }
+
+                    @Override
+                    public void onBannerScrollStateChanged(int state) {
+
+                    }
+
+                    @Override
+                    public void onGuideFinished() {
+                        Toast.makeText(getApplicationContext(), "GUIDE FINISHED", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .start();
 
 
         if (banner.isAutoPlay()) {
@@ -160,7 +184,7 @@ public class DemoActivity extends AppCompatActivity {
                 titles.clear();
                 images.addAll(FakeData.FAKE_DATA());
                 for (int i = 0; i < images.size(); i++) {
-                    titles.add(" banner from network " + (i  + 1));
+                    titles.add(" banner " + (i  + 1));
                 }
                 banner.setDatas(images,titles);
             }

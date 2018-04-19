@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
-import cn.levey.bannerlib.base.RxBannerGlobalConfig;
+import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 

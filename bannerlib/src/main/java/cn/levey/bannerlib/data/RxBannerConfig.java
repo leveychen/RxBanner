@@ -1,4 +1,4 @@
-package cn.levey.bannerlib.base;
+package cn.levey.bannerlib.data;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,10 +8,16 @@ import android.widget.LinearLayout;
 
 import java.io.Serializable;
 
+import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 
 public class RxBannerConfig implements Serializable {
+
+    
+
     private float aspectRatio = -1f;
+    private boolean swipeManually = true;
     private boolean autoPlay = true;
     private boolean infinite = true;
     private float itemScale = 1.0f;
@@ -48,6 +54,14 @@ public class RxBannerConfig implements Serializable {
     private IndicatorConfig indicatorConfigConfig = new IndicatorConfig();
     private int emptyViewResource = 0;
     private String emptyViewText = "";
+
+    public boolean isSwipeManually() {
+        return swipeManually;
+    }
+
+    public void setSwipeManually(boolean swipeManually) {
+        this.swipeManually = swipeManually;
+    }
 
     public float getAspectRatio() {
         return aspectRatio;

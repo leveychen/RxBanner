@@ -1,4 +1,4 @@
-package cn.levey.bannerlib.base;
+package cn.levey.bannerlib.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -7,20 +7,20 @@ import android.util.AttributeSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RxBannerTextView extends android.support.v7.widget.AppCompatTextView{
+public class RxBannerTitle extends android.support.v7.widget.AppCompatTextView{
 
     private List<String> mTitles = new ArrayList<>();
     private boolean isFocused = false;
 
-    public RxBannerTextView(Context context) {
+    public RxBannerTitle(Context context) {
         super(context);
     }
 
-    public RxBannerTextView(Context context, @Nullable AttributeSet attrs) {
+    public RxBannerTitle(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RxBannerTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RxBannerTitle(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -32,6 +32,7 @@ public class RxBannerTextView extends android.support.v7.widget.AppCompatTextVie
     public void setFocused(boolean focused) {
         isFocused = focused;
     }
+
 
     public List<String> getTitleDatas() {
         return mTitles;

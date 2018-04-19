@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
-import cn.levey.bannerlib.base.RxBannerGlobalConfig;
+import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.WeakHandler;
 
@@ -56,11 +56,13 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             autoPlayRunnable = new Runnable() {
                 @Override
                 public void run() {
+
                     if(!((ViewPagerLayoutManager) layoutManager).isAutoPlay()){
                         pause();
                         return;
                     }
                     final ViewPagerLayoutManager viewPagerLayoutManager = (ViewPagerLayoutManager) layoutManager;
+
                     final int currentPosition = viewPagerLayoutManager.getCurrentPosition();
                     int cp = orderType == RxBannerGlobalConfig.OrderType.ASC ? currentPosition + 1 : currentPosition - 1;
                     if(cp == -1) {

@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 
 import cn.levey.bannerlib.R;
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
@@ -53,6 +54,8 @@ public class AttributeController {
         int rb_indicator_layout_gravity = typedArray.getInt(R.styleable.RxBanner_rb_indicator_layout_gravity, Gravity.BOTTOM | Gravity.END);
         indicatorConfig.setGravity(rb_indicator_layout_gravity);
         int margin = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_margin, RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_MARGIN_DP));
+
+        RxBannerLogger.i(" in matgin = " + margin);
         int marginTop = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginTop, 0);
         int marginBottom = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginBottom, 0);
         int marginStart = typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_marginStart, 0);

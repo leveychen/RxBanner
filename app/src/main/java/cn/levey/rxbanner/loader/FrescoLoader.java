@@ -25,6 +25,27 @@ import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 
 public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
 
+
+    public void setCornersRadius(float cornersRadius) {
+        this.cornersRadius = cornersRadius;
+    }
+
+    private float cornersRadius = 30f;
+    private boolean isRoundAsCircle = false;
+
+    public void setRoundAsCircle(boolean roundAsCircle) {
+        isRoundAsCircle = roundAsCircle;
+    }
+
+    public FrescoLoader(){
+
+    }
+
+    public FrescoLoader(float cornersRadius, boolean isRoundAsCircle){
+        this.cornersRadius = cornersRadius;
+        this.isRoundAsCircle = isRoundAsCircle;
+    }
+
     @Override
     public void show(Context context, Object path, SimpleDraweeView item) {
         if(path instanceof Integer){
@@ -66,8 +87,8 @@ public class FrescoLoader implements RxBannerLoaderInterface<SimpleDraweeView> {
     private GenericDraweeHierarchy getRoundHierarchy(Context context) {
         GenericDraweeHierarchyBuilder builder =
                 new GenericDraweeHierarchyBuilder(context.getResources());
-        RoundingParams roundingParams = RoundingParams.fromCornersRadius(30f);
-        //roundingParams.setRoundAsCircle(true);
+        RoundingParams roundingParams = RoundingParams.fromCornersRadius(cornersRadius);
+        roundingParams.setRoundAsCircle(isRoundAsCircle);
         builder.setRoundingParams(roundingParams);
         return builder
                 .setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP)
