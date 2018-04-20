@@ -7,9 +7,10 @@ Flexible banner base on RecyclerView
 
 ## Demo Apk
 
-fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.0_demo.apk](https://fir.im/rxbanner)
+fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [https://github.com/leveychen/RxBanner/releases/download/1.0.1/rxbanner_v1.0.1_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.1/rxbanner_v1.0.1_demo.apk)
+
 
 
 ## Preview
