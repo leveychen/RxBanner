@@ -61,7 +61,7 @@ public class RxBanner extends FrameLayout {
     private boolean needStart = false;
     private View mIndicatorView;
     private RxBannerEmptyView emptyView;
-    private View swpeDisableView;
+    private View swipeDisableView;
 
     private RxBannerConfig config = new RxBannerConfig();
 
@@ -181,12 +181,12 @@ public class RxBanner extends FrameLayout {
 
     protected void initSwipeDisableView(){
         if(!config.isCanSwipe()){
-            if(swpeDisableView  != null) return;
-            swpeDisableView  = new View(mContext);
+            if(swipeDisableView != null) return;
+            swipeDisableView = new View(mContext);
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            swpeDisableView.setLayoutParams(params);
-            addView(swpeDisableView);
-            swpeDisableView.setOnClickListener(new OnClickListener() {
+            swipeDisableView.setLayoutParams(params);
+            addView(swipeDisableView);
+            swipeDisableView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -210,11 +210,11 @@ public class RxBanner extends FrameLayout {
 
     public RxBanner setSwipeManually(boolean swipeManually){
         config.setCanSwipe(swipeManually);
-        if(swpeDisableView != null){
+        if(swipeDisableView != null){
             if(swipeManually){
-                swpeDisableView.setVisibility(GONE);
+                swipeDisableView.setVisibility(GONE);
             }else {
-                swpeDisableView.setVisibility(VISIBLE);
+                swipeDisableView.setVisibility(VISIBLE);
             }
         }else {
             initSwipeDisableView();

@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:text="DEFAULT"
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
                 <Button
                     android:id="@+id/default_scale"
@@ -39,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="SCALE"
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
                 <Button
                     android:id="@+id/default_guide"
@@ -49,7 +50,17 @@
                     android:layout_height="wrap_content"
                     android:text="GUIDE"
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
+
+                <Button
+                    android:id="@+id/about"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="ABOUT"
+                    android:textAllCaps="false"
+                    />
 
             </LinearLayout>
 
@@ -102,15 +113,32 @@
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/banner_image"
-                style="@style/Banner_Button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Image: "
-                android:tag="Image: "
-                android:textAllCaps="false"
-                android:layout_margin="2dp"/>
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/banner_image"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Image: "
+                    android:tag="Image: "
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/time_interval"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="interval: 5000"
+                    android:tag="interval: "
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -127,7 +155,7 @@
                     android:text="orientation: horizontal"
                     android:tag="orientation: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
                 <Button
                     android:id="@+id/orderType"
@@ -138,7 +166,7 @@
                     android:text="orderType: asc"
                     android:tag="orderType: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
             </LinearLayout>
 
@@ -157,7 +185,7 @@
                     android:text="itemPercent: 100"
                     android:tag="itemPercent: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
                 <Button
                     android:id="@+id/item_scale"
@@ -165,10 +193,10 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="itemScale: 1.0f"
+                    android:text="itemScale: 1.0"
                     android:tag="itemScale: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
             </LinearLayout>
 
@@ -184,10 +212,10 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="itemSpace: 0dp"
+                    android:text="itemSpace: 0"
                     android:tag="itemSpace: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
 
                 <Button
@@ -196,10 +224,10 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="sideAlpha: 1.0f"
+                    android:text="sideAlpha: 1.0"
                     android:tag="sideAlpha: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
             </LinearLayout>
 
@@ -243,7 +271,7 @@
                     android:text="Global Color"
                     android:tag="Global Color"
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
             </LinearLayout>
 
@@ -257,7 +285,7 @@
                 android:text="titleGravity: start"
                 android:tag="titleGravity: "
                 android:textAllCaps="false"
-                android:layout_margin="2dp"/>
+                />
 
             <Button
                 android:id="@+id/title_layout_gravity"
@@ -267,7 +295,7 @@
                 android:text="titleLayoutGravity: bottom | center_horizontal"
                 android:tag="titleLayoutGravity: "
                 android:textAllCaps="false"
-                android:layout_margin="2dp"/>
+                />
 
             <View
                 android:layout_width="match_parent"
@@ -308,7 +336,7 @@
                     android:text="animationType: "
                     android:tag="animationType: "
                     android:textAllCaps="false"
-                    android:layout_margin="2dp"/>
+                    />
 
 
             </LinearLayout>
@@ -321,7 +349,7 @@
                 android:text="indicatorLayoutGravity: bottom | end"
                 android:tag="indicatorLayoutGravity: "
                 android:textAllCaps="false"
-                android:layout_margin="2dp"/>
+                />
 
 
         </LinearLayout>
@@ -360,7 +388,7 @@
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="RxBanner"
+                android:text="START"
                 android:textAllCaps="false"
                 android:layout_margin="5dp"/>
 
@@ -368,15 +396,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/github"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Github"
-            android:textColor="@color/colorAccent"
-            android:textSize="15sp"
-            android:padding="7dp"
-            android:gravity="center"/>
 
 
     </LinearLayout>

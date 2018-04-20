@@ -2,6 +2,7 @@
 [![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)    [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)       [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 一个灵活可制定的基于 Recyclerview 的轮播图控件,支持自动轮播,无限循环。
+
 同时可关闭无限循环变成 `引导页` ，带有引导完成接口回调,详见demo
 
 
@@ -137,7 +138,18 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 
 ````
 
+## 引导页
+定义一下布局就行了
 
+[activity_guide.xml](https://github.com/leveychen/RxBanner/blob/master/app/src/main/res/layout/activity_guide.xml)
+
+然后监听一下回调
+````java
+    banner.setOnBannerChangeListener(new RxBannerChangeListener())
+        onGuideFinished()
+        // todo
+````
+大功告成
 
 ## 属性
 所有属性均以 `rb_` 开头

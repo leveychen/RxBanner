@@ -19,7 +19,8 @@
     </style>
 
     <style name="Banner_Button" parent="Base.Widget.AppCompat.Button.Small">
-        <item name="android:minHeight">16dp</item>
+        <item name="android:minHeight">10dp</item>
+        <item name="android:layout_margin">3dp</item>
     </style>
 
 </resources>

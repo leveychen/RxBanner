@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -84,12 +83,14 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
     Button defaultBanner;
     @BindView(R.id.default_scale)
     Button defaultScale;
-    @BindView(R.id.github)
-    TextView github;
     @BindView(R.id.default_guide)
     Button defaultGuide;
     @BindView(R.id.animationType)
     Button animationType;
+    @BindView(R.id.time_interval)
+    Button timeInterval;
+    @BindView(R.id.about)
+    Button about;
 
 
     private MainActivity activity;
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
         setOptionalValue(itemScale, new float[]{0.1f, 1.0f, 1.0f});
         setOptionalValue(itemSpace, new float[]{-50, 50, 0});
         setOptionalValue(sideAlpha, new float[]{0.1f, 1.0f, 1.0f});
+        setOptionalValue(timeInterval, new float[]{200, 10000, 5000});
 
         setOptionalType(orientation, getResArray(R.array.rb_orientation));
         setOptionalType(orderType, getResArray(R.array.rb_orderType));
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
         animationType.setText(animationType.getTag().toString() + Sys.getAnimationTypeStr(0));
 
 
-        bannerImage.setText(bannerImage.getTag() + " CornersRadius = " + config.getCornersRadius() + (config.isRoundAsCircle() ? "f, RoundAsCircle" : "f"));
+        bannerImage.setText(bannerImage.getTag() + "radius " + ((int) config.getCornersRadius()) + (config.isRoundAsCircle() ? ",circle" : ""));
         bannerImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                         .content("CornersRadius ( float, dp )")
                         .inputType(
                                 InputType.TYPE_CLASS_NUMBER)
-                        .positiveText("OK")
-                        .input("" + config.getCornersRadius(), "" + config.getCornersRadius(), new MaterialDialog.InputCallback() {
+                        .positiveText("DONE")
+                        .input("" + config.getCornersRadius(), "" + ((int) config.getCornersRadius()), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 config.setCornersRadius(Float.parseFloat(input.toString()));
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                         .dismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                bannerImage.setText(bannerImage.getTag() + " CornersRadius = " + config.getCornersRadius() + (config.isRoundAsCircle() ? "f, RoundAsCircle" : "f"));
+                                bannerImage.setText(bannerImage.getTag() + "radius " + ((int) config.getCornersRadius()) + (config.isRoundAsCircle() ? ",circle" : ""));
                             }
                         })
                         .show();
@@ -203,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                                     btn.setText(btn.getTag().toString() + (dialog.getSelectedIndex() == 0 ? "asc" : "desc"));
                                 }
 
-                                if(btn.equals(animationType)){
+                                if (btn.equals(animationType)) {
                                     btn.setText(btn.getTag().toString() + (Sys.getAnimationTypeStr(dialog.getSelectedIndex())));
                                 }
                                 dialog.dismiss();
@@ -216,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                             }
                         })
                         .alwaysCallMultiChoiceCallback()
-                        .positiveText("OK")
+                        .positiveText("DONE")
                         .autoDismiss(false)
                         .neutralText("RESET")
                         .show();
@@ -233,13 +235,13 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
             public void onClick(final View v) {
                 MaterialDialog dialog = new MaterialDialog.Builder(activity)
                         .title(btn.getTag().toString())
-                        .customView(R.layout.dialog_seekbar, true)
+                        .customView(R.layout.dialog_seekbar, false)
                         .cancelable(false)
-                        .positiveText("OK")
+                        .positiveText("DONE")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                btn.setText(btn.getTag().toString() + (getValue(btn)));
+                                btn.setText(btn.getTag().toString() + (getValue(btn) > 1.0f || getValue(btn) <= 0 ? ((int) getValue(btn)) : getValue(btn)));
                                 dialog.dismiss();
                             }
                         })
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                         .build();
 
 
-                BubbleSeekBar seekBar = (BubbleSeekBar) dialog.findViewById(R.id.seek_bar);
+                final BubbleSeekBar seekBar = (BubbleSeekBar) dialog.findViewById(R.id.seek_bar);
                 seekBar.getConfigBuilder()
                         .min(values[0])
                         .max(values[1])
@@ -323,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                             }
                         })
                         .alwaysCallMultiChoiceCallback()
-                        .positiveText("OK")
+                        .positiveText("DONE")
                         .autoDismiss(false)
                         .neutralText("RESET")
                         .show();
@@ -352,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                 config.setItemScale(getValue(itemScale));
                 config.setItemSpaceDp((int) getValue(itemSpace));
                 config.setSideAlpha(getValue(sideAlpha));
+                config.setTimeInterval((int) getValue(timeInterval));
                 config.setOrderType(RxBannerUtil.getOrder(optionalType.get(orderType.getId()) + 1));
                 config.setOrientation(optionalType.get(orientation.getId()));
                 config.setTitleColor(selectedColor);
@@ -399,14 +402,28 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
     }
 
     private void setDefaultBtn() {
-        github.setOnClickListener(new View.OnClickListener() {
+        about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri github = Uri.parse("https://github.com/leveychen/RxBanner");
-                intent.setData(github);
-                startActivity(intent);
+                new MaterialDialog.Builder(activity)
+                        .title("RxBanner")
+                        .cancelable(false)
+                        .content("Demo Version: " + BuildConfig.VERSION_NAME)
+                        .positiveText("DONE")
+                        .neutralText("Github")
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent intent = new Intent();
+                                intent.setAction("android.intent.action.VIEW");
+                                Uri github = Uri.parse("https://github.com/leveychen/RxBanner");
+                                intent.setData(github);
+                                startActivity(intent);
+                            }
+                        })
+                        .build()
+                        .show();
+
             }
         });
         defaultBanner.setOnClickListener(new View.OnClickListener() {
