@@ -32,9 +32,7 @@ public class FragmentActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle("Fragment - RxBanner");
 
-
         List<Fragment> fragments=new ArrayList<>();
-
         DemoFragment demo1 = new DemoFragment();
         Bundle b1 = new Bundle();
         b1.putInt(DemoFragment.FRAGMENT_ID,1);

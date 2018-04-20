@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+   <com.xw.repo.BubbleSeekBar
+       android:id="@+id/seek_bar"
+       android:layout_width="match_parent"
+       android:paddingLeft="16dp"
+       android:paddingRight="16dp"
+       android:layout_height="wrap_content"
+       app:bsb_show_progress_in_float="true"
+       app:bsb_show_section_text="true"
+       app:bsb_show_thumb_text="true"
+       app:bsb_track_size="5dp"
+       android:layout_marginTop="15dp"/>
+
+</LinearLayout>

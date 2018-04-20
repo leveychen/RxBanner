@@ -44,6 +44,8 @@ public class DemoActivity extends AppCompatActivity {
     LinearLayout view01;
     @BindView(R.id.view_02)
     LinearLayout view02;
+    @BindView(R.id.view_03)
+    LinearLayout view03;
     @BindView(R.id.btn_network)
     Button btnNetwork;
     private ArrayList<String> images = new ArrayList<>(FakeData.FAKE_DATA());
@@ -58,6 +60,7 @@ public class DemoActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra(NEED_SCROLL_VIEW, false)) {
             view01.setVisibility(View.VISIBLE);
             view02.setVisibility(View.VISIBLE);
+            view03.setVisibility(View.VISIBLE);
             setTitle("ScrollView - RxBanner");
         }
 

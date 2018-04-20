@@ -30,7 +30,7 @@ public class DemoFragment extends Fragment {
     private static final float ASPECT_RATIO_4_3 = (float)4/3;
 
     @BindView(R.id.banner_view)
-    RxBanner bannerView;
+    RxBanner banner;
     @BindView(R.id.fragment_id)
     TextView tvFragmentId;
     Unbinder unbinder;
@@ -42,9 +42,9 @@ public class DemoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_view, container, false);
         if(view == null) throw new NullPointerException("just kidding");
         unbinder = ButterKnife.bind(this, view);
-        RxBannerConfig config = bannerView.getConfig();
+        RxBannerConfig config = banner.getConfig();
         config.setAspectRatio(fragmentId == 1  ? ASPECT_RATIO_16_9 : ASPECT_RATIO_4_3);
-        bannerView
+        banner
                 .setConfig(config)
                 .setLoader(new FrescoLoader())
                 .setDatas(FakeData.FAKE_DATA()) // no title
@@ -56,12 +56,18 @@ public class DemoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        bannerView.onPause();
+        banner.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        bannerView.onResume();
+        banner.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        banner.onDestroy();
     }
 }

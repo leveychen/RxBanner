@@ -13,9 +13,13 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="AppTheme.NoTitle">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
     <style name="Banner_Button" parent="Base.Widget.AppCompat.Button.Small">
-        <item name="android:minHeight">0dp</item>
-        <item name="android:padding">6dp</item>
+        <item name="android:minHeight">16dp</item>
     </style>
 
 </resources>

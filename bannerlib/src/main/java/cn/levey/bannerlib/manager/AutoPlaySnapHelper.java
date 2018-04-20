@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
-import cn.levey.bannerlib.data.RxBannerGlobalConfig;
+import java.util.Date;
+
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.WeakHandler;
+import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 
 
 public class AutoPlaySnapHelper extends CenterSnapHelper {
@@ -57,6 +59,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 @Override
                 public void run() {
 
+                    RxBannerLogger.i(" autoPlayRunnable = " + new Date());
                     if(!((ViewPagerLayoutManager) layoutManager).isAutoPlay()){
                         pause();
                         return;
@@ -100,26 +103,34 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
         }
     }
 
+
     @Override
     void destroyCallbacks() {
         super.destroyCallbacks();
-        if (runnableAdded) {
+        if (runnableAdded &&  handler !=null && autoPlayRunnable!=null) {
+            mRecyclerView.smoothScrollToPosition(((ViewPagerLayoutManager)mRecyclerView.getLayoutManager()).getCurrentPosition());
             handler.removeCallbacks(autoPlayRunnable);
             runnableAdded = false;
 
         }
-        handler = null;
+       /// handler = null;
+    }
+
+    void innerPause(){
+        if(mRecyclerView != null) mRecyclerView.smoothScrollToPosition(((ViewPagerLayoutManager)mRecyclerView.getLayoutManager()).getCurrentPosition());
+        pause();
     }
 
     void pause() {
-        if (runnableAdded) {
+        if (runnableAdded  && handler !=null && autoPlayRunnable!=null) {
             handler.removeCallbacks(autoPlayRunnable);
             runnableAdded = false;
         }
     }
 
     void start() {
-        if (!runnableAdded) {
+
+        if (!runnableAdded && handler !=null && autoPlayRunnable!=null) {
             handler.postDelayed(autoPlayRunnable, timeInterval);
             runnableAdded = true;
         }

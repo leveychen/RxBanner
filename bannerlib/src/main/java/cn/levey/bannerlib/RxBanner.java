@@ -74,7 +74,6 @@ public class RxBanner extends FrameLayout {
         return this;
     }
 
-
     public RxBanner(@NonNull Context context) {
         this(context, null);
     }
@@ -414,6 +413,15 @@ public class RxBanner extends FrameLayout {
         return this;
     }
 
+    public RxBanner setBannerMatchParent(){
+        if(mBannerRv != null){
+            LayoutParams layoutParams = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
+            mBannerRv.setLayoutParams(layoutParams);
+        }
+        return this;
+    }
+
     @SuppressWarnings("unchecked")
     public RxBanner setDatas(List<?> urls) {
         setInnerDatas(urls);
@@ -532,8 +540,6 @@ public class RxBanner extends FrameLayout {
         start();
     }
 
-
-    //已在 onDetachedFromWindow 实现回收资源，也可根据需求自行调用完成销毁
     public void onDestroy() {
         pause();
         if (mUrls != null) mUrls = null;
@@ -543,6 +549,7 @@ public class RxBanner extends FrameLayout {
         if(onBannerChangeListener != null) onBannerChangeListener = null;
         if(onBannerTitleClickListener != null) onBannerTitleClickListener = null;
         if (mBannerRv != null) {
+            mBannerRv.destroyCallbacks();
             mBannerRv.removeAllViews();
             mBannerRv.destroyDrawingCache();
             mBannerRv = null;
@@ -696,9 +703,5 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        onDestroy();
-    }
+
 }

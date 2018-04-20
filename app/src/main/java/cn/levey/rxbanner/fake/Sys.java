@@ -79,4 +79,30 @@ public class Sys {
         return AnimationType.NONE;
     }
 
+    public static String getAnimationTypeStr(int index) {
+        switch (index) {
+            case 0:
+                return "NONE";
+            case 1:
+                return "COLOR";
+            case 2:
+                return "SCALE";
+            case 3:
+                return "WORM";
+            case 4:
+                return "SLIDE";
+            case 5:
+                return "FILL";
+            case 6:
+                return "THIN_WORM";
+            case 7:
+                return "DROP";
+            case 8:
+                return "SWAP";
+            case 9:
+                return "SCALE_DOWN";
+        }
+        return "NONE";
+    }
+
 }

@@ -11,11 +11,47 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/default_banner"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="DEFAULT"
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+                <Button
+                    android:id="@+id/default_scale"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="SCALE"
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+                <Button
+                    android:id="@+id/default_guide"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="GUIDE"
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+            </LinearLayout>
 
 
             <TextView
@@ -24,6 +60,7 @@
                 android:text="Banner"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,31 +113,137 @@
                 android:layout_margin="2dp"/>
 
 
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:background="@color/transparent"/>
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/orientation"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="orientation: horizontal"
+                    android:tag="orientation: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+                <Button
+                    android:id="@+id/orderType"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="orderType: asc"
+                    android:tag="orderType: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/item_percent"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="itemPercent: 100"
+                    android:tag="itemPercent: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+                <Button
+                    android:id="@+id/item_scale"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="itemScale: 1.0f"
+                    android:tag="itemScale: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/item_space"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="itemSpace: 0dp"
+                    android:tag="itemSpace: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+
+                <Button
+                    android:id="@+id/side_alpha"
+                    style="@style/Banner_Button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="sideAlpha: 1.0f"
+                    android:tag="sideAlpha: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/transparent"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+
                 <Switch
                     android:id="@+id/title_visible"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|end"
-                    android:text="titleVisible "
-                    android:tag=""
+                    android:text="visible "
                     android:checked="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_margin="5dp"/>
+
+                <Button
+                    android:id="@+id/global_color"
+                    style="@style/Banner_Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Global Color"
+                    android:tag="Global Color"
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
 
             </LinearLayout>
 
@@ -132,27 +275,41 @@
                 android:background="@color/transparent"/>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Indicator"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Indicator"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
                 <Switch
                     android:id="@+id/indicator_visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="visible "
+                    android:gravity="center_vertical|end"
+                    android:checked="true"
+                    android:padding="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_margin="5dp"/>
+
+
+                <Button
+                    android:id="@+id/animationType"
+                    style="@style/Banner_Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="indicatorVisible "
-                    android:gravity="center_vertical|end"
-                    android:tag=""
-                    android:checked="true"
-                    android:layout_margin="5dp"/>
+                    android:text="animationType: "
+                    android:tag="animationType: "
+                    android:textAllCaps="false"
+                    android:layout_margin="2dp"/>
+
 
             </LinearLayout>
 
@@ -207,7 +364,19 @@
                 android:textAllCaps="false"
                 android:layout_margin="5dp"/>
 
+
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/github"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Github"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp"
+            android:padding="7dp"
+            android:gravity="center"/>
 
 
     </LinearLayout>

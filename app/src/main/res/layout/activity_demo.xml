@@ -30,6 +30,9 @@
 
         </LinearLayout>
 
+
+
+
         <cn.levey.bannerlib.RxBanner
             android:id="@+id/banner_view_fresco"
             android:layout_width="match_parent"
@@ -91,6 +94,25 @@
                 android:layout_height="wrap_content"
                 android:textColor="#FFF"
                 android:text="Other View 02"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/view_03"
+            android:layout_width="match_parent"
+            android:layout_height="800dp"
+            android:orientation="vertical"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="Other View 03"/>
 
         </LinearLayout>
 

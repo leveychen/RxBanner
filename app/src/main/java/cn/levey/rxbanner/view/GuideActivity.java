@@ -69,4 +69,10 @@ public class GuideActivity extends AppCompatActivity {
         super.onResume();
         banner.onResume();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        banner.onDestroy();
+    }
 }

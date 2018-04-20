@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RxBanner</string>
+    <string name="color_selector">Banner Color</string>
 </resources>

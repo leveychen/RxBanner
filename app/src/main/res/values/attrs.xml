@@ -4,6 +4,7 @@
         <item>Activity</item>
         <item>Fragment</item>
         <item>ScrollView</item>
+        <item>HeaderView</item>
         <item>Guide/引导页</item>
     </string-array>
 
