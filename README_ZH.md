@@ -58,7 +58,6 @@ see `Attributes`
         .start();
 ````
 
-setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 
 #### 一些 `image loader` 的栗子
 
@@ -79,7 +78,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
     banner.start();
 ````
 
-自定义配置信息必须在 `start()` 之前设置
+setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 
 #### `监听器`
 ````java
@@ -124,7 +123,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 ````java
     banner.onResume()
     banner.onPause()
-    banner.onDestroy() // 非必需, onDetachedFromWindow 里面已经处理
+    banner.onDestroy()
 ````
 
 ## 全局设置

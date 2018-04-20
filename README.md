@@ -117,7 +117,7 @@ lifecycle for Activity or Fragment and other views
 ````java
     banner.onResume()
     banner.onPause()
-    banner.onDestroy() // not necessary, onDetachedFromWindow handled it.
+    banner.onDestroy()
 ````
 
 ## Global Settings
