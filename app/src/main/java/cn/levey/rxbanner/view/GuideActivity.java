@@ -2,6 +2,7 @@ package cn.levey.rxbanner.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
+import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.FakeData;
 import cn.levey.rxbanner.fake.Sys;
@@ -44,9 +46,34 @@ public class GuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_GUIDE));
+
+        banner.setOnBannerClickListener(new RxBannerClickListener() {
+            @Override
+            public void onItemClick(int position, Object data) {
+                Toast.makeText(getApplicationContext(),"ssssss",Toast.LENGTH_SHORT ).show();
+            }
+
+            @Override
+            public void onItemLongClick(int position, Object data) {
+
+            }
+        });
+
+
         banner.setLoader(new PicassoLoader())
                 .setDatas(list) // no title
+                .setCurrentPosition(3)
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
+
+                    @Override
+                    public void onBannerSelected(int position) {
+
+                    }
+
+                    @Override
+                    public void onBannerScrollStateChanged(int state) {
+
+                    }
 
                     @Override
                     public void onGuideFinished() {
@@ -56,6 +83,8 @@ public class GuideActivity extends AppCompatActivity {
                     }
                 })
                 .start();
+
+
     }
 
     @Override

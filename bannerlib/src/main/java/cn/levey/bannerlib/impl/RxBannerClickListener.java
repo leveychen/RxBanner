@@ -5,7 +5,7 @@ package cn.levey.bannerlib.impl;
  * e-mail: m@levey.cn
  */
 
-public abstract class RxBannerClickListener {
-    public void onItemClick(int position, Object data){}
-    public void onItemLongClick(int position, Object data){}
+public interface RxBannerClickListener {
+    void onItemClick(int position, Object data);
+    void onItemLongClick(int position, Object data);
 }

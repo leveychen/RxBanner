@@ -5,8 +5,8 @@ package cn.levey.bannerlib.impl;
  * e-mail: m@levey.cn
  */
 
-public abstract class RxBannerChangeListener {
-    public void onBannerSelected(int position){}
-    public void onBannerScrollStateChanged(int state){}
-    public void onGuideFinished(){}
+public interface RxBannerChangeListener {
+     void onBannerSelected(int position);
+     void onBannerScrollStateChanged(int state);
+     void onGuideFinished();
 }

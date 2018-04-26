@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +49,13 @@ public class DemoActivity extends AppCompatActivity {
     LinearLayout view03;
     @BindView(R.id.btn_network)
     Button btnNetwork;
-    private ArrayList<String> images = new ArrayList<>(FakeData.FAKE_DATA());
+    @BindView(R.id.btn_add)
+    Button btnAdd;
+    @BindView(R.id.btn_update)
+    Button btnUpdate;
+    @BindView(R.id.btn_remove)
+    Button btnRemove;
+    private List<String> images = FakeData.FAKE_DATA();
     private ArrayList<String> titles = new ArrayList<>();
 
     @Override
@@ -89,7 +96,7 @@ public class DemoActivity extends AppCompatActivity {
 //        banner.setLoader(new PicassoLoader())
 //        banner.setLoader(new GlideLoader())
 
-        banner.setLoader(new FrescoLoader(config.getCornersRadius(),config.isRoundAsCircle()));
+        banner.setLoader(new FrescoLoader(config.getCornersRadius(), config.isRoundAsCircle()));
 
 
 //        RxBannerConfig config = banner.getConfig();
@@ -101,6 +108,9 @@ public class DemoActivity extends AppCompatActivity {
 
 
         RxBannerLogger.i(" G = " + config.getTitleGravity());
+//        config.setTimeInterval(50000);
+
+        config.setAutoPlay(false);
         banner
                 .setConfig(config)
                 .setDatas(images, titles)
@@ -142,6 +152,8 @@ public class DemoActivity extends AppCompatActivity {
                     }
                 })
                 .start();
+
+        banner.setCurrentPosition(2);
 
 
         if (banner.isAutoPlay()) {
@@ -187,11 +199,38 @@ public class DemoActivity extends AppCompatActivity {
                 titles.clear();
                 images.addAll(FakeData.FAKE_DATA());
                 for (int i = 0; i < images.size(); i++) {
-                    titles.add(" banner " + (i  + 1));
+                    titles.add(" banner " + (i + 1));
                 }
-                banner.setDatas(images,titles);
+                banner.setDatas(images, titles);
             }
         });
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                banner.updateData(
+                        "http://wx1.sinaimg.cn/large/0060lm7Tly1fqav85d0j4j30u01hcgma.jpg?id=1",
+                        "Guide Title 1",
+                        0);
+
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                banner.addData(
+                        "http://wx1.sinaimg.cn/large/0060lm7Tly1fqav85d0j4j30u01hcgma.jpg?id=9",
+                        "Guide Title LAST",0);
+            }
+        });
+
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                banner.removeData(0);
+            }
+        });
+
     }
 
     @Override

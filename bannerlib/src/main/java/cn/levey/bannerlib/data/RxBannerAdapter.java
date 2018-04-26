@@ -104,20 +104,24 @@ public class RxBannerAdapter extends RecyclerView.Adapter<RxBannerAdapter.RxBann
         }
     }
 
-    public void addItem(String item){
-        mList.add(item);
-        notifyItemChanged(mList.size());
+    public void addItem(String item,int position){
+        mList.add(position,item);
+        notifyDataSetChanged();
     }
 
-    public void replaceItem(int position,String item){
-        mList.remove(position);
-        mList.add(position,item);
+    public void addItem(String item){
+        mList.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(int position,String item){
+        mList.set(position,item);
         notifyItemChanged(position);
     }
 
-    public void deleteItem(int position){
+    public void removeItem(int position){
         mList.remove(position);
-        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     public void setDatas(List<Object> list){

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                                            android:orientation="vertical">
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,21 +16,19 @@
             android:id="@+id/view_01"
             android:layout_width="match_parent"
             android:layout_height="800dp"
-            android:orientation="vertical"
             android:background="@color/colorAccent"
             android:gravity="center"
+            android:orientation="vertical"
             android:visibility="gone"
             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:text="Other View 01"/>
+                android:text="Other View 01"
+                android:textColor="#FFF"/>
 
         </LinearLayout>
-
-
 
 
         <cn.levey.bannerlib.RxBanner
@@ -52,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Prev" />
+                android:text="Prev"/>
 
             <Button
                 android:id="@+id/btn_next"
@@ -60,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Next" />
+                android:text="Next"/>
 
         </LinearLayout>
 
@@ -70,30 +68,65 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Start" />
+            android:text="Start"/>
+
         <Button
             android:id="@+id/btn_network"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="GET BANNER" />
+            android:text="GET BANNER"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Add"/>
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Update"/>
+
+            <Button
+                android:id="@+id/btn_remove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Remove"/>
+
+
+        </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/view_02"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:orientation="vertical"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:text="Other View 02"/>
+                android:text="Other View 02"
+                android:textColor="#FFF"/>
 
         </LinearLayout>
 
@@ -102,23 +135,21 @@
             android:id="@+id/view_03"
             android:layout_width="match_parent"
             android:layout_height="800dp"
-            android:orientation="vertical"
             android:background="@color/colorAccent"
             android:gravity="center"
+            android:orientation="vertical"
             android:visibility="gone"
             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:text="Other View 03"/>
+                android:text="Other View 03"
+                android:textColor="#FFF"/>
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 
 
 </android.support.v4.widget.NestedScrollView>

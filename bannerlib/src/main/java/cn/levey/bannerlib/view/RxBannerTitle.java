@@ -11,6 +11,7 @@ public class RxBannerTitle extends android.support.v7.widget.AppCompatTextView{
 
     private List<String> mTitles = new ArrayList<>();
     private boolean isFocused = false;
+    private int currentPosition = 0;
 
     public RxBannerTitle(Context context) {
         super(context);
@@ -48,9 +49,33 @@ public class RxBannerTitle extends android.support.v7.widget.AppCompatTextView{
             setVisibility(GONE);
         }
     }
+
+
+    public void updateItem(String title, int position){
+        if(title !=null && !title.isEmpty()) {
+            this.mTitles.set(position,title);
+            if(position == currentPosition) {
+                set(position);
+            }
+        }
+    }
+
+
     public void addDatas(List<String> titles){
         if(titles !=null && !titles.isEmpty()) {
             this.mTitles.addAll(titles);
+        }
+    }
+
+    public void addData(String title){
+        if(title !=null && !title.isEmpty()) {
+            this.mTitles.add(title);
+        }
+    }
+
+    public void addData(String title, int position){
+        if(title !=null && !title.isEmpty()) {
+            this.mTitles.add(position,title);
         }
     }
 
@@ -59,6 +84,7 @@ public class RxBannerTitle extends android.support.v7.widget.AppCompatTextView{
     }
 
     protected void set(int position){
+        this.currentPosition = position;
         try {
             setText(mTitles.get(position));
             setVisibility(VISIBLE);

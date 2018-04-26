@@ -76,6 +76,12 @@
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
+
+        <attr name="rb_title_style" format="enum" >
+            <enum name="title" value="0" />
+            <enum name="numeric" value="1" />
+        </attr>
+
         <attr name="rb_title_size" format="dimension" />
         <attr name="rb_title_color" format="color" />
         <attr name="rb_title_backgroundColor" format="color" />
