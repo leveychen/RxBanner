@@ -102,7 +102,7 @@ public class AttributeController {
         indicatorConfig.setUnselectedColor(unselectedColor);
         indicatorConfig.setSelectedColor(selectedColor);
 
-        indicatorConfig.setTextSize(typedArray.getColor(R.styleable.RxBanner_rb_indicator_textSize, RxBannerUtil.sp2px(14)));
+        indicatorConfig.setTextSize(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_indicator_textSize, RxBannerUtil.sp2px(14)));
         indicatorConfig.setTextColor(typedArray.getColor(R.styleable.RxBanner_rb_indicator_textColor, Color.WHITE));
 //        indicatorConfig.setBackgroundColor(typedArray.getColor(R.styleable.RxBanner_rb_indicator_backgroundColor, RxBannerUtil.DEFAULT_BG_COLOR));
         indicatorConfig.setBackgroundColor(typedArray.getColor(R.styleable.RxBanner_rb_indicator_backgroundColor, RxBannerUtil.DEFAULT_BG_COLOR));

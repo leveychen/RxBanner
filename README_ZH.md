@@ -12,11 +12,13 @@
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.2/rxbanner_v1.0.2_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.3/rxbanner_v1.0.3_demo.apk)
 
 
 ## 预览
 ![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqaqqlrawxg30bo06tb2b.gif)&nbsp;&nbsp;&nbsp;&nbsp;![](http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqat74eq9yg30bo06t4qq.gif)
+
+![](http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqrjdjt47zg307i0dcb2a.gif)&nbsp;&nbsp;&nbsp;&nbsp;![](http://wx3.sinaimg.cn/mw690/0060lm7Tly1fqriet88rxg307i0dcdn3.gif)
 
 
 
@@ -34,7 +36,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.0.2'
+    implementation 'com.github.leveychen:RxBanner:1.0.3'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -206,7 +208,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 |rb_indicator_textColor|color|Color.WHITE|`numeric` `numeric_circle` 专用
 |rb_indicator_backgroundColor|color|/|`numeric` `numeric_circle` 专用
 |rb_indicator_backgroundResource|reference|/|`numeric` `numeric_circle` 专用
-|rb_indicator_scale|float|0.7|  当 `rb_indicator_animationType` 为 `scale` or `scale_down` 用于调整缩放比
+|rb_indicator_scale|float|0.7|  `scale` or `scale_down` 专用
 |rb_indicator_margin|dimension|8dp| margin
 |rb_indicator_padding|dimension|3dp| padding
 |rb_indicator_selected_color|color|#FFFFFF|  /
