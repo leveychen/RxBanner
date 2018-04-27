@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 
 import cn.levey.bannerlib.R;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
@@ -120,7 +119,6 @@ public class AttributeController {
 
         int animIndex = typedArray.getInt(R.styleable.RxBanner_rb_indicator_animationType, AnimationType.NONE.ordinal());
 
-        RxBannerLogger.i(" ANIM = " + animIndex);
         AnimationType animationType = getAnimationType(animIndex);
 
         int rtlIndex = typedArray.getInt(R.styleable.RxBanner_rb_indicator_rtl_mode, RtlMode.Off.ordinal());

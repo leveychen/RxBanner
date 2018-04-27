@@ -100,9 +100,7 @@ public class DemoActivity extends AppCompatActivity {
 ////        config.setAutoPlay(false);
 ////        config.setInfinite(true);
 //        banner.setConfig(config);
-
-
-        RxBannerLogger.i(" G = " + config.getTitleGravity());
+        
 //        config.setTimeInterval(50000);
 
         config.setAutoPlay(false);
