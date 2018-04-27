@@ -368,7 +368,7 @@ public class RxBanner extends FrameLayout {
         if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerIndicator)
             ((RxBannerIndicator) mIndicatorView).setSelection(currentPosition);
         if (mTitleView != null) mTitleView.setSelection(currentPosition);
-        if(mBannerRv != null) mBannerRv.scrollToPosition(currentPosition);
+        if(mLayoutManager != null) mLayoutManager.scrollToPosition(currentPosition);
         reset();
     }
 
@@ -470,26 +470,35 @@ public class RxBanner extends FrameLayout {
 
 
 
-    public void addData(String url, String title) {
-        this.mTitles.add(title);
-        this.mUrls.add(title);
-        if(mTitleView != null) mTitleView.addData(title);
-        this.mAdapter.addItem(url);
-        scrollToCurrentPosition();
-        checkEmpty();
-    }
+//    public void addData(String url, String title) {
+//        this.mTitles.add(title);
+//        this.mUrls.add(title);
+//        if(mTitleView != null) mTitleView.addData(title);
+//        this.mAdapter.addItem(url);
+////        scrollToCurrentPosition();
+////        checkEmpty();
+//    }
 //Unpublished  2018/04/26
     public void addData(String url, String title,int position) {
+        if(this.mUrls.isEmpty()){
+            this.mTitles.add(position,title);
+            this.mUrls.add(position,url);
+            if(mTitleView != null) mTitleView.addData(title,position);
+            this.mAdapter.addItem(url,position);
+            currentPosition = position;
+            scrollToCurrentPosition();
+            checkEmpty();
+            return;
+        }
         this.mTitles.add(position,title);
         this.mUrls.add(position,title);
         if(mTitleView != null) mTitleView.addData(title,position);
         this.mAdapter.addItem(url,position);
-        if(position == mLayoutManager.getCurrentPosition()) {
-            currentPosition = mLayoutManager.getCurrentPosition();
-            currentPosition = position == 0 ? currentPosition : currentPosition + 1;
+        if(position <= mLayoutManager.getCurrentPosition()) {
+            currentPosition = mLayoutManager.getCurrentPosition() + 1;
+            scrollToCurrentPosition();
+            checkEmpty();
         }
-        scrollToCurrentPosition();
-        checkEmpty();
     }
 
     public void addDatas(List<?> urls, List<String> titles) {
@@ -546,18 +555,9 @@ public class RxBanner extends FrameLayout {
             }
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
                 mAdapter.removeItem(position);
-               //if(position == mUrls.size() - 1) currentPosition = position - 1;
-
-                RxBannerLogger.i(" P = " + position + " / C = " + currentPosition);
-                if(position <= mLayoutManager.getCurrentPosition()) {
-                    currentPosition = mLayoutManager.getCurrentPosition();
-                    currentPosition = currentPosition - 1;
-
-                    RxBannerLogger.i(" CCC = " + currentPosition);
-
+                if(position < mLayoutManager.getCurrentPosition()) {
+                    currentPosition =   mLayoutManager.getCurrentPosition() - 1;
                     if(currentPosition < 0) currentPosition = 0;
-
-                    RxBannerLogger.i(" LC = " + currentPosition);
                     scrollToCurrentPosition();
                     checkEmpty();
                 }

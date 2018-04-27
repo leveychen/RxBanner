@@ -89,7 +89,6 @@ public class DemoActivity extends AppCompatActivity {
 //        images.add(R.mipmap.ic_launcher);
 
         for (int i = 0; i < images.size(); i++) {
-            RxBannerLogger.i(" TTTTTTTT = " + i);
             titles.add("banner title " + (i + 1));
         }
 //        banner.setLoader(new UniversalImageLoader())
