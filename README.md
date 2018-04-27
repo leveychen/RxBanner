@@ -7,9 +7,9 @@ Flexible banner base on RecyclerView
 
 ## Demo Apk
 
-fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://fir.im/rxbanner)
+fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.1/rxbanner_v1.0.1_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.2/rxbanner_v1.0.2_demo.apk)
 
 
 
@@ -34,7 +34,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://github.com/le
 ### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.0.1'
+    implementation 'com.github.leveychen:RxBanner:1.0.2'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -68,7 +68,7 @@ see `Attributes`
 [UniversalImageLoader](https://github.com/leveychen/RxBanner/blob/master/app/src/main/java/cn/levey/rxbanner/loader/UniversalImageLoader.java)
 
 
-#### `config`
+#### `config` - optional
 custom your config, the priority is higher than the `xml`
 ````java
     RxBannerConfig config = banner.getConfig();
@@ -120,7 +120,7 @@ lifecycle for Activity or Fragment and other views
     banner.onDestroy()
 ````
 
-## Global Settings
+## Global Settings - optional
 ````java
     RxBannerConfig
         .getInstance()
@@ -197,6 +197,10 @@ All the `rb_` attributes here are specific for RxBanner
 |rb_indicator_orientation|horizontal / vertical|horizontal|layout orientation
 |rb_indicator_layout_gravity|gravity|BOTTOM / END|layout gravity
 |rb_indicator_radius|dimension|5dp|indicator radius
+|rb_indicator_textSize|dimension|14sp|`numeric` `numeric_circle` only
+|rb_indicator_textColor|color|Color.WHITE|`numeric` `numeric_circle` only
+|rb_indicator_backgroundColor|color|/|`numeric` `numeric_circle` only
+|rb_indicator_backgroundResource|reference|/|`numeric` `numeric_circle` only
 |rb_indicator_size|dimension|5dp|the same as `rb_indicator_radius`
 |rb_indicator_scale|float|0.7| set unselected scale when `rb_indicator_animationType` is `scale` or `scale_down`
 |rb_indicator_margin|dimension|8dp| margin
@@ -224,6 +228,8 @@ forked from [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorVie
 |`AnimationType.THIN_WORM`|`thin_worm`|![anim_thin_worm](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_thin_worm.gif)
 |`AnimationType.DROP`|`drop`|![anim_drop](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_drop.gif)
 |`AnimationType.SWAP`|`swap`|![anim_swap](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_swap.gif)
+|`AnimationType.NUMERIC`|`numeric`| 1/8
+|`AnimationType.NUMERIC_CIRCLE`|`numeric_circle`| (1/8)
 
 
 ## Permission
@@ -232,6 +238,13 @@ display images from network
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+````
+
+## Proguard
+````xml
+    -keep class cn.levey.bannerlib.** {
+        *;
+    }
 ````
 
 ## Release Note

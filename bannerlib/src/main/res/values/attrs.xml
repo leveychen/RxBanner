@@ -77,11 +77,6 @@
             <enum name="wrap_content" value="-2" />
         </attr>
 
-        <attr name="rb_title_style" format="enum" >
-            <enum name="title" value="0" />
-            <enum name="numeric" value="1" />
-        </attr>
-
         <attr name="rb_title_size" format="dimension" />
         <attr name="rb_title_color" format="color" />
         <attr name="rb_title_backgroundColor" format="color" />
@@ -94,8 +89,20 @@
             <enum name="horizontal" value="0" />
             <enum name="vertical" value="1" />
         </attr>
+
+        <attr name="rb_indicator_width" format="dimension|enum" >
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="rb_indicator_height" format="dimension|enum" >
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="rb_indicator_textSize" format="dimension" />
+        <attr name="rb_indicator_textColor" format="color" />
+        <attr name="rb_indicator_backgroundColor" format="color" />
+        <attr name="rb_indicator_backgroundResource" format="reference" />
         <attr name="rb_indicator_radius" format="dimension" />
-        <attr name="rb_indicator_padding" format="dimension" />
         <attr name="rb_indicator_stroke_width" format="dimension" />
         <attr name="rb_indicator_scale" format="float" />
         <attr name="rb_indicator_unselected_color" format="color" />
@@ -107,6 +114,11 @@
         <attr name="rb_indicator_marginBottom" format="dimension" />
         <attr name="rb_indicator_marginStart" format="dimension" />
         <attr name="rb_indicator_marginEnd" format="dimension" />
+        <attr name="rb_indicator_padding" format="dimension" />
+        <attr name="rb_indicator_paddingTop" format="dimension" />
+        <attr name="rb_indicator_paddingBottom" format="dimension" />
+        <attr name="rb_indicator_paddingStart" format="dimension" />
+        <attr name="rb_indicator_paddingEnd" format="dimension" />
         <attr name="rb_indicator_interactiveAnimation" format="boolean" />
         <attr name="rb_indicator_animationDuration" format="integer" />
         <attr name="rb_indicator_animationType">
@@ -120,6 +132,8 @@
             <enum name="drop" value="7" />
             <enum name="swap" value="8" />
             <enum name="scale_down" value="9" />
+            <enum name="numeric" value="10" />
+            <enum name="numeric_circle" value="11" />
         </attr>
         <attr name="rb_indicator_rtl_mode">
             <enum name="on" value="0" />

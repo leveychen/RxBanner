@@ -49,12 +49,8 @@ public class DemoActivity extends AppCompatActivity {
     LinearLayout view03;
     @BindView(R.id.btn_network)
     Button btnNetwork;
-    @BindView(R.id.btn_add)
-    Button btnAdd;
     @BindView(R.id.btn_update)
     Button btnUpdate;
-    @BindView(R.id.btn_remove)
-    Button btnRemove;
     private List<String> images = FakeData.FAKE_DATA();
     private ArrayList<String> titles = new ArrayList<>();
 
@@ -75,7 +71,7 @@ public class DemoActivity extends AppCompatActivity {
         try {
             config = (DemoConfig) getIntent().getSerializableExtra(Sys.BANNER_DATA);
         } catch (Exception e) {
-            config = new DemoConfig();
+            config = (DemoConfig) banner.getConfig();
         }
 
 
@@ -147,7 +143,7 @@ public class DemoActivity extends AppCompatActivity {
 
                     @Override
                     public void onGuideFinished() {
-                        Toast.makeText(getApplicationContext(), "GUIDE FINISHED", Toast.LENGTH_SHORT).show();
+
                     }
                 })
                 .start();
@@ -207,28 +203,13 @@ public class DemoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 banner.updateData(
-                        "http://wx1.sinaimg.cn/large/0060lm7Tly1fqav85d0j4j30u01hcgma.jpg?id=1",
-                        "Guide Title 1",
-                        0);
+                        FakeData.FAKE_GUIDE[banner.getCurrentPosition()],
+                        "Guide Title Updated " + (banner.getCurrentPosition() + 1),
+                        banner.getCurrentPosition());
 
             }
         });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                banner.addData(
-                        "http://wx1.sinaimg.cn/large/0060lm7Tly1fqav85d0j4j30u01hcgma.jpg?id=9",
-                        "Guide Title LAST",0);
-            }
-        });
-
-        btnRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                banner.removeData(0);
-            }
-        });
 
     }
 

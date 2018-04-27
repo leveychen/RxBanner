@@ -31,15 +31,14 @@ public class GuideActivity extends AppCompatActivity {
 
     /**
      * 引导页的三个要点
-     * Guide page, three points
-     *
-     *  rb_infinite="false"
-     *  rb_autoPlay="false"
-     *
-     *  setOnBannerChangeListener(new RxBannerChangeListener);
-     *      onGuideFinished()
-     *
-     * */
+     * Guide view, three points
+     * <p>
+     * rb_infinite="false"
+     * rb_autoPlay="false"
+     * <p>
+     * setOnBannerChangeListener(new RxBannerChangeListener);
+     * onGuideFinished()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +49,7 @@ public class GuideActivity extends AppCompatActivity {
         banner.setOnBannerClickListener(new RxBannerClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
-                Toast.makeText(getApplicationContext(),"ssssss",Toast.LENGTH_SHORT ).show();
+                Toast.makeText(getApplicationContext(), "Clicked " + (position + 1), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -61,8 +60,8 @@ public class GuideActivity extends AppCompatActivity {
 
 
         banner.setLoader(new PicassoLoader())
-                .setDatas(list) // no title
                 .setCurrentPosition(3)
+                .setDatas(list) // no title
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
 
                     @Override
@@ -77,7 +76,7 @@ public class GuideActivity extends AppCompatActivity {
 
                     @Override
                     public void onGuideFinished() {
-                        Sys.toast(getApplicationContext(),"Guide Finished");
+                        Sys.toast(getApplicationContext(), "Guide Finished");
                         finish();
 
                     }

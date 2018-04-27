@@ -10,9 +10,9 @@
 
 ## Demo Apk
 
-fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://fir.im/rxbanner)
+fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.1/rxbanner_v1.0.1_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.2/rxbanner_v1.0.2_demo.apk)
 
 
 ## 预览
@@ -34,7 +34,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_v1.0.1_demo.apk](https://github.com/le
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.0.1'
+    implementation 'com.github.leveychen:RxBanner:1.0.2'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -68,7 +68,7 @@ see `Attributes`
 
 可以愉快的玩耍了,下面是一些可选内容
 
-#### `配置信息`
+#### `配置信息` -可选
 自定义配置信息，所有参数设置均和 `xml` 布局里一致，优先级高于 `xml` 布局文件
 ````java
     RxBannerConfig config = banner.getConfig();
@@ -80,7 +80,7 @@ see `Attributes`
 
 setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 
-#### `监听器`
+#### `监听器` -可选
 ````java
     点击图片时的回调
     banner.setOnBannerClickListener(new RxBannerClickListener())
@@ -101,7 +101,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 ````
 
 
-#### `自定义指示器`
+#### `自定义指示器` -可选
 如果自带的指示器效果不满意，这里也可以自定义指示器,比如 &nbsp;&nbsp; MagicIndicator &nbsp;&nbsp; CircleIndicator
 ````java
     banner.setCustomIndicator(indicator)
@@ -126,7 +126,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
     banner.onDestroy()
 ````
 
-## 全局设置
+## 全局设置 -可选
 ````java
     RxBannerConfig
         .getInstance()
@@ -202,7 +202,10 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 |rb_indicator_orientation|horizontal / vertical|horizontal|/
 |rb_indicator_layout_gravity|gravity|BOTTOM / END|/
 |rb_indicator_radius|dimension|5dp|指示器大小
-|rb_indicator_size|dimension|5dp|同上
+|rb_indicator_textSize|dimension|14sp|`numeric` `numeric_circle` 专用
+|rb_indicator_textColor|color|Color.WHITE|`numeric` `numeric_circle` 专用
+|rb_indicator_backgroundColor|color|/|`numeric` `numeric_circle` 专用
+|rb_indicator_backgroundResource|reference|/|`numeric` `numeric_circle` 专用
 |rb_indicator_scale|float|0.7|  当 `rb_indicator_animationType` 为 `scale` or `scale_down` 用于调整缩放比
 |rb_indicator_margin|dimension|8dp| margin
 |rb_indicator_padding|dimension|3dp| padding
@@ -228,14 +231,23 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 |`AnimationType.THIN_WORM`|`thin_worm`|![anim_thin_worm](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_thin_worm.gif)
 |`AnimationType.DROP`|`drop`|![anim_drop](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_drop.gif)
 |`AnimationType.SWAP`|`swap`|![anim_swap](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_swap.gif)
+|`AnimationType.NUMERIC`|`numeric`| 1/8
+|`AnimationType.NUMERIC_CIRCLE`|`numeric_circle`| (1/8)
 
 
-## Permission
-display images from network
+## 权限
+显示网络图片
 ````xml
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+````
+
+## 混淆
+````xml
+    -keep class cn.levey.bannerlib.** {
+        *;
+    }
 ````
 
 ## Release Note

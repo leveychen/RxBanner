@@ -16,12 +16,12 @@ public class Sys {
     public static final String CORNERS_RADIUS = "CORNERS_RADIUS";
 
 
-    public static void toast(Context context, String s){
-        Toast.makeText(context, s , Toast.LENGTH_LONG).show();
+    public static void toast(Context context, String s) {
+        Toast.makeText(context, s, Toast.LENGTH_LONG).show();
     }
 
 
-    public static int getGravity(Integer[] which){
+    public static int getGravity(Integer[] which) {
         int value = 0;
         for (Integer aWhich : which) {
             switch (aWhich) {
@@ -74,35 +74,17 @@ public class Sys {
                 return AnimationType.SWAP;
             case 9:
                 return AnimationType.SCALE_DOWN;
+            case 10:
+                return AnimationType.NUMERIC;
+            case 11:
+                return AnimationType.NUMERIC_CIRCLE;
         }
 
         return AnimationType.NONE;
     }
 
     public static String getAnimationTypeStr(int index) {
-        switch (index) {
-            case 0:
-                return "NONE";
-            case 1:
-                return "COLOR";
-            case 2:
-                return "SCALE";
-            case 3:
-                return "WORM";
-            case 4:
-                return "SLIDE";
-            case 5:
-                return "FILL";
-            case 6:
-                return "THIN_WORM";
-            case 7:
-                return "DROP";
-            case 8:
-                return "SWAP";
-            case 9:
-                return "SCALE_DOWN";
-        }
-        return "NONE";
+        return getAnimationType(index).name();
     }
 
 }

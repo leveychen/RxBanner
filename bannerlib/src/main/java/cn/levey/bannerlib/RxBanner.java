@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -30,12 +31,15 @@ import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
+import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.draw.controller.AttributeController;
 import cn.levey.bannerlib.indicator.draw.controller.DrawController;
+import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
 import cn.levey.bannerlib.view.RxBannerEmptyView;
 import cn.levey.bannerlib.view.RxBannerIndicator;
+import cn.levey.bannerlib.view.RxBannerNumericIndicator;
 import cn.levey.bannerlib.view.RxBannerTitle;
 
 /**
@@ -244,8 +248,9 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
             @Override
             public void onBannerSelected(int position) {
-                currentPosition = position;
                 if (mTitleView != null) mTitleView.setSelection(position);
+                if (mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
+                    ((RxBannerNumericIndicator)mIndicatorView).setSelection(position);
             }
         });
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
@@ -308,28 +313,60 @@ public class RxBanner extends FrameLayout {
                 mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
                 addView(mIndicatorView);
             } else {
-                final RxBannerIndicator indicator = new RxBannerIndicator(mContext);
-                indicator.setIndicatorConfig(config.getIndicatorConfigConfig());
-                indicator.setRecyclerView(mBannerRv);
-                if (indicator.getConfig().isClickable()) {
-                    indicator.setClickListener(new DrawController.ClickListener() {
-                        @Override
-                        public void onIndicatorClicked(int position) {
-                            setCurrentPosition(position);
+                if(config.getIndicatorConfigConfig().getAnimationType() == AnimationType.NUMERIC
+                        || config.getIndicatorConfigConfig().getAnimationType() == AnimationType.NUMERIC_CIRCLE){
+                    IndicatorConfig indicatorConfig = config.getIndicatorConfigConfig();
+                    final RxBannerNumericIndicator numericIndicator = new RxBannerNumericIndicator(mContext);
+                    numericIndicator.setTotal(mUrls.size());
+                    numericIndicator.setSelection(currentPosition);
+                    LayoutParams indicatorLp = new LayoutParams(indicatorConfig.getWidth(), indicatorConfig.getHeight());
+                    indicatorLp.gravity = indicatorConfig.getGravity();
+                    indicatorLp.setMargins(
+                            indicatorConfig.getMarginStart(),
+                            indicatorConfig.getMarginTop(),
+                            indicatorConfig.getMarginEnd(),
+                            indicatorConfig.getMarginBottom());
+                    numericIndicator.setLayoutParams(indicatorLp);
+                    numericIndicator.setTextSize(TypedValue.COMPLEX_UNIT_PX,indicatorConfig.getTextSize());
+                    numericIndicator.setTextColor(indicatorConfig.getTextColor());
+                    numericIndicator.setBackgroundColor(indicatorConfig.getBackgroundColor());
+                    if(indicatorConfig.getAnimationType() == AnimationType.NUMERIC_CIRCLE) {
+                        numericIndicator.setCircle(true);
+                    }else {
+                        numericIndicator.setCircle(false);
+                        if (indicatorConfig.getBackgroundResource() != Integer.MAX_VALUE) {
+                            numericIndicator.setBackgroundResource(indicatorConfig.getBackgroundResource());
                         }
-                    });
+                    }
+                    numericIndicator.setGravity(Gravity.CENTER);
+                    numericIndicator.setPadding(indicatorConfig.getPaddingTop(), indicatorConfig.getPaddingStart(), indicatorConfig.getPaddingEnd(), indicatorConfig.getPaddingBottom());
+                    mIndicatorView = numericIndicator;
+                    mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_NUMERIC);
+                    addView(mIndicatorView);
+                }else {
+                    final RxBannerIndicator indicator = new RxBannerIndicator(mContext);
+                    indicator.setIndicatorConfig(config.getIndicatorConfigConfig());
+                    indicator.setRecyclerView(mBannerRv);
+                    if (indicator.getConfig().isClickable()) {
+                        indicator.setClickListener(new DrawController.ClickListener() {
+                            @Override
+                            public void onIndicatorClicked(int position) {
+                                setCurrentPosition(position);
+                            }
+                        });
+                    }
+                    LayoutParams indicatorLp = new LayoutParams(config.getIndicatorConfigConfig().getWidth(), config.getIndicatorConfigConfig().getHeight());
+                    indicatorLp.gravity = indicator.getConfig().getGravity();
+                    indicatorLp.setMargins(
+                            indicator.getConfig().getMarginStart(),
+                            indicator.getConfig().getMarginTop(),
+                            indicator.getConfig().getMarginEnd(),
+                            indicator.getConfig().getMarginBottom());
+                    indicator.setLayoutParams(indicatorLp);
+                    mIndicatorView = indicator;
+                    mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_DEFAULT);
+                    addView(mIndicatorView);
                 }
-                LayoutParams indicatorLp = new LayoutParams(config.getIndicatorConfigConfig().getWidth(), config.getIndicatorConfigConfig().getHeight());
-                indicatorLp.gravity = indicator.getConfig().getGravity();
-                indicatorLp.setMargins(
-                        indicator.getConfig().getMarginStart(),
-                        indicator.getConfig().getMarginTop(),
-                        indicator.getConfig().getMarginEnd(),
-                        indicator.getConfig().getMarginBottom());
-                indicator.setLayoutParams(indicatorLp);
-                mIndicatorView = indicator;
-                mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_DEFAULT);
-                addView(mIndicatorView);
             }
         }
     }
@@ -367,6 +404,8 @@ public class RxBanner extends FrameLayout {
     protected void scrollToCurrentPosition(){
         if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerIndicator)
             ((RxBannerIndicator) mIndicatorView).setSelection(currentPosition);
+        if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerNumericIndicator)
+            ((RxBannerNumericIndicator) mIndicatorView).setSelection(currentPosition);
         if (mTitleView != null) mTitleView.setSelection(currentPosition);
         if(mLayoutManager != null) mLayoutManager.scrollToPosition(currentPosition);
         reset();
@@ -411,7 +450,14 @@ public class RxBanner extends FrameLayout {
         if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)) {
             return (RxBannerIndicator) mIndicatorView;
         }
-        throw new NullPointerException("please check rb_indicator_viable attribute in xml");
+        throw new NullPointerException("please check rb_indicator_viable or rb_indicator_animationType attribute in xml");
+    }
+
+    public RxBannerNumericIndicator getNumericIndicator() {
+        if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_NUMERIC)) {
+            return (RxBannerNumericIndicator) mIndicatorView;
+        }
+        throw new NullPointerException("please check rb_indicator_viable or rb_indicator_animationType attribute in xml");
     }
 
     public RxBanner setLoader(RxBannerLoaderInterface mLoader) {
@@ -446,8 +492,11 @@ public class RxBanner extends FrameLayout {
         if (urls != null && !urls.isEmpty()) {
             this.mUrls.clear();
             this.mUrls.addAll(urls);
+            if(mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
+                ((RxBannerNumericIndicator) mIndicatorView).setTotal(mUrls.size());
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null) {
                 mAdapter.setDatas(mUrls);
+                currentPosition = 0;
                 setCurrentPosition(0);
             }
         } else {
@@ -478,28 +527,28 @@ public class RxBanner extends FrameLayout {
 ////        scrollToCurrentPosition();
 ////        checkEmpty();
 //    }
-//Unpublished  2018/04/26
-    public void addData(String url, String title,int position) {
-        if(this.mUrls.isEmpty()){
-            this.mTitles.add(position,title);
-            this.mUrls.add(position,url);
-            if(mTitleView != null) mTitleView.addData(title,position);
-            this.mAdapter.addItem(url,position);
-            currentPosition = position;
-            scrollToCurrentPosition();
-            checkEmpty();
-            return;
-        }
-        this.mTitles.add(position,title);
-        this.mUrls.add(position,title);
-        if(mTitleView != null) mTitleView.addData(title,position);
-        this.mAdapter.addItem(url,position);
-        if(position <= mLayoutManager.getCurrentPosition()) {
-            currentPosition = mLayoutManager.getCurrentPosition() + 1;
-            scrollToCurrentPosition();
-            checkEmpty();
-        }
-    }
+//Not tested  2018/04/26
+//    public void addData(String url, String title,int position) {
+//        if(this.mUrls.isEmpty()){
+//            this.mTitles.add(position,title);
+//            this.mUrls.add(position,url);
+//            if(mTitleView != null) mTitleView.addData(title,position);
+//            this.mAdapter.addItem(url,position);
+//            currentPosition = position;
+//            scrollToCurrentPosition();
+//            checkEmpty();
+//            return;
+//        }
+//        this.mTitles.add(position,title);
+//        this.mUrls.add(position,title);
+//        if(mTitleView != null) mTitleView.addData(title,position);
+//        this.mAdapter.addItem(url,position);
+//        if(position <= mLayoutManager.getCurrentPosition()) {
+//            currentPosition = mLayoutManager.getCurrentPosition() + 1;
+//            scrollToCurrentPosition();
+//            checkEmpty();
+//        }
+//    }
 
     public void addDatas(List<?> urls, List<String> titles) {
         addDatas(urls);
@@ -509,6 +558,8 @@ public class RxBanner extends FrameLayout {
     public void addDatas(List<?> urls) {
         if (urls != null && !urls.isEmpty()) {
             this.mUrls.addAll(urls);
+            if(mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
+                ((RxBannerNumericIndicator) mIndicatorView).setTotal(mUrls.size());
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
                 mAdapter.addDatas(mUrls);
             }
@@ -541,31 +592,31 @@ public class RxBanner extends FrameLayout {
         if(position == mLayoutManager.getCurrentPosition()) reset();
     }
 
-    //Unpublished  2018/04/26
-    public void removeData(int position) {
-        if(mUrls.isEmpty()) {
-            checkEmpty();
-            return;
-        }
-        if (position < mUrls.size()) {
-            mTitles.remove(position);
-            mUrls.remove(position);
-            if (mTitleView != null) {
-                mTitleView.removeData(position);
-            }
-            if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
-                mAdapter.removeItem(position);
-                if(position < mLayoutManager.getCurrentPosition()) {
-                    currentPosition =   mLayoutManager.getCurrentPosition() - 1;
-                    if(currentPosition < 0) currentPosition = 0;
-                    scrollToCurrentPosition();
-                    checkEmpty();
-                }
-            }
-        }else {
-            throw new IndexOutOfBoundsException("removeData Index: " + position + ", Size : " + mUrls.size());
-        }
-    }
+    //Not tested  2018/04/26
+//    public void removeData(int position) {
+//        if(mUrls.isEmpty()) {
+//            checkEmpty();
+//            return;
+//        }
+//        if (position < mUrls.size()) {
+//            mTitles.remove(position);
+//            mUrls.remove(position);
+//            if (mTitleView != null) {
+//                mTitleView.removeData(position);
+//            }
+//            if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null && mLayoutManager != null) {
+//                mAdapter.removeItem(position);
+//                if(position <= mLayoutManager.getCurrentPosition()) {
+//                    currentPosition =   mLayoutManager.getCurrentPosition() - 1;
+//                    if(currentPosition < 0) currentPosition = 0;
+//                    scrollToCurrentPosition();
+//                    checkEmpty();
+//                }
+//            }
+//        }else {
+//            throw new IndexOutOfBoundsException("removeData Index: " + position + ", Size : " + mUrls.size());
+//        }
+//    }
 
 
     protected void setTitles(List<String> titles) {
@@ -697,11 +748,11 @@ public class RxBanner extends FrameLayout {
                 if (position == mUrls.size()) position = 0;
                 //  if(position == -1 ) position = 0;
             }
-
-            RxBannerLogger.i(" setCurrentPosition SET = " + position);
             mBannerRv.smoothScrollToPosition(position);
             if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerIndicator)
                 ((RxBannerIndicator) mIndicatorView).setSelection(position);
+            if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerNumericIndicator)
+                ((RxBannerNumericIndicator) mIndicatorView).setSelection(position);
             if (mTitleView != null) mTitleView.setSelection(position);
             reset();
         }else {

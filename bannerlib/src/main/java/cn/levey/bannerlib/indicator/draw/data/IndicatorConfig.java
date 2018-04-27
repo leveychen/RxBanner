@@ -30,6 +30,12 @@ public class IndicatorConfig implements Serializable{
     private int width = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int radius = RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_RADIUS_DP);
 
+    private int textSize = RxBannerUtil.sp2px(14);
+    private int textColor = Color.WHITE;
+    private int backgroundColor = RxBannerUtil.DEFAULT_BG_COLOR;
+//    private int backgroundResource = Integer.MAX_VALUE;
+    private int backgroundResource = Integer.MAX_VALUE;
+
     private int padding  = RxBannerUtil.dp2px(IndicatorConfig.DEFAULT_PADDING_DP);
     private int paddingStart = 0;
     private int paddingTop = 0;
@@ -66,6 +72,39 @@ public class IndicatorConfig implements Serializable{
     private Orientation orientation = Orientation.HORIZONTAL;
     private AnimationType animationType = AnimationType.NONE;
     private RtlMode rtlMode = RtlMode.Auto;
+
+
+    public int getTextSize() {
+        return textSize;
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public int getBackgroundResource() {
+        return backgroundResource;
+    }
+
+    public void setBackgroundResource(int backgroundResource) {
+        this.backgroundResource = backgroundResource;
+    }
 
     public int getHeight() {
         return height;

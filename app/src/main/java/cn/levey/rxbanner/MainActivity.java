@@ -360,6 +360,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                 config.setTitleColor(selectedColor);
                 config.getIndicatorConfigConfig().setSelectedColor(selectedColor);
                 config.getIndicatorConfigConfig().setAnimationType(Sys.getAnimationType(optionalType.get(animationType.getId())));
+                config.getIndicatorConfigConfig().setTextColor(selectedColor);
 
                 //title
                 config.setTitleVisible(titleVisible.isChecked());

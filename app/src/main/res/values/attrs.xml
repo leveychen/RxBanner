@@ -29,6 +29,8 @@
         <item>drop</item>
         <item>swap</item>
         <item>scale_down</item>
+        <item>numeric</item>
+        <item>numeric_circle</item>
     </string-array>
 
     <string-array name="rb_orderType">
