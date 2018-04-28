@@ -2,6 +2,7 @@ package cn.levey.bannerlib.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
@@ -86,7 +87,8 @@ public class RxBannerTitle extends android.support.v7.widget.AppCompatTextView{
     protected void set(int position){
         this.currentPosition = position;
         try {
-            setText(mTitles.get(position));
+            setText(Html.fromHtml(mTitles.get(position)));
+            setText(mTitles.get(position).contains("\n") ? mTitles.get(position) : Html.fromHtml(mTitles.get(position)));
             setVisibility(VISIBLE);
         } catch (Exception e) {
             setVisibility(GONE);

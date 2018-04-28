@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         banner:rb_infinite="false"
         banner:rb_autoPlay="false"
-        banner:rb_indicator_animationType="swap"
+        banner:rb_indicator_animationType="numeric_circle"
+        banner:rb_indicator_backgroundColor="@color/colorAccent"
         banner:rb_indicator_layout_gravity="center_horizontal|bottom"
 />
 </LinearLayout>

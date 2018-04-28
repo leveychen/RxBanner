@@ -165,6 +165,7 @@ public class RxBanner extends FrameLayout {
             config.setTitleBackgroundColor(typedArray.getColor(R.styleable.RxBanner_rb_title_backgroundColor, config.getTitleBackgroundColor()));
             config.setTitleBackgroundResource(typedArray.getResourceId(R.styleable.RxBanner_rb_title_backgroundResource, config.getTitleBackgroundResource()));
             config.setTitleMarquee(typedArray.getBoolean(R.styleable.RxBanner_rb_title_marquee, config.isTitleMarquee()));
+            config.setTitleLineSpacingMultiplier(typedArray.getFloat(R.styleable.RxBanner_rb_title_lineSpacingMultiplier, config.getTitleLineSpacingMultiplier()));
         }
     }
 
@@ -248,6 +249,8 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
             @Override
             public void onBannerSelected(int position) {
+                currentPosition = position;
+                RxBannerLogger.i(" SEL = " + currentPosition);
                 if (mTitleView != null) mTitleView.setSelection(position);
                 if (mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
                     ((RxBannerNumericIndicator)mIndicatorView).setSelection(position);
@@ -279,6 +282,9 @@ public class RxBanner extends FrameLayout {
             mTitleView.setMarqueeRepeatLimit(-1);
         } else {
             mTitleView.setFocused(false);
+            mTitleView.setSingleLine(false);
+            mTitleView.setEllipsize(TextUtils.TruncateAt.END);
+            mTitleView.setLineSpacing(0,config.getTitleLineSpacingMultiplier());
         }
         mTitleView.setTag(RxBannerConstants.TAG_TITLE_VIEW + currentPosition);
         mTitleView.setGravity(config.getTitleGravity());
@@ -592,6 +598,14 @@ public class RxBanner extends FrameLayout {
         if(position == mLayoutManager.getCurrentPosition()) reset();
     }
 
+    public boolean isDatasEmpty(){
+        return mUrls.isEmpty();
+    }
+
+    public int getDatasSize(){
+        return mUrls.size();
+    }
+
     //Not tested  2018/04/26
 //    public void removeData(int position) {
 //        if(mUrls.isEmpty()) {
@@ -754,6 +768,7 @@ public class RxBanner extends FrameLayout {
             if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerNumericIndicator)
                 ((RxBannerNumericIndicator) mIndicatorView).setSelection(position);
             if (mTitleView != null) mTitleView.setSelection(position);
+            this.currentPosition = position;
             reset();
         }else {
             RxBannerLogger.i(" setCurrentPosition INIT  = " + position);
@@ -762,9 +777,9 @@ public class RxBanner extends FrameLayout {
     }
 
     public int getCurrentPosition() {
-        if (mBannerRv != null && mAdapter != null && !mAdapter.getDatas().isEmpty()) {
-            return mLayoutManager != null ? mLayoutManager.getCurrentPosition() : -1;
-        }
+//        if (mBannerRv != null && mAdapter != null && !mAdapter.getDatas().isEmpty()) {
+//            return mLayoutManager != null ? mLayoutManager.getCurrentPosition() : currentPosition;
+//        }
         return currentPosition;
     }
 

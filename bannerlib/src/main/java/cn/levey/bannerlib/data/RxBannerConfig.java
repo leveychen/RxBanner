@@ -46,6 +46,7 @@ public class RxBannerConfig implements Serializable {
     private int titleWidth = ViewGroup.LayoutParams.MATCH_PARENT;
     private int titleHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
     private int titleSize = RxBannerUtil.sp2px(14);
+    private float titleLineSpacingMultiplier = 1.0f;
     private int titleColor = Color.WHITE;
     private int titleBackgroundColor = RxBannerUtil.DEFAULT_BG_COLOR;
     private int titleBackgroundResource = Integer.MAX_VALUE;
@@ -445,4 +446,11 @@ public class RxBannerConfig implements Serializable {
         this.titleSize = RxBannerUtil.sp2px(titleSizeSp);
     }
 
+    public float getTitleLineSpacingMultiplier() {
+        return titleLineSpacingMultiplier;
+    }
+
+    public void setTitleLineSpacingMultiplier(float title_lineSpacingMultiplier) {
+        this.titleLineSpacingMultiplier = title_lineSpacingMultiplier;
+    }
 }

@@ -84,8 +84,12 @@ public class DemoActivity extends AppCompatActivity {
 //        images.add(R.mipmap.ic_launcher);
 //        images.add(R.mipmap.ic_launcher);
 
+        // disable marquee to support html tag
+        config.setTitleMarquee(false);
+
         for (int i = 0; i < images.size(); i++) {
-            titles.add("banner title " + (i + 1));
+            // html tag text
+            titles.add("<h1><font color=\"#FF0000\">banner title big</font></h1><br/> small title  " + (i + 1));
         }
 //        banner.setLoader(new UniversalImageLoader())
 //        banner.setLoader(new PicassoLoader())
@@ -103,7 +107,7 @@ public class DemoActivity extends AppCompatActivity {
         
 //        config.setTimeInterval(50000);
 
-        config.setAutoPlay(false);
+
         banner
                 .setConfig(config)
                 .setDatas(images, titles)
@@ -145,8 +149,6 @@ public class DemoActivity extends AppCompatActivity {
                     }
                 })
                 .start();
-
-        banner.setCurrentPosition(2);
 
 
         if (banner.isAutoPlay()) {
@@ -200,14 +202,15 @@ public class DemoActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                banner.updateData(
-                        FakeData.FAKE_GUIDE[banner.getCurrentPosition()],
-                        "Guide Title Updated " + (banner.getCurrentPosition() + 1),
-                        banner.getCurrentPosition());
-
+                if(!banner.isDatasEmpty()) {
+                    int cp = banner.getCurrentPosition();
+                    banner.updateData(
+                            FakeData.FAKE_GUIDE[cp > FakeData.FAKE_GUIDE.length - 1 ? 0 : cp],
+                            "Guide Title\n Updated " + (cp + 1),
+                            cp);
+                }
             }
         });
-
 
     }
 

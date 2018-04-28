@@ -23,6 +23,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
     Scroller mGravityScroller;
 
 
+    private boolean isInitialize = true;
     private boolean paperMode = true;
 
     void setPaperMode(boolean viewPaperMode) {
@@ -120,11 +121,14 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             changeListener.onBannerSelected(cp);
         }
 
-        if (layoutManager.getRxBannerIndicatorChangeListener() != null)
-            layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+        if(!isInitialize) {
+            if (layoutManager.getRxBannerIndicatorChangeListener() != null)
+                layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
 
-        if (layoutManager.getRxBannerTitleChangeListener() != null)
-            layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+            if (layoutManager.getRxBannerTitleChangeListener() != null)
+                layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+        }
+        isInitialize = false;
 
         final int delta = layoutManager.getOffsetToCenter();
         if (delta != 0) {
