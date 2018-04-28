@@ -12,7 +12,7 @@
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.3/rxbanner_v1.0.3_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.4/rxbanner_v1.0.4_demo.apk)
 
 
 ## 预览
@@ -36,7 +36,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.0.3'
+    implementation 'com.github.leveychen:RxBanner:1.0.4'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -193,6 +193,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 |rb_title_backgroundColor|color|#55000000| /
 |rb_title_backgroundResource|reference| / | /
 |rb_title_marquee|boolean|true| 跑马灯
+|rb_title_lineSpacingMultiplier|float|1.0f| lineSpacingMultiplier
 
 
 

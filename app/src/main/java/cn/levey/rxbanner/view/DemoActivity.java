@@ -13,7 +13,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
@@ -173,8 +172,6 @@ public class DemoActivity extends AppCompatActivity {
         btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                RxBannerLogger.i(" btnPreview = " + banner.getCurrentPosition());
                 banner.setCurrentPosition(banner.getCurrentPosition() - 1);
             }
         });

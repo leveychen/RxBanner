@@ -250,7 +250,6 @@ public class RxBanner extends FrameLayout {
             @Override
             public void onBannerSelected(int position) {
                 currentPosition = position;
-                RxBannerLogger.i(" SEL = " + currentPosition);
                 if (mTitleView != null) mTitleView.setSelection(position);
                 if (mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
                     ((RxBannerNumericIndicator)mIndicatorView).setSelection(position);
@@ -585,8 +584,9 @@ public class RxBanner extends FrameLayout {
 
     public void updateData(String url,String title, int position){
         if(mUrls.isEmpty()) return;
-        this.mTitles.set(position,title);
         if(mTitleView != null){
+            mTitles = mTitleView.getTitleDatas();
+            this.mTitles.set(position,title);
             mTitleView.updateItem(title,position);
         }
         if(url != null){

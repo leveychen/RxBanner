@@ -313,7 +313,6 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                                 }
                                 String tempStr = btn.getTag().toString() + " " + g;
                                 btn.setText(tempStr);
-                                RxBannerLogger.i(btn.getTag().toString() + " " + g + "  " + Sys.getGravity(indicesArray.get(btn.getId())));
                                 dialog.dismiss();
                             }
                         })

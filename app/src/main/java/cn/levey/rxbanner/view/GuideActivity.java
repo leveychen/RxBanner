@@ -60,7 +60,6 @@ public class GuideActivity extends AppCompatActivity {
 
 
         banner.setLoader(new PicassoLoader())
-                .setCurrentPosition(3)
                 .setDatas(list) // no title
                 .setOnBannerChangeListener(new RxBannerChangeListener() {
 

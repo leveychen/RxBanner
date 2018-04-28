@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
-import java.util.Date;
-
 import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.WeakHandler;
 import cn.levey.bannerlib.data.RxBannerGlobalConfig;
@@ -58,8 +56,6 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
             autoPlayRunnable = new Runnable() {
                 @Override
                 public void run() {
-
-                    RxBannerLogger.i(" autoPlayRunnable = " + new Date());
                     if(!((ViewPagerLayoutManager) layoutManager).isAutoPlay()){
                         pause();
                         return;

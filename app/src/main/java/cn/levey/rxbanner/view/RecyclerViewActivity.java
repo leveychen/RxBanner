@@ -13,7 +13,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.adapter.RvAdapter;
 import cn.levey.rxbanner.fake.DemoConfig;
@@ -51,8 +50,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
         DemoConfig config;
         try {
             config = (DemoConfig) getIntent().getSerializableExtra(Sys.BANNER_DATA);
-
-            RxBannerLogger.i(" CONFIG = " + config);
         } catch (Exception e) {
             config = new DemoConfig();
         }
