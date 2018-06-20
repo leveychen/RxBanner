@@ -12,7 +12,7 @@
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.4/rxbanner_v1.0.4_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.0.5/rxbanner_v1.0.5_demo.apk)
 
 
 ## 预览
@@ -36,7 +36,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.0.4'
+    implementation 'com.github.leveychen:RxBanner:1.0.5'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
