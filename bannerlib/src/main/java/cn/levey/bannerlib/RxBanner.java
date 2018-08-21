@@ -499,6 +499,11 @@ public class RxBanner extends FrameLayout {
             this.mUrls.addAll(urls);
             if(mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
                 ((RxBannerNumericIndicator) mIndicatorView).setTotal(mUrls.size());
+
+            if(mIndicatorView != null && mIndicatorView instanceof RxBannerIndicator)
+                ((RxBannerIndicator) mIndicatorView).setCount(mUrls.size());
+
+
             if (mBannerRv != null && mAdapter != null && mAdapter.getDatas() != null) {
                 mAdapter.setDatas(mUrls);
                 currentPosition = 0;
