@@ -293,6 +293,8 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         if (orientation == mOrientation) {
             return;
         }
+
+
         mOrientation = orientation;
         mOrientationHelper = null;
         mDistanceToBottom = INVALID_SIZE;
@@ -828,7 +830,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         return null;
     }
 
-    private int getCurrentPositionOffset() {
+    public int getCurrentPositionOffset() {
         return Math.round(mOffset / mInterval);
     }
 
@@ -994,5 +996,14 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
                 return new SavedState[size];
             }
         };
+    }
+
+    public int getLayoutPositionOfView(View v) {
+        for (int i = 0; i < positionCache.size(); i++) {
+            int key = positionCache.keyAt(i);
+            View value = positionCache.get(key);
+            if (value == v) return key;
+        }
+        return -1;
     }
 }

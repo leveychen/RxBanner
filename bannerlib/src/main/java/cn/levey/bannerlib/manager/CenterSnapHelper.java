@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
@@ -25,6 +26,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
 
     private boolean isInitialize = true;
     private boolean paperMode = true;
+    private float flingDamping = 1.0f;
 
     void setPaperMode(boolean viewPaperMode) {
         this.paperMode = viewPaperMode;
@@ -166,6 +168,9 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
     @Override
     public boolean onFling(int velocityX, int velocityY) {
 
+
+        RxBannerLogger.i("快说快说快说快说 = 懂了");
+
         if (!paperMode) {
             ViewPagerLayoutManager layoutManager = (ViewPagerLayoutManager) mRecyclerView.getLayoutManager();
             if (layoutManager == null) {
@@ -201,7 +206,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                     Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
             if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
                     && Math.abs(velocityY) > minFlingVelocity) {
-                final int currentPosition = layoutManager.getCurrentPosition();
+                final int currentPosition = layoutManager.getCurrentPositionOffset();
                 final int offsetPosition = (int) (mGravityScroller.getFinalY() /
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
                 int cp = layoutManager.getReverseLayout() ?
@@ -215,7 +220,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity) {
-                final int currentPosition = layoutManager.getCurrentPosition();
+                final int currentPosition = layoutManager.getCurrentPositionOffset();
                 final int offsetPosition = (int) (mGravityScroller.getFinalX() /
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
@@ -256,14 +261,20 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 }
                 return false;
             }
-            final int interval = (int) layoutManager.mInterval;
             final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-            mGravityScroller.fling(0, 0, velocityX, velocityY,Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+
+
+
+
+            mGravityScroller.fling(0, 0, velocityX, velocityY,Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
             if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                    && Math.abs(velocityY) > minFlingVelocity) {
+                    && Math.abs(velocityY) > minFlingVelocity && Math.abs(mGravityScroller.getFinalY()) > minFlingVelocity) {
                 final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > interval ? 1 : 0;
-                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
+//                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > interval ? 1 : 0;
+//                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
+
+                int offsetPosition = mGravityScroller.getFinalY() > 0 ? 1 : -1;
+                int cp = currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
                 if(layoutManager.getRxBannerIndicatorChangeListener() != null)
@@ -272,12 +283,20 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                     layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                    && Math.abs(velocityX) > minFlingVelocity) {
+                    && Math.abs(velocityX) > minFlingVelocity && Math.abs(mGravityScroller.getFinalX()) > minFlingVelocity) {
                 final int currentPosition = layoutManager.getCurrentPosition();
-                final int offsetPosition = mGravityScroller.getFinalX() * layoutManager.getDistanceRatio() > interval ? 1 : 0;
-                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
+
+//                int offsetPosition = Math.abs(mGravityScroller.getFinalX()) * layoutManager.getDistanceRatio() > interval ? 1 : 0;
+                int offsetPosition = mGravityScroller.getFinalX() > 0 ? 1 : -1;
+
+//                final int offsetPosition = Math.abs(mGravityScroller.getFinalX()) > minFlingVelocity ? 1 : 0;
+//                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
+
+                int cp = currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
+
                 mRecyclerView.smoothScrollToPosition(cp);
+
                 if(layoutManager.getRxBannerIndicatorChangeListener() != null)
                 layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
                 if(layoutManager.getRxBannerTitleChangeListener() != null)
@@ -286,6 +305,11 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             }
         }
         return false;
+    }
+
+
+    public void setFlingDamping(float flingDamping){
+        this.flingDamping = flingDamping;
     }
 
 

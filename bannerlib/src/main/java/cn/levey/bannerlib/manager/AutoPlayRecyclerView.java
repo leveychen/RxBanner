@@ -136,4 +136,9 @@ public class AutoPlayRecyclerView extends RecyclerView {
     public void destroyCallbacks(){
         if(autoPlaySnapHelper != null) autoPlaySnapHelper.destroyCallbacks();
     }
+
+    public void setFlingDamping(float flingDamping){
+        if(autoPlaySnapHelper != null) autoPlaySnapHelper.setFlingDamping(flingDamping);
+    }
+
 }

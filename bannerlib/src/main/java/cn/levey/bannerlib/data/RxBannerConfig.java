@@ -21,9 +21,10 @@ public class RxBannerConfig implements Serializable {
     private boolean autoPlay = true;
     private boolean infinite = true;
     private float itemScale = 1.0f;
+    private float flingDamping = 1.0f;
     private int timeInterval = RxBannerGlobalConfig.getInstance().getTimeInterval();
     private int itemPercent = 100;
-    private float itemMoveSpeed = 1.0f;
+    private float itemMoveSpeed = 0.5f;
     private float centerAlpha = 1.0f;
     private float sideAlpha = 1.0f;
     private int itemSpace = 0;
@@ -55,6 +56,17 @@ public class RxBannerConfig implements Serializable {
     private IndicatorConfig indicatorConfigConfig = new IndicatorConfig();
     private int emptyViewResource = 0;
     private String emptyViewText = "";
+
+    public float getFlingDamping() {
+        return flingDamping;
+    }
+
+    public void setFlingDamping(float flingDamping) {
+        if (flingDamping <= 0)
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": flingDamping should be greater than 0");
+        this.flingDamping = flingDamping;
+    }
+
 
     public boolean isCanSwipe() {
         return canSwipe;

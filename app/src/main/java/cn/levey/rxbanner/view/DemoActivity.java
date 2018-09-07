@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
-import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.DemoConfig;
 import cn.levey.rxbanner.fake.FakeData;
@@ -74,6 +73,11 @@ public class DemoActivity extends AppCompatActivity {
         }
 
 
+        config.setItemMoveSpeed(0.5f);
+//        config.setOrientation(LinearLayout.VERTICAL);
+//        config.setViewPaperMode(false);
+
+
         //添加图片资源
 
 
@@ -86,9 +90,12 @@ public class DemoActivity extends AppCompatActivity {
         // disable marquee to support html tag
         config.setTitleMarquee(false);
 
+
+        config.setFlingDamping(10f);
         for (int i = 0; i < images.size(); i++) {
             // html tag text
-            titles.add("<h1><font color=\"#FF0000\">banner title big</font></h1><br/> small title  " + (i + 1));
+//            titles.add("<h1><font color=\"#FF0000\">banner title big</font></h1><br/> small title  " + (i + 1));
+            titles.add("banner=" + (i + 1));
         }
 //        banner.setLoader(new UniversalImageLoader())
 //        banner.setLoader(new PicassoLoader())
@@ -112,12 +119,12 @@ public class DemoActivity extends AppCompatActivity {
                 .setDatas(images, titles)
 
 //               .setDatas(images)  // no title
-                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
-                    @Override
-                    public void onTitleClick(int position, String title) {
-                        Toast.makeText(getApplicationContext(), "TITLE : " + position + " / " + title, Toast.LENGTH_SHORT).show();
-                    }
-                })
+//                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
+//                    @Override
+//                    public void onTitleClick(int position, String title) {
+//                        Toast.makeText(getApplicationContext(), "TITLE : " + position + " / " + title, Toast.LENGTH_SHORT).show();
+//                    }
+//                })
                 .setOnBannerClickListener(new RxBannerClickListener() {
 
                     @Override

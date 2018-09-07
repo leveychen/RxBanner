@@ -76,6 +76,7 @@ public class RxBanner extends FrameLayout {
 
     public RxBanner setConfig(RxBannerConfig config) {
         this.config = config;
+        if(mBannerRv != null)  mBannerRv.setFlingDamping(config.getFlingDamping());
         return this;
     }
 
@@ -105,6 +106,7 @@ public class RxBanner extends FrameLayout {
         config.setItemSpacePx(typedArray.getDimensionPixelSize(R.styleable.RxBanner_rb_itemSpace, config.getItemSpace()));
         config.setItemScale(typedArray.getFloat(R.styleable.RxBanner_rb_itemScale, config.getItemScale()));
         config.setItemMoveSpeed(typedArray.getFloat(R.styleable.RxBanner_rb_itemMoveSpeed, config.getItemMoveSpeed()));
+        config.setFlingDamping(typedArray.getFloat(R.styleable.RxBanner_rb_flingDamping, config.getFlingDamping()));
         config.setEmptyViewText(typedArray.getString(R.styleable.RxBanner_rb_emptyViewText));
         config.setEmptyViewResource(typedArray.getResourceId(R.styleable.RxBanner_rb_emptyViewResource, config.getEmptyViewResource()));
         config.setTimeInterval(typedArray.getInt(R.styleable.RxBanner_rb_timeInterval, RxBannerGlobalConfig.getInstance().getTimeInterval()));
@@ -112,6 +114,8 @@ public class RxBanner extends FrameLayout {
         config.setSideAlpha(typedArray.getFloat(R.styleable.RxBanner_rb_sideAlpha, config.getSideAlpha()));
         config.setOrderType(RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_rb_orderType, RxBannerUtil.getOrderType(config.getOrderType()))));
         //init title config
+
+        RxBannerLogger.i(" in damping = " + config.getFlingDamping());
         initTitleConfig(typedArray);
         //init indicator config
         initIndicatorConfig(typedArray, attrs);
@@ -180,6 +184,7 @@ public class RxBanner extends FrameLayout {
     protected void initInnerView() {
         mBannerRv = new AutoPlayRecyclerView(mContext);
         mBannerRv.setItemAnimator(null);
+        mBannerRv.setFlingDamping(config.getFlingDamping());
         LayoutParams layoutParams = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
         addView(mBannerRv, layoutParams);
@@ -768,6 +773,7 @@ public class RxBanner extends FrameLayout {
                 //  if(position == -1 ) position = 0;
             }
             mBannerRv.smoothScrollToPosition(position);
+//            ScrollHelper.smoothScrollToPosition(mBannerRv,mLayoutManager,position);
             if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerIndicator)
                 ((RxBannerIndicator) mIndicatorView).setSelection(position);
             if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerNumericIndicator)

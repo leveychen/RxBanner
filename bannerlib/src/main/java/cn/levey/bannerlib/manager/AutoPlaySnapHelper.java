@@ -21,6 +21,7 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
 
 
 
+
     AutoPlaySnapHelper(int timeInterval, RxBannerGlobalConfig.OrderType orderType) {
         checkTimeInterval(timeInterval);
         checkDirection(orderType);
@@ -168,5 +169,10 @@ public class AutoPlaySnapHelper extends CenterSnapHelper {
                 start();
             }
         }
+    }
+
+
+    public void setFlingDamping(float flingDamping) {
+        super.setFlingDamping(flingDamping);
     }
 }

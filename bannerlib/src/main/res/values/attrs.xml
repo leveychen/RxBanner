@@ -9,6 +9,7 @@
         <attr name="rb_timeInterval" format="integer" />
         <attr name="rb_itemPercent" format="integer" />
         <attr name="rb_itemMoveSpeed" format="float" />
+        <attr name="rb_flingDamping" format="float" />
         <attr name="rb_centerAlpha" format="float" />
         <attr name="rb_sideAlpha" format="float" />
         <attr name="rb_itemSpace" format="dimension" />
