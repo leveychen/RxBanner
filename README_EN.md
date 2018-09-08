@@ -221,7 +221,7 @@ forked from [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorVie
 |`AnimationType.SWAP`|`swap`|![anim_swap](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_swap.gif)
 |`AnimationType.NUMERIC`|`numeric`| 1/8
 |`AnimationType.NUMERIC_CIRCLE`|`numeric_circle`| (1/8)
-|`AnimationType.CUSTOM`|`numeric_circle`| see [`CircleIndicator` ](https://github.com/ongakuer/CircleIndicator)
+|`AnimationType.CUSTOM`|`custom`| see [`CircleIndicator` ](https://github.com/ongakuer/CircleIndicator)
 
 
 ## Permission

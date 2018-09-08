@@ -231,7 +231,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 |`AnimationType.SWAP`|`swap`|![anim_swap](https://raw.githubusercontent.com/romandanylyk/PageIndicatorView/master/assets/anim_swap.gif)
 |`AnimationType.NUMERIC`|`numeric`| 1/8
 |`AnimationType.NUMERIC_CIRCLE`|`numeric_circle`| (1/8)
-|`AnimationType.CUSTOM`|`numeric_circle`| 参考 [`CircleIndicator` ](https://github.com/ongakuer/CircleIndicator)
+|`AnimationType.CUSTOM`|`custom`| 参考 [`CircleIndicator` ](https://github.com/ongakuer/CircleIndicator)
 
 
 
