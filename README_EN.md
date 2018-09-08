@@ -35,7 +35,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.0'
+    implementation 'com.github.leveychen:RxBanner:1.1.1'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 

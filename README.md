@@ -10,7 +10,7 @@
 
 
 ## 更新日志
-### 1.1.0
+### 1.1.1
 1.新增滑动阻尼设置 `rb_flingDamping`, 阻尼越大滑动越困难,默认为RecyclerView标准最小滑动值. 修复 [issues #2](https://github.com/leveychen/RxBanner/issues/2)
 
 2.新增`自定义指示器`,用法与说明请下翻至 `指示器` 部分, 由 [CircleIndicator](https://github.com/ongakuer/CircleIndicator) 修改整合,感谢原作者, 原始需求 [issues #3](https://github.com/leveychen/RxBanner/issues/3)
@@ -43,7 +43,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.0'
+    implementation 'com.github.leveychen:RxBanner:1.1.1'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 

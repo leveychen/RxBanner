@@ -139,7 +139,7 @@
             <enum name="scale_down" value="9" />
             <enum name="numeric" value="10" />
             <enum name="numeric_circle" value="11" />
-            <enum name="circle_indicator" value="12" />
+            <enum name="custom" value="12" />
         </attr>
         <attr name="rb_indicator_rtl_mode">
             <enum name="on" value="0" />
