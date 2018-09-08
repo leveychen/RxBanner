@@ -512,4 +512,10 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
     public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activity = null;
+    }
 }
