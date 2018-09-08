@@ -422,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                 new MaterialDialog.Builder(activity)
                         .title("RxBanner")
                         .cancelable(false)
-                        .content("Demo Version: " + BuildConfig.VERSION_NAME)
+                        .content("Demo Version: " + BuildConfig.VERSION_NAME + "\nAuthor:LeveyChen")
                         .positiveText("DONE")
                         .neutralText("Github")
                         .onNeutral(new MaterialDialog.SingleButtonCallback() {
