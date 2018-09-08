@@ -108,6 +108,10 @@
         <attr name="rb_indicator_scale" format="float" />
         <attr name="rb_indicator_unselected_color" format="color" />
         <attr name="rb_indicator_selected_color" format="color" />
+        <attr name="rb_indicator_unselectedResource" format="reference" />
+        <attr name="rb_indicator_selectedResource" format="reference" />
+        <attr name="rb_indicator_animatorResource" format="reference"/>
+        <attr name="rb_indicator_animatorReverseResource" format="reference"/>
         <attr name="rb_indicator_clickable" format="boolean" />
         <attr name="rb_indicator_visible" format="boolean" />
         <attr name="rb_indicator_margin" format="dimension" />
@@ -135,6 +139,7 @@
             <enum name="scale_down" value="9" />
             <enum name="numeric" value="10" />
             <enum name="numeric_circle" value="11" />
+            <enum name="circle_indicator" value="12" />
         </attr>
         <attr name="rb_indicator_rtl_mode">
             <enum name="on" value="0" />
@@ -158,6 +163,7 @@
             <flag name="start" value="8388611" />
             <flag name="top" value="48" />
         </attr>
+
 
     </declare-styleable>
 </resources>

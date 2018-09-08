@@ -78,6 +78,8 @@ public class Sys {
                 return AnimationType.NUMERIC;
             case 11:
                 return AnimationType.NUMERIC_CIRCLE;
+            case 12:
+                return AnimationType.CUSTOM;
         }
 
         return AnimationType.NONE;

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.io.Serializable;
 
+import cn.levey.bannerlib.R;
 import cn.levey.bannerlib.base.RxBannerUtil;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.bannerlib.indicator.animation.type.BaseAnimation;
@@ -69,10 +70,47 @@ public class IndicatorConfig implements Serializable{
 
     private int recyclerViewId = View.NO_ID;
 
+    private int animatorResId = R.animator.rx_banner_scale_with_alpha;
+    private int animatorReverseResId = 0;
+    private int indicatorSelectedBackgroundResId = R.drawable.rx_banner_white_radius;
+    private int indicatorUnselectedBackgroundResId = R.drawable.rx_banner_white_radius;
+
     private Orientation orientation = Orientation.HORIZONTAL;
     private AnimationType animationType = AnimationType.NONE;
     private RtlMode rtlMode = RtlMode.Auto;
 
+
+    public int getAnimatorResId() {
+        return animatorResId;
+    }
+
+    public void setAnimatorResId(int animatorResId) {
+        this.animatorResId = animatorResId;
+    }
+
+    public int getAnimatorReverseResId() {
+        return animatorReverseResId;
+    }
+
+    public void setAnimatorReverseResId(int animatorReverseResId) {
+        this.animatorReverseResId = animatorReverseResId;
+    }
+
+    public int getIndicatorSelectedBackgroundResId() {
+        return indicatorSelectedBackgroundResId;
+    }
+
+    public void setIndicatorSelectedBackgroundResId(int indicatorSelectedBackgroundResId) {
+        this.indicatorSelectedBackgroundResId = indicatorSelectedBackgroundResId;
+    }
+
+    public int getIndicatorUnselectedBackgroundResId() {
+        return indicatorUnselectedBackgroundResId;
+    }
+
+    public void setIndicatorUnselectedBackgroundResId(int indicatorUnselectedBackgroundResId) {
+        this.indicatorUnselectedBackgroundResId = indicatorUnselectedBackgroundResId;
+    }
 
     public int getTextSize() {
         return textSize;
@@ -383,6 +421,7 @@ public class IndicatorConfig implements Serializable{
     public void setRadius(int radius) {
         this.radius = radius;
     }
+
 
     public void setPadding(int padding) {
         this.padding = padding;

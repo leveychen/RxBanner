@@ -8,7 +8,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.0-rc02'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         
 
@@ -31,8 +31,8 @@ task clean(type: Delete) {
 
 
 ext {
-    versionCode = 106
-    versionName = '1.0.6'
+    versionCode = 110
+    versionName = '1.1.0'
     minSdkVersion = 16
     targetSdkVersion = 28
     compileSdkVersion = 28

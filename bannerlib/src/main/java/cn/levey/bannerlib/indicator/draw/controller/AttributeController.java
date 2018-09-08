@@ -41,11 +41,19 @@ public class AttributeController {
         indicatorConfig.setSelectedPosition(0);
         indicatorConfig.setSelectingPosition(0);
         indicatorConfig.setLastSelectedPosition(0);
+        initCircle(typedArray);
         initColorAttribute(typedArray);
         initAnimationAttribute(typedArray);
         initSizeAttribute(typedArray);
         typedArray.recycle();
         return indicatorConfig;
+    }
+
+    private void initCircle(@NonNull TypedArray typedArray){
+        indicatorConfig.setAnimatorResId(typedArray.getResourceId(R.styleable.RxBanner_rb_indicator_animatorResource, R.animator.rx_banner_scale_with_alpha));
+        indicatorConfig.setAnimatorReverseResId(typedArray.getResourceId(R.styleable.RxBanner_rb_indicator_animatorReverseResource, 0));
+        indicatorConfig.setIndicatorSelectedBackgroundResId( typedArray.getResourceId(R.styleable.RxBanner_rb_indicator_selectedResource, R.drawable.rx_banner_white_radius));
+        indicatorConfig.setIndicatorUnselectedBackgroundResId(typedArray.getResourceId(R.styleable.RxBanner_rb_indicator_unselectedResource, R.drawable.rx_banner_white_radius));
     }
 
     private void initViewAttribute(@NonNull TypedArray typedArray) {
@@ -194,6 +202,8 @@ public class AttributeController {
                 return AnimationType.NUMERIC;
             case 11:
                 return AnimationType.NUMERIC_CIRCLE;
+            case 12:
+                return AnimationType.CUSTOM;
         }
 
         return AnimationType.NONE;

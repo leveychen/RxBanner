@@ -25,8 +25,8 @@
         <activity android:name=".view.DemoActivity"/>
         <activity android:name=".view.FragmentActivity"/>
         <activity android:name=".view.RecyclerViewActivity"/>
-        <activity android:name=".view.GuideActivity"/>
-        <activity android:name=".view.CustomIndicatorActivity"/>
+        <activity android:name=".view.GuideActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
     </application>
 
 </manifest>

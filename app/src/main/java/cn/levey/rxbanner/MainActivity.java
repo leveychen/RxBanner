@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -25,8 +26,8 @@ import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.base.RxBannerUtil;
+import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.rxbanner.fake.DemoConfig;
 import cn.levey.rxbanner.fake.Sys;
 import cn.levey.rxbanner.view.DemoActivity;
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
     Button timeInterval;
     @BindView(R.id.about)
     Button about;
+    @BindView(R.id.default_custom)
+    Button defaultCustom;
 
 
     private MainActivity activity;
@@ -103,12 +106,14 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
 
 
     /**
-     * 此处代码与 RxBanner 无关,仅传入相关配置，详细请跳转至对应内容
+     * 此Activity代码与 RxBanner 无关,仅供演示参考。
+     * 仅需传入相关配置，详细请跳转至对应内容
      *
      * @link activity_demo.xml
      * @link activity_guide.xml
-     * @see DemoActivity
-     * @see GuideActivity
+     * @see DemoActivity             普通Activity界面
+     * @see GuideActivity            引导页界面
+     * @see FragmentActivity         多tab页面
      */
 
     @Override
@@ -124,14 +129,15 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
         spinner.setAdapter(adapter);
         setDefaultBtn();
         setCreateBannerBtn();
-        setGravityValueListener(titleGravity, new Integer[]{3});
-        setGravityValueListener(titleLayoutGravity, new Integer[]{2, 5});
-        setGravityValueListener(indicatorLayoutGravity, new Integer[]{2, 4});
+        setGravityValue(titleGravity, new Integer[]{3});
+        setGravityValue(titleLayoutGravity, new Integer[]{2, 5});
+        setGravityValue(indicatorLayoutGravity, new Integer[]{2, 4});
 
         setOptionalValue(itemPercent, new float[]{10f, 100f, 100f});
         setOptionalValue(itemScale, new float[]{0.1f, 1.0f, 1.0f});
         setOptionalValue(itemSpace, new float[]{-50, 50, 0});
         setOptionalValue(sideAlpha, new float[]{0.1f, 1.0f, 1.0f});
+        setOptionalValue(timeInterval, new float[]{200, 10000, 5000});
         setOptionalValue(timeInterval, new float[]{200, 10000, 5000});
 
         setOptionalType(orientation, getResArray(R.array.rb_orientation));
@@ -153,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                         .input("" + config.getCornersRadius(), "" + ((int) config.getCornersRadius()), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                config.setCornersRadius(Float.parseFloat(input.toString()));
+                                config.setCornersRadius(Float.parseFloat(input == null || input.toString().equals("") ? "30" : input.toString()));
                             }
                         })
                         .checkBoxPrompt("isRoundAsCircle", config.isRoundAsCircle(), new CompoundButton.OnCheckedChangeListener() {
@@ -171,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                         .show();
             }
         });
+
     }
 
     private CharSequence[] getResArray(int res) {
@@ -281,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
 
     }
 
-    private void setGravityValueListener(final Button btn, final Integer[] defaultIndices) {
+    private void setGravityValue(final Button btn, final Integer[] defaultIndices) {
         indicesArray.put(btn.getId(), defaultIndices);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,9 +364,9 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                 config.setOrderType(RxBannerUtil.getOrder(optionalType.get(orderType.getId()) + 1));
                 config.setOrientation(optionalType.get(orientation.getId()));
                 config.setTitleColor(selectedColor);
-                config.getIndicatorConfigConfig().setSelectedColor(selectedColor);
-                config.getIndicatorConfigConfig().setAnimationType(Sys.getAnimationType(optionalType.get(animationType.getId())));
-                config.getIndicatorConfigConfig().setTextColor(selectedColor);
+                config.getIndicatorConfig().setSelectedColor(selectedColor);
+                config.getIndicatorConfig().setAnimationType(Sys.getAnimationType(optionalType.get(animationType.getId())));
+                config.getIndicatorConfig().setTextColor(selectedColor);
 
                 //title
                 config.setTitleVisible(titleVisible.isChecked());
@@ -368,7 +375,14 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
 
                 //indicator
                 config.setIndicatorVisible(indicatorVisible.isChecked());
-                config.getIndicatorConfigConfig().setGravity(getConfigGravity(indicatorLayoutGravity));
+                config.getIndicatorConfig().setGravity(getConfigGravity(indicatorLayoutGravity));
+
+
+                //CUSTOM config
+                if( config.getIndicatorConfig().getAnimationType() == AnimationType.CUSTOM){
+                    config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.ic_ssss_1);
+                    config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.ic_ssss_2);
+                }
 
                 String type = spinner.getSelectedItem().toString();
                 switch (type) {
@@ -465,6 +479,25 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                         .preselect(selectedColor)
                         .build()
                         .show(getSupportFragmentManager());
+            }
+        });
+
+        defaultCustom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent custom = new Intent(getApplicationContext(), DemoActivity.class);
+                DemoConfig config = new DemoConfig();
+                config.setOrientation(LinearLayout.VERTICAL);
+                config.setItemPercent(80);
+                config.setItemScale(0.8f);
+                config.setTitleVisible(false);
+                config.getIndicatorConfig().setAnimationType(AnimationType.CUSTOM);
+                config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.ic_ssss_1);
+                config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.ic_ssss_2);
+                config.getIndicatorConfig().setRadius(RxBannerUtil.dp2px(20));
+                config.getIndicatorConfig().setPadding(RxBannerUtil.dp2px(0));
+                custom.putExtra(Sys.BANNER_DATA, config);
+                startActivity(custom);
             }
         });
     }

@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.DemoConfig;
 import cn.levey.rxbanner.fake.FakeData;
@@ -72,8 +73,12 @@ public class DemoActivity extends AppCompatActivity {
             config = (DemoConfig) banner.getConfig();
         }
 
+        if(config.getIndicatorConfig().getAnimationType() == AnimationType.CUSTOM){
+            setTitle("CUSTOM - RxBanner");
+        }
 
-        config.setItemMoveSpeed(0.5f);
+
+//        config.setItemMoveSpeed(0.5f);
 //        config.setOrientation(LinearLayout.VERTICAL);
 //        config.setViewPaperMode(false);
 
@@ -90,8 +95,6 @@ public class DemoActivity extends AppCompatActivity {
         // disable marquee to support html tag
         config.setTitleMarquee(false);
 
-
-        config.setFlingDamping(10f);
         for (int i = 0; i < images.size(); i++) {
             // html tag text
 //            titles.add("<h1><font color=\"#FF0000\">banner title big</font></h1><br/> small title  " + (i + 1));
@@ -106,7 +109,7 @@ public class DemoActivity extends AppCompatActivity {
 
 //        RxBannerConfig config = banner.getConfig();
 ////        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
-////        config.getIndicatorConfigConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
+////        config.getIndicatorConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
 ////        config.setAutoPlay(false);
 ////        config.setInfinite(true);
 //        banner.setConfig(config);

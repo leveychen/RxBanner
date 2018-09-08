@@ -37,6 +37,7 @@ import cn.levey.bannerlib.indicator.draw.controller.DrawController;
 import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
 import cn.levey.bannerlib.manager.ScaleLayoutManager;
+import cn.levey.bannerlib.view.RxBannerCustomIndicator;
 import cn.levey.bannerlib.view.RxBannerEmptyView;
 import cn.levey.bannerlib.view.RxBannerIndicator;
 import cn.levey.bannerlib.view.RxBannerNumericIndicator;
@@ -52,6 +53,7 @@ public class RxBanner extends FrameLayout {
     private Context mContext;
     private int parentWidth = 0, parentHeight = 0;
     private RxBannerAdapter mAdapter;
+
     private AutoPlayRecyclerView mBannerRv;
     private RxBannerTitle mTitleView;
     private ScaleLayoutManager mLayoutManager;
@@ -114,8 +116,6 @@ public class RxBanner extends FrameLayout {
         config.setSideAlpha(typedArray.getFloat(R.styleable.RxBanner_rb_sideAlpha, config.getSideAlpha()));
         config.setOrderType(RxBannerUtil.getOrder(typedArray.getInt(R.styleable.RxBanner_rb_orderType, RxBannerUtil.getOrderType(config.getOrderType()))));
         //init title config
-
-        RxBannerLogger.i(" in damping = " + config.getFlingDamping());
         initTitleConfig(typedArray);
         //init indicator config
         initIndicatorConfig(typedArray, attrs);
@@ -177,7 +177,8 @@ public class RxBanner extends FrameLayout {
         config.setIndicatorVisible(typedArray.getBoolean(R.styleable.RxBanner_rb_indicator_visible, config.isIndicatorVisible()));
         if (config.isIndicatorVisible()) {
             AttributeController attributeController = new AttributeController();
-            config.setIndicatorConfigConfig(attributeController.init(mContext, attrs));
+            attributeController.init(mContext,attrs);
+            config.setIndicatorConfig(attributeController.getIndicatorConfig());
         }
     }
 
@@ -246,7 +247,7 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemScale(config.getItemScale());
         mLayoutManager.setAutoPlay(config.isAutoPlay());
         mLayoutManager.setInfinite(config.isInfinite());
-        mLayoutManager.setItemMoveSpeed(config.getItemMoveSpeed());
+        mLayoutManager.setItemMoveSpeed(config.getItemMoveSpeed() / 2.0f);
         mLayoutManager.setCenterAlpha(config.getCenterAlpha());
         mLayoutManager.setSideAlpha(config.getSideAlpha());
         if (onBannerChangeListener != null)
@@ -323,9 +324,9 @@ public class RxBanner extends FrameLayout {
                 mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
                 addView(mIndicatorView);
             } else {
-                if(config.getIndicatorConfigConfig().getAnimationType() == AnimationType.NUMERIC
-                        || config.getIndicatorConfigConfig().getAnimationType() == AnimationType.NUMERIC_CIRCLE){
-                    IndicatorConfig indicatorConfig = config.getIndicatorConfigConfig();
+                if(config.getIndicatorConfig().getAnimationType() == AnimationType.NUMERIC
+                        || config.getIndicatorConfig().getAnimationType() == AnimationType.NUMERIC_CIRCLE){
+                    IndicatorConfig indicatorConfig = config.getIndicatorConfig();
                     final RxBannerNumericIndicator numericIndicator = new RxBannerNumericIndicator(mContext);
                     numericIndicator.setTotal(mUrls.size());
                     numericIndicator.setSelection(currentPosition);
@@ -353,9 +354,24 @@ public class RxBanner extends FrameLayout {
                     mIndicatorView = numericIndicator;
                     mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_NUMERIC);
                     addView(mIndicatorView);
-                }else {
+                }else if(config.getIndicatorConfig().getAnimationType() == AnimationType.CUSTOM){
+                    final RxBannerCustomIndicator circleIndicator = new RxBannerCustomIndicator(mContext);
+                    circleIndicator.setIndicatorConfig(config.getIndicatorConfig());
+                    circleIndicator.setRecyclerView(mBannerRv);
+                    LayoutParams indicatorLp = new LayoutParams(config.getIndicatorConfig().getWidth(), config.getIndicatorConfig().getHeight());
+                    indicatorLp.gravity = config.getIndicatorConfig().getGravity();
+                    indicatorLp.setMargins(
+                            config.getIndicatorConfig().getMarginStart(),
+                            config.getIndicatorConfig().getMarginTop(),
+                            config.getIndicatorConfig().getMarginEnd(),
+                            config.getIndicatorConfig().getMarginBottom());
+                    circleIndicator.setLayoutParams(indicatorLp);
+                    mIndicatorView = circleIndicator;
+                    mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_CUSTOM);
+                    addView(mIndicatorView);
+                } else {
                     final RxBannerIndicator indicator = new RxBannerIndicator(mContext);
-                    indicator.setIndicatorConfig(config.getIndicatorConfigConfig());
+                    indicator.setIndicatorConfig(config.getIndicatorConfig());
                     indicator.setRecyclerView(mBannerRv);
                     if (indicator.getConfig().isClickable()) {
                         indicator.setClickListener(new DrawController.ClickListener() {
@@ -365,7 +381,7 @@ public class RxBanner extends FrameLayout {
                             }
                         });
                     }
-                    LayoutParams indicatorLp = new LayoutParams(config.getIndicatorConfigConfig().getWidth(), config.getIndicatorConfigConfig().getHeight());
+                    LayoutParams indicatorLp = new LayoutParams(config.getIndicatorConfig().getWidth(), config.getIndicatorConfig().getHeight());
                     indicatorLp.gravity = indicator.getConfig().getGravity();
                     indicatorLp.setMargins(
                             indicator.getConfig().getMarginStart(),
@@ -387,8 +403,8 @@ public class RxBanner extends FrameLayout {
             mAdapter = new RxBannerAdapter(mContext, config.getOrientation(), getPercentSize());
             mAdapter.setLoader(mLoader);
             mAdapter.setDatas(mUrls);
-            if (config.getIndicatorConfigConfig() != null) {
-                config.getIndicatorConfigConfig().setCount(mUrls.size());
+            if (config.getIndicatorConfig() != null) {
+                config.getIndicatorConfig().setCount(mUrls.size());
             }
             if (onBannerClickListener != null) {
                 mAdapter.setRxBannerClickListener(onBannerClickListener);
@@ -416,6 +432,8 @@ public class RxBanner extends FrameLayout {
             ((RxBannerIndicator) mIndicatorView).setSelection(currentPosition);
         if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerNumericIndicator)
             ((RxBannerNumericIndicator) mIndicatorView).setSelection(currentPosition);
+        if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerCustomIndicator)
+            ((RxBannerCustomIndicator) mIndicatorView).setSelection(currentPosition);
         if (mTitleView != null) mTitleView.setSelection(currentPosition);
         if(mLayoutManager != null) mLayoutManager.scrollToPosition(currentPosition);
         reset();
@@ -449,12 +467,6 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    public View getCustomIndicator() {
-        if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)) {
-            return mIndicatorView;
-        }
-        throw new NullPointerException("please set a custom indicator view before get it");
-    }
 
     public RxBannerIndicator getDefaultIndicator() {
         if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_DEFAULT)) {
@@ -466,6 +478,14 @@ public class RxBanner extends FrameLayout {
     public RxBannerNumericIndicator getNumericIndicator() {
         if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_NUMERIC)) {
             return (RxBannerNumericIndicator) mIndicatorView;
+        }
+        throw new NullPointerException("please check rb_indicator_viable or rb_indicator_animationType attribute in xml");
+    }
+
+
+    public RxBannerCustomIndicator getCustomIndicator() {
+        if (mIndicatorView != null && mIndicatorView.getTag().toString().equals(RxBannerConstants.TAG_INDICATOR_CUSTOM)) {
+            return (RxBannerCustomIndicator) mIndicatorView;
         }
         throw new NullPointerException("please check rb_indicator_viable or rb_indicator_animationType attribute in xml");
     }
@@ -737,11 +757,6 @@ public class RxBanner extends FrameLayout {
         }
     }
 
-    public RxBanner setCustomIndicator(View indicatorView) {
-        this.mIndicatorView = indicatorView;
-        return this;
-    }
-
     public boolean isAutoPlay() {
         return config.isAutoPlay();
     }
@@ -778,6 +793,9 @@ public class RxBanner extends FrameLayout {
                 ((RxBannerIndicator) mIndicatorView).setSelection(position);
             if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerNumericIndicator)
                 ((RxBannerNumericIndicator) mIndicatorView).setSelection(position);
+
+            if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerCustomIndicator)
+                ((RxBannerCustomIndicator) mIndicatorView).setSelection(position);
             if (mTitleView != null) mTitleView.setSelection(position);
             this.currentPosition = position;
             reset();

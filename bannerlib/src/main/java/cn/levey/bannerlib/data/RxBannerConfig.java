@@ -24,7 +24,7 @@ public class RxBannerConfig implements Serializable {
     private float flingDamping = 1.0f;
     private int timeInterval = RxBannerGlobalConfig.getInstance().getTimeInterval();
     private int itemPercent = 100;
-    private float itemMoveSpeed = 0.5f;
+    private float itemMoveSpeed = 1f;
     private float centerAlpha = 1.0f;
     private float sideAlpha = 1.0f;
     private int itemSpace = 0;
@@ -53,7 +53,7 @@ public class RxBannerConfig implements Serializable {
     private int titleBackgroundResource = Integer.MAX_VALUE;
     private boolean titleMarquee = true;
     private boolean indicatorVisible = true;
-    private IndicatorConfig indicatorConfigConfig = new IndicatorConfig();
+    private IndicatorConfig indicatorConfig = new IndicatorConfig();
     private int emptyViewResource = 0;
     private String emptyViewText = "";
 
@@ -62,8 +62,8 @@ public class RxBannerConfig implements Serializable {
     }
 
     public void setFlingDamping(float flingDamping) {
-        if (flingDamping <= 0)
-            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": flingDamping should be greater than 0");
+        if (flingDamping < 1f || flingDamping > 20f)
+            throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": flingDamping should be greater than 0 and less than 20");
         this.flingDamping = flingDamping;
     }
 
@@ -110,12 +110,12 @@ public class RxBannerConfig implements Serializable {
         this.indicatorVisible = indicatorVisible;
     }
 
-    public IndicatorConfig getIndicatorConfigConfig() {
-        return indicatorConfigConfig;
+    public IndicatorConfig getIndicatorConfig() {
+        return indicatorConfig;
     }
 
-    public void setIndicatorConfigConfig(IndicatorConfig indicatorConfigConfig) {
-        this.indicatorConfigConfig = indicatorConfigConfig;
+    public void setIndicatorConfig(IndicatorConfig indicatorConfig) {
+        this.indicatorConfig = indicatorConfig;
     }
 
     public boolean isAutoPlay() {

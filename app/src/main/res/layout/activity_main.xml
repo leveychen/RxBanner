@@ -17,6 +17,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sample"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:text="DEFAULT"
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
                 <Button
@@ -40,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="SCALE"
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
                 <Button
@@ -50,25 +59,8 @@
                     android:layout_height="wrap_content"
                     android:text="GUIDE"
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
-
-                <Button
-                    android:id="@+id/about"
-                    style="@style/Banner_Button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="ABOUT"
-                    android:textAllCaps="false"
-                    />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/default_custom"
@@ -78,11 +70,11 @@
                     android:layout_height="wrap_content"
                     android:text="CUSTOM"
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
-
-
             </LinearLayout>
+
 
 
             <TextView
@@ -107,7 +99,8 @@
                     android:gravity="center_vertical|end"
                     android:tag=""
                     android:checked="true"
-                    android:layout_margin="3dp"/>
+                    android:layout_margin="3dp"
+                    android:textSize="12sp"/>
                 <Switch
                     android:id="@+id/infinite"
                     android:layout_width="0dp"
@@ -117,7 +110,8 @@
                     android:gravity="center_vertical|end"
                     android:tag=""
                     android:checked="true"
-                    android:layout_margin="3dp"/>
+                    android:layout_margin="3dp"
+                    android:textSize="12sp"/>
 
                 <Switch
                     android:id="@+id/canSwipe"
@@ -128,7 +122,8 @@
                     android:gravity="center_vertical|end"
                     android:tag=""
                     android:checked="true"
-                    android:layout_margin="3dp"/>
+                    android:layout_margin="3dp"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -145,7 +140,8 @@
                     android:layout_height="wrap_content"
                     android:text="Image: "
                     android:tag="Image: "
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textSize="12sp"/>
 
                 <Button
                     android:id="@+id/time_interval"
@@ -155,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:text="interval: 5000"
                     android:tag="interval: "
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -175,6 +172,7 @@
                     android:text="orientation: horizontal"
                     android:tag="orientation: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
                 <Button
@@ -186,6 +184,7 @@
                     android:text="orderType: asc"
                     android:tag="orderType: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>
@@ -205,6 +204,7 @@
                     android:text="itemPercent: 100"
                     android:tag="itemPercent: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
                 <Button
@@ -216,6 +216,7 @@
                     android:text="itemScale: 1.0"
                     android:tag="itemScale: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>
@@ -235,6 +236,7 @@
                     android:text="itemSpace: 0"
                     android:tag="itemSpace: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
 
@@ -247,6 +249,7 @@
                     android:text="sideAlpha: 1.0"
                     android:tag="sideAlpha: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>
@@ -281,7 +284,8 @@
                     android:checked="true"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:textSize="12sp"/>
 
                 <Button
                     android:id="@+id/global_color"
@@ -291,6 +295,7 @@
                     android:text="Global Color"
                     android:tag="Global Color"
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>
@@ -305,6 +310,7 @@
                 android:text="titleGravity: start"
                 android:tag="titleGravity: "
                 android:textAllCaps="false"
+                android:textSize="12sp"
                 />
 
             <Button
@@ -315,6 +321,7 @@
                 android:text="titleLayoutGravity: bottom | center_horizontal"
                 android:tag="titleLayoutGravity: "
                 android:textAllCaps="false"
+                android:textSize="12sp"
                 />
 
             <View
@@ -345,7 +352,8 @@
                     android:checked="true"
                     android:padding="10dp"
                     android:paddingRight="10dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:textSize="12sp"/>
 
 
                 <Button
@@ -356,6 +364,7 @@
                     android:text="animationType: "
                     android:tag="animationType: "
                     android:textAllCaps="false"
+                    android:textSize="12sp"
                     />
 
 
@@ -369,6 +378,7 @@
                 android:text="indicatorLayoutGravity: bottom | end"
                 android:tag="indicatorLayoutGravity: "
                 android:textAllCaps="false"
+                android:textSize="12sp"
                 />
 
 
@@ -400,7 +410,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="4"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textSize="12sp"/>
 
             <Button
                 android:id="@+id/btn_create"
@@ -410,11 +421,29 @@
                 android:layout_gravity="center"
                 android:text="START"
                 android:textAllCaps="false"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:textSize="12sp"/>
 
 
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/about"
+            style="@style/Banner_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ABOUT"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            />
 
 
 
