@@ -93,6 +93,8 @@ you `MUST` set `config`  before `setDatas()` and `start()`
     banner.setOnBannerChangeListener(new RxBannerChangeListener())
         onBannerSelected(int position)
         onBannerScrollStateChanged(int state)
+
+    banner.setOnGuideFinishedListener(new RxBannerGuideFinishedListener()
         onGuideFinished()
 ````
 
@@ -124,9 +126,14 @@ just custom layout
 
 [activity_guide.xml](https://github.com/leveychen/RxBanner/blob/master/app/src/main/res/layout/activity_guide.xml)
 
+for better performance
+````xml
+    banner:rb_infinite="false"
+    banner:rb_autoPlay="false"
+````
 then
 ````java
-    banner.setOnBannerChangeListener(new RxBannerChangeListener())
+    banner.setOnGuideFinishedListener(new RxBannerGuideFinishedListener()
         onGuideFinished()
         // todo
 ````
@@ -139,7 +146,7 @@ All the `rb_` attributes here are specific for RxBanner
 |Attributes|format|default|description
 |---|---|---|---|
 |rb_autoPlay|boolean|true|auto play with `rb_timeInterval` delay
-|rb_infinite|boolean|true|infinite loop, if `false` will call `onGuideFinished`
+|rb_infinite|boolean|true|infinite loop, if `false`
 |rb_canSwipe|boolean|true| can swipe manually or not
 |rb_canSwipeWhenSingle|boolean|true|can swipe manually or not when only one image
 |rb_aspectRatio|float|/| should be greater than 0, `android:layout_height` NOT be `wrap_content` or `match_parent`. recommend `1dp`
@@ -182,7 +189,7 @@ All the `rb_` attributes here are specific for RxBanner
 |Attributes|format|default|description
 |---|---|---|---|
 |rb_indicator_visible|boolean|true| view visibility
-|rb_indicator_clickable|boolean|true| clicke position to change banner selection
+|rb_indicator_clickable|boolean|true| click position to change banner selection
 |rb_indicator_orientation|horizontal / vertical|horizontal|layout orientation
 |rb_indicator_layout_gravity|gravity|BOTTOM / END|layout gravity
 |rb_indicator_radius|dimension|5dp|indicator radius
