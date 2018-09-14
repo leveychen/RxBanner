@@ -48,6 +48,15 @@ public class ScaleLayoutManager extends ViewPagerLayoutManager {
         this.sideAlpha = sideAlpha;
     }
 
+    public boolean isCanSwipeWhenSingle() {
+        return super.isCanSwipeWhenSingle();
+    }
+
+    public void setCanSwipeWhenSingle(boolean canSwipeWhenSingle) {
+        super.setCanSwipeWhenSingle(canSwipeWhenSingle);
+    }
+
+
     public int getItemSpace() {
         return itemSpace;
     }

@@ -183,7 +183,7 @@ public class RxBannerCustomIndicator extends LinearLayout implements RxBannerInd
 
         removeAllViews();
         int count = getRecyclerViewCount();
-        if (count <= 0) {
+        if (count <= 1) {
             setVisibility(GONE);
             return;
         }

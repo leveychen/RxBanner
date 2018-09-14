@@ -8,5 +8,4 @@ package cn.levey.bannerlib.impl;
 public interface RxBannerChangeListener {
      void onBannerSelected(int position);
      void onBannerScrollStateChanged(int state);
-     void onGuideFinished();
 }

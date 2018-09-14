@@ -39,12 +39,13 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
      * may keep calling itself because the accuracy of float
      */
     private boolean snapToCenter = true;
+    private boolean mScrolled = false;
 
     // Handles the snap on scroll case.
     private final RecyclerView.OnScrollListener mScrollListener =
             new RecyclerView.OnScrollListener() {
 
-                boolean mScrolled = false;
+
 
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -62,7 +63,6 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                     }
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && mScrolled) {
                         mScrolled = false;
-                        layoutManager.isScrollEnabled = true;
                         if (!snapToCenter) {
                             snapToCenter = true;
                             snapToCenterView(layoutManager, changeListener);
@@ -79,6 +79,7 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     if (dx != 0 || dy != 0) {
                         mScrolled = true;
+                        snapToCenter = false;
                     }
                 }
             };
@@ -143,6 +144,8 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
             // set it false to make smoothScrollToPosition keep trigger the listener
             snapToCenter = false;
         }
+
+        currentPosition = layoutManager.getCurrentPosition();
     }
 
     /**
@@ -164,6 +167,12 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
         mRecyclerView.setOnFlingListener(null);
     }
 
+    private int currentPosition = 0; //记录当前位置,防止一次滑动多个item
+
+
+    public void setCurrentPosition(int currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 
     @Override
     public boolean onFling(int velocityX, int velocityY) {
@@ -185,32 +194,25 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 mGravityScroller.fling(0, 0, velocityX, velocityY,
                         Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                        && Math.abs(velocityY) > minFlingVelocity * flingDamping) {
-                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
-                        layoutManager.getRxBannerChangeListener().onGuideFinished();
+                        && Math.abs(velocityY) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerGuideFinishedListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
+                        layoutManager.getRxBannerGuideFinishedListener().onGuideFinished();
                     }
                 }else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                        && Math.abs(velocityX) > minFlingVelocity * flingDamping) {
-                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
-                        layoutManager.getRxBannerChangeListener().onGuideFinished();
+                        && Math.abs(velocityX) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerGuideFinishedListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
+                        layoutManager.getRxBannerGuideFinishedListener().onGuideFinished();
                     }
-                }else {
-                    final int cp = layoutManager.getCurrentPosition();
-                    mRecyclerView.smoothScrollToPosition(cp);
-
-                    if(layoutManager.getRxBannerIndicatorChangeListener() != null)
-                        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-                    if(layoutManager.getRxBannerTitleChangeListener() != null)
-                        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 }
+                return false;
             }
 
             final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
             mGravityScroller.fling(0, 0, velocityX, velocityY,
                     Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
             if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                    && Math.abs(velocityY) > minFlingVelocity * flingDamping) {
-                final int currentPosition = layoutManager.getCurrentPositionOffset();
+                    && Math.abs(velocityY) > minFlingVelocity) {
+                final int currentPosition = layoutManager.getCurrentPosition();
                 final int offsetPosition = (int) (mGravityScroller.getFinalY() /
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
                 int cp = layoutManager.getReverseLayout() ?
@@ -223,22 +225,13 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                     layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                    && Math.abs(velocityX) > minFlingVelocity * flingDamping) {
-                final int currentPosition = layoutManager.getCurrentPositionOffset();
+                    && Math.abs(velocityX) > minFlingVelocity) {
+                final int currentPosition = layoutManager.getCurrentPosition();
                 final int offsetPosition = (int) (mGravityScroller.getFinalX() /
                         layoutManager.mInterval / layoutManager.getDistanceRatio());
                 int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
                 if (cp == layoutManager.getItemCount()) cp = 0;
                 mRecyclerView.smoothScrollToPosition(cp);
-                if(layoutManager.getRxBannerIndicatorChangeListener() != null)
-                    layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-                if(layoutManager.getRxBannerTitleChangeListener() != null)
-                    layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
-                return true;
-            }else {
-                final int cp = layoutManager.getCurrentPosition();
-                mRecyclerView.smoothScrollToPosition(cp);
-
                 if(layoutManager.getRxBannerIndicatorChangeListener() != null)
                     layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
                 if(layoutManager.getRxBannerTitleChangeListener() != null)
@@ -255,91 +248,121 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
                 return false;
             }
 
-            if (!layoutManager.isInfinite() &&
-                    (layoutManager.mOffset == layoutManager.getMaxOffset()
-                            || layoutManager.mOffset == layoutManager.getMinOffset())) {
+            if (!layoutManager.isInfinite() && (layoutManager.mOffset == layoutManager.getMaxOffset() || layoutManager.mOffset == layoutManager.getMinOffset())) {
                 final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
                 mGravityScroller.fling(0, 0, velocityX, velocityY,
                         Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                        && Math.abs(velocityY) > minFlingVelocity * flingDamping) {
-                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
-                        layoutManager.getRxBannerChangeListener().onGuideFinished();
+                        && Math.abs(velocityY) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerGuideFinishedListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
+                        layoutManager.getRxBannerGuideFinishedListener().onGuideFinished();
                     }
                 }else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
-                        && Math.abs(velocityX) > minFlingVelocity * flingDamping) {
-                    if(layoutManager.getRxBannerChangeListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
-                        layoutManager.getRxBannerChangeListener().onGuideFinished();
+                        && Math.abs(velocityX) > minFlingVelocity) {
+                    if(layoutManager.getRxBannerGuideFinishedListener() != null && layoutManager.mOffset == layoutManager.getMaxOffset()) {
+                        layoutManager.getRxBannerGuideFinishedListener().onGuideFinished();
                     }
-                }else {
-                    final int cp = layoutManager.getCurrentPosition();
-                    mRecyclerView.smoothScrollToPosition(cp);
-
-                    if(layoutManager.getRxBannerIndicatorChangeListener() != null)
-                        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
-                    if(layoutManager.getRxBannerTitleChangeListener() != null)
-                        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
                 }
+                return false;
             }
+
+
+
             final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-
-
-
-
             mGravityScroller.fling(0, 0, velocityX, velocityY,Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
             if (layoutManager.mOrientation == ViewPagerLayoutManager.VERTICAL
-                    && Math.abs(velocityY) > minFlingVelocity * flingDamping && Math.abs(mGravityScroller.getFinalY()) > minFlingVelocity * flingDamping) {
-                final int currentPosition = layoutManager.getCurrentPosition();
-//                final int offsetPosition = mGravityScroller.getFinalY() * layoutManager.getDistanceRatio() > interval ? 1 : 0;
-//                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
+                    && Math.abs(velocityY) > minFlingVelocity * flingDamping&& Math.abs(mGravityScroller.getFinalY()) > minFlingVelocity * flingDamping) {
+            //    final int currentPosition = layoutManager.getCurrentPosition();
+                final int offsetPosition = mGravityScroller.getFinalY() > 0 ? 1 : -1;
+                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
 
-                int offsetPosition = mGravityScroller.getFinalY() > 0 ? 1 : -1;
-                int cp = currentPosition + offsetPosition;
+                if(layoutManager.getRxBannerGuideFinishedListener() != null && cp == layoutManager.getItemCount()){
+                    layoutManager.getRxBannerGuideFinishedListener().onGuideFinished();
+                    mRecyclerView.smoothScrollToPosition(currentPosition);
+                    if(layoutManager.getRxBannerIndicatorChangeListener() != null)
+                        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(currentPosition);
+                    if(layoutManager.getRxBannerTitleChangeListener() != null)
+                        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(currentPosition);
+                    return true;
+                }
+                if(layoutManager.getRxBannerGuideFinishedListener() != null && cp == -1){
+                    cp = 0;
+                }
+
+                if(!layoutManager.isInfinite() && cp == layoutManager.getItemCount()){
+                    cp = layoutManager.getItemCount() - 1;
+                }
+
+                if(!layoutManager.isInfinite() && cp == -1){
+                    cp = 0;
+                }
+
                 if (cp == layoutManager.getItemCount()) cp = 0;
+                if(cp == -1 ) cp = layoutManager.getItemCount() - 1;
                 mRecyclerView.smoothScrollToPosition(cp);
                 if(layoutManager.getRxBannerIndicatorChangeListener() != null)
                     layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
                 if(layoutManager.getRxBannerTitleChangeListener() != null)
                     layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                currentPosition = cp;
                 return true;
             } else if (layoutManager.mOrientation == ViewPagerLayoutManager.HORIZONTAL
                     && Math.abs(velocityX) > minFlingVelocity * flingDamping && Math.abs(mGravityScroller.getFinalX()) > minFlingVelocity * flingDamping) {
-                final int currentPosition = layoutManager.getCurrentPosition();
+             //   final int currentPosition = layoutManager.getCurrentPosition();
+                final int offsetPosition = mGravityScroller.getFinalX() > 0 ? 1 : -1;
+                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
 
-//                int offsetPosition = Math.abs(mGravityScroller.getFinalX()) * layoutManager.getDistanceRatio() > interval ? 1 : 0;
-                int offsetPosition = mGravityScroller.getFinalX() > 0 ? 1 : -1;
+                if(layoutManager.getRxBannerGuideFinishedListener() != null && cp == layoutManager.getItemCount()){
+                    layoutManager.getRxBannerGuideFinishedListener().onGuideFinished();
+                    mRecyclerView.smoothScrollToPosition(currentPosition);
+                    if(layoutManager.getRxBannerIndicatorChangeListener() != null)
+                        layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(currentPosition);
+                    if(layoutManager.getRxBannerTitleChangeListener() != null)
+                        layoutManager.getRxBannerTitleChangeListener().onBannerSelected(currentPosition);
+                    return true;
+                }
 
-//                final int offsetPosition = Math.abs(mGravityScroller.getFinalX()) > minFlingVelocity ? 1 : 0;
-//                int cp = layoutManager.getReverseLayout() ? currentPosition - offsetPosition : currentPosition + offsetPosition;
 
-                int cp = currentPosition + offsetPosition;
+                if(layoutManager.getRxBannerGuideFinishedListener() != null && cp == -1){
+                    cp = 0;
+                }
+
+                if(!layoutManager.isInfinite() && cp == layoutManager.getItemCount()){
+                    cp = layoutManager.getItemCount() - 1;
+                }
+
+                if(!layoutManager.isInfinite() && cp == -1){
+                    cp = 0;
+                }
+
+
                 if (cp == layoutManager.getItemCount()) cp = 0;
-
+                if(cp == -1 ) cp = layoutManager.getItemCount() - 1;
                 mRecyclerView.smoothScrollToPosition(cp);
-
                 if(layoutManager.getRxBannerIndicatorChangeListener() != null)
-                layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
+                    layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
                 if(layoutManager.getRxBannerTitleChangeListener() != null)
-                layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                    layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+
+                currentPosition = cp;
                 return true;
             }else {
                 final int cp = layoutManager.getCurrentPosition();
                 mRecyclerView.smoothScrollToPosition(cp);
-
                 if(layoutManager.getRxBannerIndicatorChangeListener() != null)
                     layoutManager.getRxBannerIndicatorChangeListener().onBannerSelected(cp);
                 if(layoutManager.getRxBannerTitleChangeListener() != null)
                     layoutManager.getRxBannerTitleChangeListener().onBannerSelected(cp);
+                currentPosition = cp;
                 return true;
-
             }
         }
+        return false;
     }
+
 
 
     public void setFlingDamping(float flingDamping){
         this.flingDamping = flingDamping;
     }
-
-
 }

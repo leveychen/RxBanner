@@ -12,7 +12,9 @@ import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
 
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
+import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 
@@ -45,12 +47,21 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
     protected int mDecoratedMeasurement;
 
     protected int mDecoratedMeasurementInOther;
-    public boolean isScrollEnabled = true;
+    private boolean isScrollEnabled = true;
+    private boolean canSwipeWhenSingle = true;
 
+    public boolean isCanSwipeWhenSingle() {
+        return canSwipeWhenSingle;
+    }
+
+    public void setCanSwipeWhenSingle(boolean canSwipeWhenSingle) {
+        this.canSwipeWhenSingle = canSwipeWhenSingle;
+    }
 
     private RxBannerIndicatorChangeListener rxBannerIndicatorChangeListener;
     private RxBannerChangeListener rxBannerChangeListener;
     private RxBannerTitleChangeListener rxBannerTitleChangeListener;
+    private RxBannerGuideFinishedListener rxBannerGuideFinishedListener;
 
 
     public RxBannerIndicatorChangeListener getRxBannerIndicatorChangeListener() {
@@ -75,6 +86,16 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
 
     public void setRxBannerChangeListener(RxBannerChangeListener rxBannerChangeListener) {
         this.rxBannerChangeListener = rxBannerChangeListener;
+    }
+
+    public RxBannerGuideFinishedListener getRxBannerGuideFinishedListener() {
+        return rxBannerGuideFinishedListener;
+    }
+
+    public void setRxBannerGuideFinishedListener(RxBannerGuideFinishedListener rxBannerGuideFinishedListener) {
+
+        RxBannerLogger.i(" setRxBannerGuideFinishedListener ");
+        this.rxBannerGuideFinishedListener = rxBannerGuideFinishedListener;
     }
 
     /**
@@ -258,6 +279,10 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public boolean canScrollHorizontally() {
+        if(!isCanSwipeWhenSingle() && getItemCount() <= 1){
+            scrollToPosition(0);  //回滚至0，防止错位
+            return isCanSwipeWhenSingle() && isScrollEnabled && mOrientation == HORIZONTAL;
+        }
         return isScrollEnabled && mOrientation == HORIZONTAL;
     }
 
@@ -266,6 +291,10 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
      */
     @Override
     public boolean canScrollVertically() {
+        if(!isCanSwipeWhenSingle() && getItemCount() <= 1 ){
+            scrollToPosition(0);//回滚至0，防止错位
+            return isCanSwipeWhenSingle() && isScrollEnabled && mOrientation == VERTICAL;
+        }
         return isScrollEnabled && mOrientation == VERTICAL;
     }
 
@@ -486,6 +515,7 @@ public abstract class ViewPagerLayoutManager extends LinearLayoutManager {
         }
         return true;
     }
+
 
     @Override
     public View onFocusSearchFailed(View focused, int focusDirection, RecyclerView.Recycler recycler, RecyclerView.State state) {

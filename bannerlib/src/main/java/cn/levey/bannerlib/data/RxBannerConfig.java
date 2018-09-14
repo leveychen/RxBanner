@@ -20,8 +20,10 @@ public class RxBannerConfig implements Serializable {
     private boolean canSwipe = true;
     private boolean autoPlay = true;
     private boolean infinite = true;
+    private boolean guideMode = true;
     private float itemScale = 1.0f;
     private float flingDamping = 1.0f;
+    private boolean canSwipeWhenSingle = true;
     private int timeInterval = RxBannerGlobalConfig.getInstance().getTimeInterval();
     private int itemPercent = 100;
     private float itemMoveSpeed = 1f;
@@ -57,12 +59,28 @@ public class RxBannerConfig implements Serializable {
     private int emptyViewResource = 0;
     private String emptyViewText = "";
 
+    public boolean isCanSwipeWhenSingle() {
+        return canSwipeWhenSingle;
+    }
+
+    public void setCanSwipeWhenSingle(boolean canSwipeWhenSingle) {
+        this.canSwipeWhenSingle = canSwipeWhenSingle;
+    }
+
+    public boolean isGuideMode() {
+        return guideMode;
+    }
+
+    public void setGuideMode(boolean guideMode) {
+        this.guideMode = guideMode;
+    }
+
     public float getFlingDamping() {
         return flingDamping;
     }
 
     public void setFlingDamping(float flingDamping) {
-        if (flingDamping < 1f || flingDamping > 20f)
+        if (flingDamping < 1.0f || flingDamping > 20.0f)
             throw new IllegalArgumentException(RxBannerLogger.LOGGER_TAG + ": flingDamping should be greater than 0 and less than 20");
         this.flingDamping = flingDamping;
     }

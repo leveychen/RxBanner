@@ -10,6 +10,8 @@
 
 
 ## 更新日志
+### 1.1.2
+1.新增单张图片时可否滑动设置 'rb_canSwipeWhenSingle', 仅单张图片时有效
 ### 1.1.1
 1.新增滑动阻尼设置 `rb_flingDamping`, 阻尼越大滑动越困难,默认为RecyclerView标准最小滑动值. 修复 [issues #2](https://github.com/leveychen/RxBanner/issues/2)
 
@@ -19,7 +21,7 @@
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.0/rxbanner_v1.1.0_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.0/rxbanner_v1.1.2_demo.apk)
 
 
 ## 预览
@@ -43,7 +45,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.1'
+    implementation 'com.github.leveychen:RxBanner:1.1.2'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -152,6 +154,7 @@ setConfig() 必须在 `setDatas()` 和 `start()` 之前设置。
 |rb_autoPlay|boolean|true|以 `rb_timeInterval` 的间隔自动播放
 |rb_infinite|boolean|true|是否无限循环,关闭无限循环就是 `引导页` ,了解一下
 |rb_canSwipe|boolean|true|是否允许手动滑动，此设置与自动轮播无关
+|rb_canSwipeWhenSingle|boolean|true|单张图片时是否能手动滑动,此设置与自动轮播无关
 |rb_aspectRatio|float|/| 宽高比，数值必须大于0，拿16:9为例就是1.7778，高度等于宽度则为1，同时 `android:layout_height` 不能为 `wrap_content` 或者 `match_parent`。需要随便定义一个数值， 比如 `1dp`。当 `orientation = vertical` 且在`ScrollView`中时，高度不推荐大于父容器，否则可能滑动被拦截，导致且在`ScrollView`中时无法滑动
 |rb_timeInterval|integer (`millisecond`)|5000| 200毫秒以上
 |rb_orientation|horizontal / vertical|horizontal| /

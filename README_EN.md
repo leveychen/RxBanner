@@ -9,7 +9,7 @@ Flexible banner base on RecyclerView
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.0/rxbanner_v1.1.0_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.2/rxbanner_v1.1.2_demo.apk)
 
 
 
@@ -35,7 +35,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.1'
+    implementation 'com.github.leveychen:RxBanner:1.1.2'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
@@ -141,6 +141,7 @@ All the `rb_` attributes here are specific for RxBanner
 |rb_autoPlay|boolean|true|auto play with `rb_timeInterval` delay
 |rb_infinite|boolean|true|infinite loop, if `false` will call `onGuideFinished`
 |rb_canSwipe|boolean|true| can swipe manually or not
+|rb_canSwipeWhenSingle|boolean|true|can swipe manually or not when only one image
 |rb_aspectRatio|float|/| should be greater than 0, `android:layout_height` NOT be `wrap_content` or `match_parent`. recommend `1dp`
 |rb_timeInterval|integer (`millisecond`)|5000| for better performance, `rb_timeInterval` should be greater than 200 millisecond
 |rb_orientation|horizontal / vertical|horizontal|layout orientation

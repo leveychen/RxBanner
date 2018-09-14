@@ -11,14 +11,18 @@ import java.util.Random;
 
 public class FakeData {
 
+    private static int time = 0;
 
     public static List<String> FAKE_DATA(){
         List<String> list = new ArrayList<>();
-        final int size = (int)Math.round(Math.random()* 10 + 2);
+//        final int size = (int)Math.round(Math.random()* 10 + 1);
+        final int size = time == 5 ? 1 : (int)Math.round(Math.random()* 10 + 1);
         int[] rd = getRandom(FAKE_IMAGES.length - 1);
         for (int i = 0; i < size; i++) {
             list.add(FAKE_IMAGES[rd[i]]);
         }
+        time = time + 1;
+        if(time > 5) time = 0;
         return list;
     }
 

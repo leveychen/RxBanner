@@ -10,8 +10,10 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
+import cn.levey.bannerlib.data.RxBannerConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.FakeData;
 import cn.levey.rxbanner.fake.Sys;
@@ -47,6 +49,7 @@ public class GuideActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_GUIDE));
 
+
         banner.setOnBannerClickListener(new RxBannerClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
@@ -62,23 +65,11 @@ public class GuideActivity extends AppCompatActivity {
 
         banner.setLoader(new PicassoLoader())
                 .setDatas(list) // no title
-                .setOnBannerChangeListener(new RxBannerChangeListener() {
-
-                    @Override
-                    public void onBannerSelected(int position) {
-
-                    }
-
-                    @Override
-                    public void onBannerScrollStateChanged(int state) {
-
-                    }
-
+                .setOnGuideFinishedListener(new RxBannerGuideFinishedListener() {
                     @Override
                     public void onGuideFinished() {
                         Sys.toast(getApplicationContext(), "Guide Finished");
                         finish();
-
                     }
                 })
                 .start();

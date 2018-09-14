@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.DemoConfig;
@@ -94,6 +95,13 @@ public class DemoActivity extends AppCompatActivity {
 
         // disable marquee to support html tag
         config.setTitleMarquee(false);
+//        config.setFlingDamping(20f);
+//        config.setItemMoveSpeed(0.1f);
+//        config.setViewPaperMode(false);
+
+//        config.setCanSwipe(false);
+
+//        config.setCanSwipeWhenSingle(false);
 
         for (int i = 0; i < images.size(); i++) {
             // html tag text
@@ -108,10 +116,10 @@ public class DemoActivity extends AppCompatActivity {
 
 
 //        RxBannerConfig config = banner.getConfig();
-////        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
-////        config.getIndicatorConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
-////        config.setAutoPlay(false);
-////        config.setInfinite(true);
+//        config.setTitleColorResource(getApplicationContext(),R.color.colorPrimary);
+//        config.getIndicatorConfig().setSelectedColorResource(getApplicationContext(),R.color.colorAccent);
+//        config.setAutoPlay(false);
+//        config.setInfinite(true);
 //        banner.setConfig(config);
         
 //        config.setTimeInterval(50000);
@@ -149,11 +157,6 @@ public class DemoActivity extends AppCompatActivity {
 
                     @Override
                     public void onBannerScrollStateChanged(int state) {
-
-                    }
-
-                    @Override
-                    public void onGuideFinished() {
 
                     }
                 })

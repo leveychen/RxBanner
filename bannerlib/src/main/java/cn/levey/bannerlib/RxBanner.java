@@ -28,6 +28,7 @@ import cn.levey.bannerlib.data.RxBannerConfig;
 import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
 import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
@@ -63,6 +64,7 @@ public class RxBanner extends FrameLayout {
     private RxBannerChangeListener onBannerChangeListener;
     private RxBannerLoaderInterface mLoader;
     private RxBannerTitleClickListener onBannerTitleClickListener;
+    private RxBannerGuideFinishedListener onGuideFinishedListener;
     private RecyclerView.ItemAnimator itemAnimator;
     private boolean needStart = false;
     private View mIndicatorView;
@@ -79,6 +81,7 @@ public class RxBanner extends FrameLayout {
     public RxBanner setConfig(RxBannerConfig config) {
         this.config = config;
         if(mBannerRv != null)  mBannerRv.setFlingDamping(config.getFlingDamping());
+        if(mLayoutManager != null)  mLayoutManager.setCanSwipeWhenSingle(config.isCanSwipeWhenSingle());
         return this;
     }
 
@@ -100,6 +103,7 @@ public class RxBanner extends FrameLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RxBanner);
         config.setAspectRatio(typedArray.getFloat(R.styleable.RxBanner_rb_aspectRatio, config.getAspectRatio()));
         config.setCanSwipe(typedArray.getBoolean(R.styleable.RxBanner_rb_canSwipe, config.isCanSwipe()));
+        config.setCanSwipeWhenSingle(typedArray.getBoolean(R.styleable.RxBanner_rb_canSwipeWhenSingle, config.isCanSwipeWhenSingle()));
         config.setOrientation(typedArray.getInt(R.styleable.RxBanner_rb_orientation, config.getOrientation()));
         config.setViewPaperMode(typedArray.getBoolean(R.styleable.RxBanner_rb_viewPaperMode, config.isViewPaperMode()));
         config.setInfinite(typedArray.getBoolean(R.styleable.RxBanner_rb_infinite, config.isInfinite()));
@@ -250,8 +254,12 @@ public class RxBanner extends FrameLayout {
         mLayoutManager.setItemMoveSpeed(config.getItemMoveSpeed() / 2.0f);
         mLayoutManager.setCenterAlpha(config.getCenterAlpha());
         mLayoutManager.setSideAlpha(config.getSideAlpha());
+        mLayoutManager.setCanSwipeWhenSingle(config.isCanSwipeWhenSingle());
         if (onBannerChangeListener != null)
             mLayoutManager.setRxBannerChangeListener(onBannerChangeListener);
+        if (onGuideFinishedListener != null)
+            mLayoutManager.setRxBannerGuideFinishedListener(onGuideFinishedListener);
+
         mLayoutManager.setRxBannerTitleChangeListener(new RxBannerTitleChangeListener() {
             @Override
             public void onBannerSelected(int position) {
@@ -534,6 +542,7 @@ public class RxBanner extends FrameLayout {
                 currentPosition = 0;
                 setCurrentPosition(0);
             }
+
         } else {
             pause();
             this.mUrls.clear();
@@ -681,6 +690,14 @@ public class RxBanner extends FrameLayout {
         }
     }
 
+
+    public RxBanner setOnGuideFinishedListener(RxBannerGuideFinishedListener onGuideFinishedListener) {
+        if (onGuideFinishedListener != null && mLayoutManager != null)
+            mLayoutManager.setRxBannerGuideFinishedListener(onGuideFinishedListener);
+        this.onGuideFinishedListener = onGuideFinishedListener;
+        return this;
+    }
+
     public RxBanner setOnBannerTitleClickListener(final RxBannerTitleClickListener onTitleClickListener) {
 
         if (onTitleClickListener != null && mTitleView != null) {
@@ -772,7 +789,17 @@ public class RxBanner extends FrameLayout {
 
 
     public RxBanner setCurrentPosition(int position) {
+
+        if(onGuideFinishedListener != null && mLayoutManager != null && position == mLayoutManager.getItemCount()){
+            onGuideFinishedListener.onGuideFinished();
+            return this;
+        }
+        if(onGuideFinishedListener != null && mLayoutManager != null && position == -1){
+            return this;
+        }
+
         this.currentPosition = position;
+
         if (mBannerRv != null && mAdapter != null && mLayoutManager != null && !mAdapter.getDatas().isEmpty()) {
             if (mLayoutManager.isInfinite()) {
                 if (position == mUrls.size()) position = 0;
@@ -787,6 +814,8 @@ public class RxBanner extends FrameLayout {
                 if (position == mUrls.size()) position = 0;
                 //  if(position == -1 ) position = 0;
             }
+
+
             mBannerRv.smoothScrollToPosition(position);
 //            ScrollHelper.smoothScrollToPosition(mBannerRv,mLayoutManager,position);
             if (mIndicatorView != null && mIndicatorView.getVisibility() == VISIBLE && mIndicatorView instanceof RxBannerIndicator)
@@ -798,6 +827,7 @@ public class RxBanner extends FrameLayout {
                 ((RxBannerCustomIndicator) mIndicatorView).setSelection(position);
             if (mTitleView != null) mTitleView.setSelection(position);
             this.currentPosition = position;
+            mBannerRv.setCurrentPosition(currentPosition);
             reset();
         }else {
             RxBannerLogger.i(" setCurrentPosition INIT  = " + position);

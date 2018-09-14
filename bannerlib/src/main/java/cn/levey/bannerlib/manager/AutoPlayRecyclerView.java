@@ -40,6 +40,14 @@ public class AutoPlayRecyclerView extends RecyclerView {
     }
 
 
+    public void setCurrentPosition(int currentPosition) {
+        if(autoPlaySnapHelper !=  null){
+            autoPlaySnapHelper.setCurrentPosition(currentPosition);
+        }
+    }
+
+
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
 
