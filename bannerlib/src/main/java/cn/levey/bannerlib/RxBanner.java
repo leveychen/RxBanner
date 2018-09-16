@@ -28,6 +28,7 @@ import cn.levey.bannerlib.data.RxBannerConfig;
 import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
+import cn.levey.bannerlib.impl.RxBannerCustomIndicatorClickListener;
 import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
 import cn.levey.bannerlib.impl.RxBannerLoaderInterface;
 import cn.levey.bannerlib.impl.RxBannerTitleChangeListener;
@@ -205,7 +206,27 @@ public class RxBanner extends FrameLayout {
             swipeDisableView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(onBannerClickListener != null){
+                        try {
+                            onBannerClickListener.onItemClick(currentPosition,mUrls.get(currentPosition));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
 
+            swipeDisableView.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if(onBannerClickListener != null){
+                        try {
+                            onBannerClickListener.onItemLongClick(currentPosition,mUrls.get(currentPosition));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return true;
                 }
             });
         }
@@ -265,8 +286,10 @@ public class RxBanner extends FrameLayout {
             public void onBannerSelected(int position) {
                 currentPosition = position;
                 if (mTitleView != null) mTitleView.setSelection(position);
-                if (mIndicatorView != null && mIndicatorView instanceof RxBannerNumericIndicator)
-                    ((RxBannerNumericIndicator)mIndicatorView).setSelection(position);
+
+                if(mIndicatorView instanceof RxBannerNumericIndicator){
+                    ((RxBannerNumericIndicator) mIndicatorView).setSelection(position);
+                }
             }
         });
         if (itemAnimator != null) mBannerRv.setItemAnimator(itemAnimator);
@@ -363,8 +386,12 @@ public class RxBanner extends FrameLayout {
                     mIndicatorView.setTag(RxBannerConstants.TAG_INDICATOR_NUMERIC);
                     addView(mIndicatorView);
                 }else if(config.getIndicatorConfig().getAnimationType() == AnimationType.CUSTOM){
-                    final RxBannerCustomIndicator circleIndicator = new RxBannerCustomIndicator(mContext);
-                    circleIndicator.setIndicatorConfig(config.getIndicatorConfig());
+                    final RxBannerCustomIndicator circleIndicator = new RxBannerCustomIndicator(mContext,config.getIndicatorConfig(),new RxBannerCustomIndicatorClickListener() {
+                        @Override
+                        public void onClick(int position) {
+                            setCurrentPosition(position);
+                        }
+                    });
                     circleIndicator.setRecyclerView(mBannerRv);
                     LayoutParams indicatorLp = new LayoutParams(config.getIndicatorConfig().getWidth(), config.getIndicatorConfig().getHeight());
                     indicatorLp.gravity = config.getIndicatorConfig().getGravity();
@@ -426,6 +453,16 @@ public class RxBanner extends FrameLayout {
                     if (mLayoutManager != null) {
                         onBannerTitleClickListener.onTitleClick(mLayoutManager.getCurrentPosition(), mTitleView.getText().toString());
                     }
+                }
+            });
+
+            mTitleView.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (mLayoutManager != null) {
+                        onBannerTitleClickListener.onTitleLongClick(mLayoutManager.getCurrentPosition(), mTitleView.getText().toString());
+                    }
+                    return true;
                 }
             });
         }
@@ -709,6 +746,17 @@ public class RxBanner extends FrameLayout {
                     }
                 }
             });
+
+            mTitleView.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (mLayoutManager != null) {
+                        onTitleClickListener.onTitleLongClick(mLayoutManager.getCurrentPosition(), mTitleView.getText().toString());
+                    }
+                    return true;
+                }
+            });
+
         }
         this.onBannerTitleClickListener = onTitleClickListener;
         return this;

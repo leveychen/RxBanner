@@ -10,6 +10,12 @@
 
 
 ## 更新日志
+### 1.1.3
+1.完善一些点击事件的逻辑
+
+2.新增当 `rb_canSwipe = false` 时的点击事件响应
+
+3.修复 `自定义指示器` 刷新数据时没有默认选中的问题
 ### 1.1.2
 1.新增 `引导页` 监听 `RxBannerGuideFinishedListener` ,调整引导页功能实现
 
@@ -23,7 +29,7 @@
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.2/rxbanner_v1.1.2_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.3/rxbanner_v1.1.3_demo.apk)
 
 
 ## 预览
@@ -47,7 +53,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.2'
+    implementation 'com.github.leveychen:RxBanner:1.1.3'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 

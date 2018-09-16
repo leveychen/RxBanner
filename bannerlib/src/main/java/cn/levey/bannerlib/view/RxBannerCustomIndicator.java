@@ -13,6 +13,7 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import cn.levey.bannerlib.base.RxBannerLogger;
+import cn.levey.bannerlib.impl.RxBannerCustomIndicatorClickListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
 import cn.levey.bannerlib.indicator.draw.data.IndicatorConfig;
 import cn.levey.bannerlib.manager.AutoPlayRecyclerView;
@@ -27,17 +28,20 @@ public class RxBannerCustomIndicator extends LinearLayout implements RxBannerInd
     private Animator mAnimatorIn;
     private Animator mImmediateAnimatorOut;
     private Animator mImmediateAnimatorIn;
-    private IndicatorConfig indicatorConfig;
-
 
     public void setIndicatorConfig(IndicatorConfig indicatorConfig) {
         this.indicatorConfig = indicatorConfig;
     }
 
+    private IndicatorConfig indicatorConfig;
+    private RxBannerCustomIndicatorClickListener customIndicatorClickListener;
+
     private int mLastPosition = -1;
 
-    public RxBannerCustomIndicator(Context context) {
+    public RxBannerCustomIndicator(Context context,IndicatorConfig config,RxBannerCustomIndicatorClickListener listener) {
         super(context);
+        this.indicatorConfig = config;
+        this.customIndicatorClickListener = listener;
     }
 
     public RxBannerCustomIndicator(Context context, AttributeSet attrs) {
@@ -187,22 +191,23 @@ public class RxBannerCustomIndicator extends LinearLayout implements RxBannerInd
             setVisibility(GONE);
             return;
         }
-        int currentItem = layoutManager.getCurrentPosition();
+//        int currentItem = layoutManager.getCurrentPosition();
         int orientation = getOrientation();
 
         for (int i = 0; i < count; i++) {
-            if (currentItem == i) {
-                addIndicator(orientation, indicatorConfig.getIndicatorSelectedBackgroundResId(), mImmediateAnimatorOut);
+            if (i == 0) {
+                addIndicator(i,orientation, indicatorConfig.getIndicatorSelectedBackgroundResId(), mImmediateAnimatorOut);
             } else {
-                addIndicator(orientation, indicatorConfig.getIndicatorUnselectedBackgroundResId(), mImmediateAnimatorIn);
+                addIndicator(i,orientation, indicatorConfig.getIndicatorUnselectedBackgroundResId(), mImmediateAnimatorIn);
             }
+           // addIndicator(orientation, indicatorConfig.getIndicatorUnselectedBackgroundResId(), mImmediateAnimatorIn);
         }
         setVisibility(VISIBLE);
-        setSelection(0);
         requestLayout();
+        setSelection(0);
     }
 
-    private void addIndicator(int orientation, int backgroundDrawableId,
+    private void addIndicator(final int position, int orientation, int backgroundDrawableId,
                               Animator animator) {
         if (animator.isRunning()) {
             animator.end();
@@ -223,6 +228,15 @@ public class RxBannerCustomIndicator extends LinearLayout implements RxBannerInd
                 lp.bottomMargin = indicatorConfig.getPadding();
             }
         }
+
+        if(customIndicatorClickListener !=  null && indicatorConfig.isClickable()){
+            Indicator.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    customIndicatorClickListener.onClick(position);
+                }
+            });
+        }
         Indicator.setLayoutParams(lp);
 //        Indicator.setPadding(mIndicatorMargin,mIndicatorMargin,mIndicatorMargin,mIndicatorMargin);
 
@@ -237,8 +251,6 @@ public class RxBannerCustomIndicator extends LinearLayout implements RxBannerInd
 
     private void setCurrentPosition(int position){
         if(mLastPosition == position) return;
-
-        RxBannerLogger.i(" onBannerSelected = " + position);
         if (recyclerView.getAdapter() == null || getRecyclerViewCount() <= 0) {
             return;
         }

@@ -16,6 +16,7 @@ import cn.levey.bannerlib.RxBanner;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
+import cn.levey.bannerlib.impl.RxBannerTitleClickListener;
 import cn.levey.bannerlib.indicator.animation.type.AnimationType;
 import cn.levey.rxbanner.R;
 import cn.levey.rxbanner.fake.DemoConfig;
@@ -158,6 +159,17 @@ public class DemoActivity extends AppCompatActivity {
                     @Override
                     public void onBannerScrollStateChanged(int state) {
 
+                    }
+                })
+                .setOnBannerTitleClickListener(new RxBannerTitleClickListener() {
+                    @Override
+                    public void onTitleClick(int position, String title) {
+                        Toast.makeText(getApplicationContext(), "TITLE CLICK : " + position, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onTitleLongClick(int position, String title) {
+                        Toast.makeText(getApplicationContext(), "TITLE LONG : " + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .start();

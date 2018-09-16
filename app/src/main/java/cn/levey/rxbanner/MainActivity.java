@@ -380,8 +380,8 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
 
                 //CUSTOM config
                 if( config.getIndicatorConfig().getAnimationType() == AnimationType.CUSTOM){
-                    config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.ic_ssss_1);
-                    config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.ic_ssss_2);
+                    config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.ic_demo_indicator_custom_selected);
+                    config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.ic_demo_indicator_custom_unselected);
                 }
 
                 String type = spinner.getSelectedItem().toString();
@@ -457,6 +457,13 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                 config.setItemSpaceDp(-20);
                 config.setSideAlpha(0.8f);
                 config.setItemScale(0.8f);
+                config.getIndicatorConfig().setAnimationType(AnimationType.CUSTOM);
+                config.getIndicatorConfig().setAnimatorResId(R.animator.demo_banner_scale_with_alpha);
+                config.getIndicatorConfig().setAnimatorReverseResId(R.animator.demo_banner_scale_with_alpha);
+                config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.demo_banner_indicator_selected);
+                config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.demo_banner_indicator_unselected);
+                config.getIndicatorConfig().setRadius(RxBannerUtil.dp2px(16));
+                config.getIndicatorConfig().setPadding(RxBannerUtil.dp2px(0));
                 Intent demo = new Intent(getApplicationContext(), DemoActivity.class);
                 demo.putExtra(Sys.BANNER_DATA, config);
                 startActivity(demo);
@@ -492,8 +499,8 @@ public class MainActivity extends AppCompatActivity implements ColorChooserDialo
                 config.setItemScale(0.8f);
                 config.setTitleVisible(false);
                 config.getIndicatorConfig().setAnimationType(AnimationType.CUSTOM);
-                config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.ic_ssss_1);
-                config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.ic_ssss_2);
+                config.getIndicatorConfig().setIndicatorSelectedBackgroundResId(R.drawable.ic_demo_indicator_custom_selected);
+                config.getIndicatorConfig().setIndicatorUnselectedBackgroundResId(R.drawable.ic_demo_indicator_custom_unselected);
                 config.getIndicatorConfig().setRadius(RxBannerUtil.dp2px(20));
                 config.getIndicatorConfig().setPadding(RxBannerUtil.dp2px(0));
                 custom.putExtra(Sys.BANNER_DATA, config);

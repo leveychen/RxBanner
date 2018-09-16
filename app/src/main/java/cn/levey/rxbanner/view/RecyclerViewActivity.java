@@ -66,7 +66,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     private List<RvItemData> getFakeList(){
         List<RvItemData> list = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 300; i++) {
             RvItemData item = new RvItemData();
             item.title = "这是标题 " + (i + 1);
             item.content = "这是文章正文内容这是文章正文内容这是文章正文内容这是文章正文内容这是文章正文内容" + (i + 1);

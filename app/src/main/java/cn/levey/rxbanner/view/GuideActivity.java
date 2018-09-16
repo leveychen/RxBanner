@@ -10,11 +10,13 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.levey.bannerlib.RxBanner;
+import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.data.RxBannerConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerClickListener;
 import cn.levey.bannerlib.impl.RxBannerGuideFinishedListener;
 import cn.levey.rxbanner.R;
+import cn.levey.rxbanner.fake.DemoConfig;
 import cn.levey.rxbanner.fake.FakeData;
 import cn.levey.rxbanner.fake.Sys;
 import cn.levey.rxbanner.loader.PicassoLoader;
@@ -48,7 +50,6 @@ public class GuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
         ArrayList<String> list = new ArrayList<>(Arrays.asList(FakeData.FAKE_GUIDE));
-
 
         banner.setOnBannerClickListener(new RxBannerClickListener() {
             @Override

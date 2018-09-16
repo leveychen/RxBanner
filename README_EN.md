@@ -9,7 +9,7 @@ Flexible banner base on RecyclerView
 
 fir.im &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://fir.im/rxbanner)
 
-github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.2/rxbanner_v1.1.2_demo.apk)
+github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen/RxBanner/releases/download/1.1.3/rxbanner_v1.1.3_demo.apk)
 
 
 
@@ -35,7 +35,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### Step 2. Add the `dependency` &nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.2'
+    implementation 'com.github.leveychen:RxBanner:1.1.3'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
