@@ -57,6 +57,26 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
+### 依赖出错问题
+由于本项目采用`28.0.0-rc02`的版本编译，28以下版本可能会出现依赖失败的情况，处理办法如下：
+
+在 `app.gradle` 最下面添加
+
+````
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                //这里指定需要统一的依赖版本,这里统一为27.1.1，这里以27.1.1为例
+                details.useVersion '27.1.1'
+            }
+        }
+    }
+}
+````
+强制使用你的主项目的编译版本
+
 ## 用法
 #### `layout`
 see `Attributes`

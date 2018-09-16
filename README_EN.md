@@ -39,6 +39,23 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
+### dependencies failed
+`app.gradle`
+
+````
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '27.1.1'
+            }
+        }
+    }
+}
+````
+
+
 ## Usage
 #### `layout`
 see `Attributes`
