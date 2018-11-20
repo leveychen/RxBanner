@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
-import cn.levey.bannerlib.base.RxBannerLogger;
 import cn.levey.bannerlib.data.RxBannerGlobalConfig;
 import cn.levey.bannerlib.impl.RxBannerChangeListener;
 import cn.levey.bannerlib.impl.RxBannerIndicatorChangeListener;
@@ -163,8 +162,13 @@ class CenterSnapHelper extends RecyclerView.OnFlingListener {
      * Called when the instance of a {@link RecyclerView} is detached.
      */
     void destroyCallbacks() {
-        mRecyclerView.removeOnScrollListener(mScrollListener);
-        mRecyclerView.setOnFlingListener(null);
+        if(mRecyclerView !=null) {
+            if(mScrollListener != null) {
+                mRecyclerView.removeOnScrollListener(mScrollListener);
+            }
+            mRecyclerView.setOnFlingListener(null);
+
+        }
     }
 
     private int currentPosition = 0; //记录当前位置,防止一次滑动多个item

@@ -53,7 +53,7 @@ github &nbsp;&nbsp;&nbsp;&nbsp; [rxbanner_demo.apk](https://github.com/leveychen
 ### 2.导入引用&nbsp;&nbsp;&nbsp;&nbsp;[![](https://jitpack.io/v/leveychen/RxBanner.svg)](https://jitpack.io/#leveychen/RxBanner)
 
 ```xml
-    implementation 'com.github.leveychen:RxBanner:1.1.3'
+    implementation 'com.github.leveychen:RxBanner:1.1.4'
 ```
 [LATEST RELEASE](https://github.com/leveychen/RxBanner/releases/latest)
 
